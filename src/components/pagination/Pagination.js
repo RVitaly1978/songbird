@@ -21,6 +21,8 @@ const PaginationData = styled.p`
   padding: 0.75rem 1.5rem;
 
   background-color: #008966;
+
+  text-align: center;
 `;
 
 PaginationContainer.displayName = 'PaginationContainerStyled';

@@ -16,7 +16,7 @@ AudioContainer.displayName = 'AudioContainerStyled';
 const AudioComponent = () => {
   return (
     <AudioContainer>
-      ******
+      AudioComponent
     </AudioContainer>
   );
 };
