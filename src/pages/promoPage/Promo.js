@@ -9,7 +9,6 @@ const PromoPage = styled.div`
 
   width: 100%;
   height: 100vh;
-  padding: 1rem;
 
   user-select: none;
 `;
@@ -47,6 +46,10 @@ const StyledLink = styled(Link)`
     }
   }
 `;
+
+PromoPage.displayName = 'PromoPageStyled';
+PromoContent.displayName = 'PromoContentStyled';
+StyledLink.displayName = 'StyledLinkStyled';
 
 const Promo = () => (
   <PromoPage>

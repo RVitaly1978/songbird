@@ -9,7 +9,6 @@ const NotFoundPage = styled.div`
 
   width: 100%;
   height: 100vh;
-  padding: 1rem;
 
   user-select: none;
 `;
@@ -51,6 +50,11 @@ const LinkMarked = styled.span`
     }
   }
 `;
+
+NotFoundPage.displayName = 'NotFoundPageStyled';
+NotFoundContent.displayName = 'NotFoundContentStyled';
+ContentMarked.displayName = 'ContentMarkedStyled';
+LinkMarked.displayName = 'LinkMarkedStyled';
 
 const NotFound = () => (
   <NotFoundPage>
