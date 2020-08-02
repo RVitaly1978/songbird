@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { device } from '../../style/media';
+
 const ButtonStyled = styled.button`
   position: relative;
 
@@ -33,6 +35,10 @@ const ButtonStyled = styled.button`
     :hover {
       background-color: #00bc8c;
     }
+  }
+
+  @media ${device.mobileM} {
+    margin-top: 1rem;
   }
 `;
 

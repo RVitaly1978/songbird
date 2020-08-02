@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 
+import { device } from './style/media';
 import history from './utils/history';
 import Promo from './pages/promoPage/index';
 import Home from './pages/homePage/index';
@@ -15,6 +16,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     box-sizing: border-box;
 
+    height: 100%;
     min-height: 100vh;
     margin: 0;
     padding: 0;
@@ -22,7 +24,6 @@ const GlobalStyle = createGlobalStyle`
     background-color: #222;
 
     font-family: Arial, Helvetica, sans-serif;
-    @include font ($size: 1.6rem, $height: 1, $weight: 700);
     font-size: 1.6rem;
     line-height: 1;
     font-weight: 500;
@@ -39,26 +40,22 @@ const GlobalStyle = createGlobalStyle`
     outline: none;
   }
 
-  h1, h2, h3, div, p {
+  h1, h2, h3, div, p, ul, li {
     margin: 0;
     padding: 0;
   }
 
   ul {
-    margin: 0;
-    padding: 0;
-
     list-style: none;
-  }
-
-  li {
-    margin: 0;
-    padding: 0;
   }
 `;
 
 const Container = styled.div`
-  padding: 0 1rem;
+  padding: 0 2rem;
+
+  @media ${device.mobileL} {
+    padding: 0 1rem;
+  }
 `;
 
 Container.displayName = 'AppContainerStyled';

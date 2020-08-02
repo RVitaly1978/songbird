@@ -1,9 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { device } from '../../style/media';
+
 const ScoreContainer = styled.div`
-  margin-right: 2rem;
-  margin-left: auto;
+  margin-right: 3rem;
+
+  @media ${device.mobileM} {
+    margin-right: 0;
+  }
 `;
 
 const ScoreCount = styled.span`

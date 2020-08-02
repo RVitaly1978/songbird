@@ -1,9 +1,7 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
-const spinAnimation = keyframes`
-  to { transform: rotate(360deg); }
-`;
+import { spinAnimation } from '../../style/animation';
 
 const SpinnerContainer = styled.div`
   position: absolute;

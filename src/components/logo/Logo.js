@@ -5,7 +5,9 @@ const LogoContainer = styled.p`
   font-size: 3rem;
   line-height: 1;
   font-weight: 700;
-  color: #faf;
+  letter-spacing: 0.25rem;
+
+  color: #008966;
 
   text-transform: uppercase;
 

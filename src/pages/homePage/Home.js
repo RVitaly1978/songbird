@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { device } from '../../style/media';
 import Header from '../../components/header/index';
 import RandomBird from '../../components/randomBird/index';
 import DataList from '../../components/dataList/index';
@@ -15,11 +16,15 @@ const HomePage = styled.div`
 
   width: 100%;
   max-width: 110rem;
-  height: 100vh;
+  min-height: 100vh;
   margin: 0 auto;
-  padding: 1rem 0;
+  padding: 2rem 0;
 
   user-select: none;
+
+  @media ${device.mobileL} {
+    padding: 1rem 0;
+  }
 `;
 
 const RowLayout = styled.div`
@@ -31,6 +36,14 @@ const RowLayout = styled.div`
   margin-top: 2rem;
 
   user-select: none;
+
+  @media ${device.mobileL} {
+    flex-direction: column;
+  }
+
+  @media ${device.mobileM} {
+    margin-top: 1rem;
+  }
 `;
 
 const ColumnLayout = styled.div`
@@ -41,6 +54,20 @@ const ColumnLayout = styled.div`
   border-radius: 0.25rem;
 
   overflow: hidden;
+
+  @media ${device.mobileL} {
+    width: 100%;
+
+    & + & {
+      margin-top: 2rem;
+    }
+  }
+
+  @media ${device.mobileM} {
+    & + & {
+      margin-top: 1rem;
+    }
+  }
 `;
 
 HomePage.displayName = 'HomePageStyled';

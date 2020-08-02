@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { device } from '../../style/media';
 import ImageComponent from '../imageComponent/index';
 import TitleComponent from '../titleComponent/index';
 import AudioComponent from '../audioComponent/index';
@@ -20,11 +21,20 @@ const CardBody = styled.div`
   display: flex;
 
   width: 100%;
+
+  @media ${device.tablet} {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const InfoContainer = styled.div`
   width: 100%;
   margin-left: 2rem;
+
+  @media ${device.tablet} {
+    margin: 2rem 0 0 0
+  }
 `;
 
 const CardDescription = styled.p`

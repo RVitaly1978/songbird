@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
 import { urlToImage } from '../../constants';
+import { fadeInAnimation } from '../../style/animation';
 import Spinner from '../spinner/Spinner';
-
-const fadeInAnimation = keyframes`
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-`;
 
 const ImageContainer = styled.div`
   position: relative;
