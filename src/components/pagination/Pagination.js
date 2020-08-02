@@ -6,7 +6,7 @@ const PaginationContainer = styled.ul`
   justify-content: space-between;
   flex-wrap: wrap;
 
-  border-radius: 5px;
+  border-radius: 0.25rem;
   overflow: hidden;
 `;
 

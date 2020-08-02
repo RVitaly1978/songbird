@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-// import Pagination from '../pagination/index';
+import ImageComponent from '../imageComponent/index';
+import TitleComponent from '../titleComponent/index';
+import AudioComponent from '../audioComponent/index';
 
 const RandomBirdContainer = styled.div`
   display: flex;
@@ -15,12 +17,22 @@ const RandomBirdContainer = styled.div`
   border-radius: 0.25rem;
 `;
 
+const QuestionContainer = styled.div`
+  width: 100%;
+  margin-left: 2rem;
+`;
+
 RandomBirdContainer.displayName = 'RandomBirdContainerStyled';
+QuestionContainer.displayName = 'QuestionContainerStyled';
 
 const RandomBird = () => {
   return (
     <RandomBirdContainer>
-      oooooo
+      <ImageComponent />
+      <QuestionContainer>
+        <TitleComponent />
+        <AudioComponent />
+      </QuestionContainer>
     </RandomBirdContainer>
   );
 };
