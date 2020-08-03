@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { device } from '../../styles/media';
+import birdsDataBasic from '../../gameData/birdsDataBasic';
 
 import Header from '../../components/header/index';
 import RandomBird from '../../components/randomBird/index';
@@ -75,20 +76,37 @@ HomePage.displayName = 'HomePageStyled';
 RowLayout.displayName = 'RowLayoutStyled';
 ColumnLayout.displayName = 'ColumnLayoutStyled';
 
-const Home = () => (
-  <HomePage>
-    <Header />
-    <RandomBird />
-    <RowLayout>
-      <ColumnLayout>
-        <DataList />
-      </ColumnLayout>
-      <ColumnLayout>
-        <DataInfo />
-      </ColumnLayout>
-    </RowLayout>
-    <NextButton id='next' label='Next Level' />
-  </HomePage>
-);
+const Home = () => {
+  const [active, setActive] = useState(null);
+  const [answers, setAnswers] = useState([]);
+  const [hasCorrect, setHasCorrect] = useState(false);
+  const [score, setScore] = useState(null);
+
+  const gameProps = {
+    data: birdsDataBasic,
+    activeLevel: 'лесные',
+    correct: 3,
+    hasCorrect: hasCorrect,
+    active: active,
+    answers: answers,
+    score: score,
+  };
+
+  return (
+    <HomePage>
+      <Header {...gameProps} />
+      <RandomBird />
+      <RowLayout>
+        <ColumnLayout>
+          <DataList {...gameProps} setActive={setActive} setAnswers={setAnswers} setHasCorrect={setHasCorrect} setScore={setScore} />
+        </ColumnLayout>
+        <ColumnLayout>
+          <DataInfo />
+        </ColumnLayout>
+      </RowLayout>
+      <NextButton isDisabled={!hasCorrect} id='next' label='Next Level' />
+    </HomePage>
+  );
+};
 
 export default Home;

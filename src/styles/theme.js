@@ -1,6 +1,6 @@
 export const lightTheme = {
   all: {
-    borderRadius: '0.25rem',
+    borderRadius: '0.3rem',
     padding: '2rem',
     margin: '2rem',
     paddingMobile: '1rem',
@@ -10,6 +10,7 @@ export const lightTheme = {
       main: '1.6rem',
       large: '2.4rem',
     },
+    errorColor: '#d62c1a',
   },
   main: {
     color: '#222',

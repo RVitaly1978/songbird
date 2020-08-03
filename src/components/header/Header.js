@@ -75,18 +75,18 @@ InfoPanel.displayName = 'InfoPanelStyled';
 PaginationPanel.displayName = 'PaginationPanelStyled';
 StyledLink.displayName = 'StyledLinkStyled';
 
-const Header = () => {
+const Header = (props) => {
   return (
     <HeaderContainer>
       <TopPanel>
         <Logo />
         <InfoPanel>
-          <Score score={5} />
+          <Score score={props.score} />
           <StyledLink to='/promo'>Exit</StyledLink>
         </InfoPanel>
       </TopPanel>
       <PaginationPanel>
-        <Pagination />
+        <Pagination {...props} />
       </PaginationPanel>
     </HeaderContainer>
   );

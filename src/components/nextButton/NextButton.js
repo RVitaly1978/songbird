@@ -31,6 +31,11 @@ const ButtonStyled = styled.button`
 
   user-select: none;
 
+  &:disabled {
+    pointer-events: none;
+    background-color: ${props => props.theme.main.borderColor};
+  }
+
   @media (pointer: fine) {
     :hover {
       background-color: ${props => props.theme.secondary.hoverColor};
