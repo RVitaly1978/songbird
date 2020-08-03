@@ -1,14 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { device } from '../../style/media';
+import { device } from '../../styles/media';
 
 const PaginationContainer = styled.ul`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
 
-  border-radius: 0.25rem;
+  border-radius: ${props => props.theme.all.borderRadius};
+
   overflow: hidden;
 `;
 
@@ -22,8 +23,8 @@ const PaginationData = styled.p`
   width: 100%;
   padding: 1rem 1.5rem;
 
-  background-color: #303030;
-  border: 0.25px solid #444;
+  background-color: ${props => props.theme.main.bgColor};
+  border: 0.25px solid ${props => props.theme.main.borderColor};
 
   text-align: center;
 

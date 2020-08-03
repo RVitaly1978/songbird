@@ -20,12 +20,12 @@ const DataItem = styled.li`
 
   @media (pointer: fine) {
     :hover {
-      background-color: #444;
+      background-color: ${props => props.theme.main.borderColor};
     }
   }
 
   & + & {
-    border-top: 1px solid #444;
+    border-top: 1px solid ${props => props.theme.main.borderColor};
   }
 `;
 
@@ -36,7 +36,7 @@ const DataIndicator = styled.span`
   height: 1.0rem;
   margin-right: 1.5rem;
 
-  background-color: #444;
+  background-color: ${props => props.theme.main.borderColor};
   border-radius: 50%;
 `;
 

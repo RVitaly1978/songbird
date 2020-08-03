@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { device } from '../../style/media';
+import { device } from '../../styles/media';
+
 import Header from '../../components/header/index';
 import RandomBird from '../../components/randomBird/index';
 import DataList from '../../components/dataList/index';
@@ -15,15 +16,15 @@ const HomePage = styled.div`
   justify-content: flex-start;
 
   width: 100%;
-  max-width: 110rem;
+  max-width: 140rem;
   min-height: 100vh;
   margin: 0 auto;
-  padding: 2rem 0;
+  padding: ${props => props.theme.all.padding} 0;
 
   user-select: none;
 
   @media ${device.mobileL} {
-    padding: 1rem 0;
+    padding: ${props => props.theme.all.paddingMobile} 0;
   }
 `;
 
@@ -33,7 +34,7 @@ const RowLayout = styled.div`
   justify-content: space-between;
 
   width: 100%;
-  margin-top: 2rem;
+  margin-top: ${props => props.theme.all.margin};
 
   user-select: none;
 
@@ -42,16 +43,16 @@ const RowLayout = styled.div`
   }
 
   @media ${device.mobileM} {
-    margin-top: 1rem;
+    margin-top: ${props => props.theme.all.marginMobile};
   }
 `;
 
 const ColumnLayout = styled.div`
-  width: calc((100% - 2rem) * 0.5);
+  width: calc((100% - ${props => props.theme.all.margin}) * 0.5);
 
-  background-color: #303030;
-  border: 1px solid #444;
-  border-radius: 0.25rem;
+  background-color: ${props => props.theme.main.bgColor};
+  border: 1px solid ${props => props.theme.main.borderColor};
+  border-radius: ${props => props.theme.all.borderRadius};
 
   overflow: hidden;
 
@@ -59,13 +60,13 @@ const ColumnLayout = styled.div`
     width: 100%;
 
     & + & {
-      margin-top: 2rem;
+      margin-top: ${props => props.theme.all.margin};
     }
   }
 
   @media ${device.mobileM} {
     & + & {
-      margin-top: 1rem;
+      margin-top: ${props => props.theme.all.marginMobile};
     }
   }
 `;

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { device } from '../../style/media';
+import { device } from '../../styles/media';
 
 const ButtonStyled = styled.button`
   position: relative;
@@ -11,34 +11,34 @@ const ButtonStyled = styled.button`
   justify-content: center;
 
   width: 100%;
-  margin-top: 2rem;
+  margin-top: ${props => props.theme.all.margin};
   padding: 1.25rem;
 
-  font-family: inherit;
-  font-size: 1.6rem;
+  color: inherit;
+
+  font: inherit;
   font-weight: bold;
-  color: #fff;
 
-  background-color: #008966;
-
-  border: 1px solid #444;
-  border-radius: 0.5rem;
+  border: none;
+  background-color: ${props => props.theme.secondary.color};
+  border-radius: ${props => props.theme.all.borderRadius};
 
   outline: none;
 
   transition: color 0.3s linear, background-color 0.3s linear;
 
   cursor: pointer;
+
   user-select: none;
 
   @media (pointer: fine) {
     :hover {
-      background-color: #00bc8c;
+      background-color: ${props => props.theme.secondary.hoverColor};
     }
   }
 
   @media ${device.mobileM} {
-    margin-top: 1rem;
+    margin-top: ${props => props.theme.all.marginMobile};
   }
 `;
 
@@ -53,7 +53,6 @@ const NextButton = (props) => {
   const {
     id,
     isDisabled = false,
-    isActive = false,
     label = '',
     clickHandler = () => {},
     icon = null,

@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { device } from '../../style/media';
+import { device } from '../../styles/media';
+
 import Logo from '../logo/index';
 import Score from '../score/index';
 import Pagination from '../pagination/index';
@@ -33,27 +34,28 @@ const InfoPanel = styled.div`
     justify-content: space-between;
 
     width: 100%;
-    margin-top: 1rem;
+    margin-top: ${props => props.theme.all.marginMobile};
   }
 `;
 
 const PaginationPanel = styled.div`
   width: 100%;
-  margin-top: 2rem;
+  margin-top: ${props => props.theme.all.margin};
 
   @media ${device.mobileM} {
-    margin-top: 1rem;
+    margin-top: ${props => props.theme.all.marginMobile};
   }
 `;
 
 const StyledLink = styled(Link)`
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1.5rem;
 
-  background-color: #008966;
-  color: #fff;
-  border-radius: 0.25rem;
+  background-color: ${props => props.theme.secondary.color};
+  border-radius: ${props => props.theme.all.borderRadius};
 
-  font-weight: 500;
+  color: inherit;
+
+  font-weight: bold;
   text-decoration: none;
 
   transition: background-color 0.3s linear;
@@ -62,7 +64,7 @@ const StyledLink = styled(Link)`
 
   @media (pointer: fine) {
     :hover {
-      background-color: #00bc8c;
+      background-color: ${props => props.theme.secondary.hoverColor};
     }
   }
 `;

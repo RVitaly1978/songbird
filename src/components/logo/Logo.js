@@ -7,7 +7,7 @@ const LogoContainer = styled.p`
   font-weight: 700;
   letter-spacing: 0.25rem;
 
-  color: #008966;
+  color: ${props => props.theme.main.logoColor};
 
   text-transform: uppercase;
 

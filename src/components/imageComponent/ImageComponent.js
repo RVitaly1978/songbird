@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { urlToImage } from '../../constants';
-import { fadeInAnimation } from '../../style/animation';
+import { fadeInAnimation } from '../../styles/animation';
+
 import Spinner from '../spinner/Spinner';
 
 const ImageContainer = styled.div`
@@ -17,8 +18,8 @@ const ImageContainer = styled.div`
 
   overflow: hidden;
 
-  border: 1px solid #444;
-  border-radius: 0.5rem;
+  border: 1px solid ${props => props.theme.main.borderColor};
+  border-radius: ${props => props.theme.all.borderRadius};
 
   & img {
     width: 100%;
@@ -40,7 +41,7 @@ const ImageError = styled.div`
 
   width: 100%;
   height: 100%;
-  padding: 0 2rem;
+  padding: 0 ${props => props.theme.all.padding};
 
   line-height: 1.6;
   text-align: center;

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { device } from '../../style/media';
+import { device } from '../../styles/media';
 
 const ScoreContainer = styled.div`
   margin-right: 3rem;
@@ -12,7 +12,7 @@ const ScoreContainer = styled.div`
 `;
 
 const ScoreCount = styled.span`
-  color: #008966;
+  color: ${props => props.theme.secondary.color};
   font-weight: 700;
 `;
 

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
 
-import { device } from './style/media';
+import { device } from './styles/media';
+import { lightTheme } from './styles/theme';
+
 import history from './utils/history';
 import Promo from './pages/promoPage/index';
 import Home from './pages/homePage/index';
@@ -21,13 +23,15 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
 
-    background-color: #222;
+    background-color: ${props => props.theme.main.bodyColor};
 
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 1.6rem;
+    font-size: ${props => props.theme.all.fontSize.main};
     line-height: 1;
     font-weight: 500;
-    color: #fff;
+    color: ${props => props.theme.main.color};
+
+    transition: background-color 0.5s linear, color 0.5s linear;
   }
 
   *,
@@ -51,28 +55,32 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const Container = styled.div`
-  padding: 0 2rem;
+  padding: 0 ${props => props.theme.all.padding};
 
   @media ${device.mobileL} {
-    padding: 0 1rem;
+    padding: 0 ${props => props.theme.all.paddingMobile};
   }
 `;
 
 Container.displayName = 'AppContainerStyled';
 
 const App = () => {
+  const [theme, setTheme] = useState(lightTheme);
+
   return (
     <>
-      <GlobalStyle />
-      <BrowserRouter history={history}>
-        <Container>
-          <Switch>
-            <Route path='/promo' component={Promo} />
-            <Route exact path='/' component={Home} />
-            <Route component={NotFound} />
-          </Switch>
-        </Container>
-      </BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <BrowserRouter history={history}>
+            <Container>
+              <Switch>
+                <Route path='/promo' component={(props) => <Promo {...props} setTheme={setTheme}/>} />
+                <Route exact path='/' component={Home} />
+                <Route component={NotFound} />
+              </Switch>
+            </Container>
+        </BrowserRouter>
+      </ThemeProvider>
     </>
   );
 };

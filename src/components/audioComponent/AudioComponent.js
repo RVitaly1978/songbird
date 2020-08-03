@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 const AudioContainer = styled.p`
-  padding-top: 2rem;
+  padding-top: ${props => props.theme.all.padding};
 
-  font-size: 2rem;
+  font-size: inherit;
   line-height: 1;
   font-weight: 700;
 

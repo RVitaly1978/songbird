@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { spinAnimation } from '../../style/animation';
+import { spinAnimation } from '../../styles/animation';
 
 const SpinnerContainer = styled.div`
   position: absolute;
@@ -25,8 +25,8 @@ const DonutSpinner = styled.div`
   width: 4rem;
   height: 4rem;
 
-  border: 0.5rem solid rgba(0, 188, 140, 0.1);
-  border-top-color: #008966;
+  border: 0.5rem solid ${props => props.theme.main.borderColor};
+  border-top-color: ${props => props.theme.secondary.hoverColor};
   border-radius: 50%;
 
   animation: ${spinAnimation} 1.5s infinite linear;

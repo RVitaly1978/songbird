@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { lightTheme, darkTheme } from '../../styles/theme';
+
 const PromoPage = styled.div`
   display: flex;
   align-items: center;
@@ -15,13 +17,13 @@ const PromoPage = styled.div`
 
 const PromoContent = styled.div`
   max-width: 60rem;
-  padding: 2rem;
+  padding: ${props => props.theme.all.padding};
 
-  background-color: #303030;
-  border: 1px solid #444;
-  border-radius: 0.25rem;
+  background-color: ${props => props.theme.main.bgColor};
+  border: 1px solid ${props => props.theme.main.borderColor};
+  border-radius: ${props => props.theme.all.borderRadius};
 
-  font-size: 24px;
+  font-size: ${props => props.theme.all.fontSize.large};
   line-height: 1.6;
   text-align: center;
 `;
@@ -29,10 +31,12 @@ const PromoContent = styled.div`
 const StyledLink = styled(Link)`
   padding: 0.5rem 1rem;
 
-  background-color: #008966;
-  color: #fff;
-  border-radius: 0.25rem;
+  background-color: ${props => props.theme.secondary.color};
+  border-radius: ${props => props.theme.all.borderRadius};
 
+  color: inherit;
+
+  font: inherit;
   font-weight: 500;
   text-decoration: none;
 
@@ -42,7 +46,7 @@ const StyledLink = styled(Link)`
 
   @media (pointer: fine) {
     :hover {
-      background-color: #00bc8c;
+      background-color: ${props => props.theme.secondary.hoverColor};
     }
   }
 `;
@@ -51,8 +55,10 @@ PromoPage.displayName = 'PromoPageStyled';
 PromoContent.displayName = 'PromoContentStyled';
 StyledLink.displayName = 'StyledLinkStyled';
 
-const Promo = () => (
+const Promo = ({ setTheme }) => (
   <PromoPage>
+    <button onClick={() => setTheme(lightTheme)}>Light </button>
+    <button onClick={() => setTheme(darkTheme)}> Dark </button>
     <PromoContent>
       <p>Songbird quiz</p>
       <StyledLink to='/'>Start songbird basic</StyledLink>
