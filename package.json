@@ -16,6 +16,7 @@
   "dependencies": {
     "@types/styled-components": "^5.1.2",
     "history": "^5.0.0",
+    "localforage": "^1.9.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",

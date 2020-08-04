@@ -55,15 +55,24 @@ PromoPage.displayName = 'PromoPageStyled';
 PromoContent.displayName = 'PromoContentStyled';
 StyledLink.displayName = 'StyledLinkStyled';
 
-const Promo = ({ setTheme }) => (
-  <PromoPage>
-    <button onClick={() => setTheme(lightTheme)}>Light </button>
-    <button onClick={() => setTheme(darkTheme)}> Dark </button>
-    <PromoContent>
-      <p>Songbird quiz</p>
-      <StyledLink to='/'>Start songbird basic</StyledLink>
-    </PromoContent>
-  </PromoPage>
-);
+const Promo = ({ setTheme }) => {
+  const handleThemeChange = (evt) => {
+    const { id } = evt.target;
+    const theme = (id === 'light') ? lightTheme : darkTheme;
+    localStorage.setItem('songBirdTheme', JSON.stringify(id));
+    setTheme(theme);
+  };
+
+  return (
+    <PromoPage>
+      <button id={'light'} onClick={handleThemeChange}>Light</button>
+      <button id={'dark'} onClick={handleThemeChange}>Dark</button>
+      <PromoContent>
+        <p>Songbird quiz</p>
+        <StyledLink to='/home'>Start songbird basic</StyledLink>
+      </PromoContent>
+    </PromoPage>
+  );
+};
 
 export default Promo;

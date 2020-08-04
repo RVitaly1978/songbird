@@ -82,7 +82,7 @@ const Header = (props) => {
         <Logo />
         <InfoPanel>
           <Score score={props.score} />
-          <StyledLink to='/promo'>Exit</StyledLink>
+          <StyledLink to='/'>Exit</StyledLink>
         </InfoPanel>
       </TopPanel>
       <PaginationPanel>

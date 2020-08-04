@@ -24,8 +24,8 @@ const DataItem = styled.li`
 
   @media (pointer: fine) {
     :hover {
-      box-shadow: inset 1px 1px 5px ${props => props.theme.main.borderColor},
-                  inset -1px -1px 5px ${props => props.theme.main.borderColor};
+      box-shadow: inset 2px 2px 5px ${props => props.theme.main.borderColor},
+                  inset -2px -2px 5px ${props => props.theme.main.borderColor};
     }
   }
 

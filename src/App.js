@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
+// import localForage from 'localforage';
 
 import { device } from './styles/media';
-import { lightTheme } from './styles/theme';
+import { lightTheme, darkTheme } from './styles/theme';
 
 import history from './utils/history';
 import Promo from './pages/promoPage/index';
@@ -31,7 +32,7 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 500;
     color: ${props => props.theme.main.color};
 
-    transition: background-color 0.5s linear, color 0.5s linear;
+    transition: background-color 0.3s linear, color 0.3s linear;
   }
 
   *,
@@ -67,6 +68,17 @@ Container.displayName = 'AppContainerStyled';
 const App = () => {
   const [theme, setTheme] = useState(lightTheme);
 
+  useEffect(() => {
+    const themeId = localStorage.getItem('songBirdTheme')
+      ? localStorage.getItem('songBirdTheme')
+      : null;
+
+      if (themeId) {
+      const newTheme = (JSON.parse(themeId) === 'light') ? lightTheme : darkTheme;
+      setTheme(newTheme);
+    }
+  }, []);
+
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -74,8 +86,8 @@ const App = () => {
         <BrowserRouter history={history}>
             <Container>
               <Switch>
-                <Route path='/promo' component={(props) => <Promo {...props} setTheme={setTheme}/>} />
-                <Route exact path='/' component={Home} />
+                <Route path='/home' component={Home} />
+                <Route exact path='/' component={(props) => <Promo {...props} setTheme={setTheme}/>} />
                 <Route component={NotFound} />
               </Switch>
             </Container>
