@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 import { device } from '../../styles/media';
-import birdsDataBasic from '../../gameData/birdsDataBasic';
 
 import Header from '../../components/header/index';
 import RandomBird from '../../components/randomBird/index';
 import DataList from '../../components/dataList/index';
 import DataInfo from '../../components/dataInfo/index';
 import NextButton from '../../components/nextButton/index';
+import GameOver from '../../components/gameOver/index';
 
 const HomePage = styled.div`
   display: flex;
@@ -76,37 +78,90 @@ HomePage.displayName = 'HomePageStyled';
 RowLayout.displayName = 'RowLayoutStyled';
 ColumnLayout.displayName = 'ColumnLayoutStyled';
 
-const Home = () => {
-  const [active, setActive] = useState(null);
-  const [answers, setAnswers] = useState([]);
-  const [hasCorrect, setHasCorrect] = useState(false);
-  const [score, setScore] = useState(null);
-
-  const gameProps = {
-    data: birdsDataBasic,
-    activeLevel: 'лесные',
-    correct: 3,
-    hasCorrect: hasCorrect,
-    active: active,
-    answers: answers,
-    score: score,
+const mapStateToProps = ({ hasCorrect, activeLevel, score, maxScore }) => {
+  return {
+    hasCorrect,
+    activeLevel,
+    score,
+    maxScore,
   };
+};
+
+const nextLevel = () => ({
+  type: 'NEXT_LEVEL',
+});
+
+const restartGame = () => ({
+  type: 'RESTART_GAME',
+});
+
+const newGame = () => ({
+  type: 'NEW_GAME',
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  nextLevel: () => dispatch(nextLevel()),
+  restartGame: () => dispatch(restartGame()),
+  newGame: () => dispatch(newGame()),
+});
+
+const Home = ({ hasCorrect, activeLevel, score, maxScore, nextLevel, restartGame, newGame }) => {
+  const [redirect, setRedirect] = useState(false);
+
+  const handleNextLevelClick = () => {
+    nextLevel();
+  };
+
+  const handleGameOverClick = (evt) => {
+    const { id } = evt.target;
+
+    if (id === 'RESTART_GAME') {
+      restartGame();
+    } else if (id === 'NEW_GAME') {
+      newGame();
+      setRedirect(true);
+    }
+  };
+
+  if (redirect) {
+    return (
+      <Redirect to='/' />
+    );
+  }
+
+  if (activeLevel === null) {
+    return (
+      <HomePage>
+        <Header />
+        <GameOver
+          score={score}
+          maxScore={maxScore}
+          onClick={handleGameOverClick}
+        />
+      </HomePage>
+    );
+  }
 
   return (
     <HomePage>
-      <Header {...gameProps} />
+      <Header />
       <RandomBird />
       <RowLayout>
         <ColumnLayout>
-          <DataList {...gameProps} setActive={setActive} setAnswers={setAnswers} setHasCorrect={setHasCorrect} setScore={setScore} />
+          <DataList />
         </ColumnLayout>
         <ColumnLayout>
           <DataInfo />
         </ColumnLayout>
       </RowLayout>
-      <NextButton isDisabled={!hasCorrect} id='next' label='Next Level' />
+      <NextButton
+        id='next'
+        label='Next Level'
+        isDisabled={!hasCorrect}
+        onClick={handleNextLevelClick}
+      />
     </HomePage>
   );
 };
 
-export default Home;
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

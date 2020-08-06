@@ -1,6 +1,6 @@
 export const lightTheme = {
   all: {
-    borderRadius: '0.3rem',
+    borderRadius: '0.5rem',
     padding: '2rem',
     margin: '2rem',
     paddingMobile: '1rem',

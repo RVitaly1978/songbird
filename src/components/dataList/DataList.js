@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 const DataContainer = styled.ul`
   display: flex;
@@ -60,15 +61,36 @@ DataContainer.displayName = 'DataContainerStyled';
 DataItem.displayName = 'DataItemStyled';
 DataIndicator.displayName = 'DataIndicatorStyled';
 
+const mapStateToProps = ({ data, activeLevel, answers, correctAnswer, activeAnswer }) => {
+  return {
+    data,
+    activeLevel,
+    answers,
+    correctAnswer,
+    activeAnswer,
+  };
+};
+
+const selectAnswer = (id) => ({
+  type: 'SELECT_ANSWER',
+  id,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  selectAnswer: (id) => dispatch(selectAnswer(id))
+});
+
 const DataList = (props) => {
-  const { data, activeLevel, correct, answers, active, hasCorrect, setActive, setAnswers, setHasCorrect, setScore } = props;
+  const {
+    data, activeLevel, answers, correctAnswer, activeAnswer, selectAnswer
+  } = props;
 
   const groupItems = [];
   const group = data[activeLevel];
   group.forEach((groupItem) => {
-    const isCorrect = (groupItem.id === correct);
+    const isCorrect = (groupItem.id === correctAnswer);
     const isAnswered = answers.includes(groupItem.id);
-    const isActive = (groupItem.id === active);
+    const isActive = (groupItem.id === activeAnswer);
     const element = (
       <DataItem key={groupItem.id} id={groupItem.id} active={isActive}>
         <DataIndicator correct={isCorrect} answered={isAnswered}/>
@@ -80,17 +102,7 @@ const DataList = (props) => {
 
   const clickHandler = (evt) => {
     const id = Number(evt.target.id);
-
-    setActive(id);
-    if (!hasCorrect) {
-      setAnswers([...answers, id]);
-      setHasCorrect(id === correct);
-
-      if (id === correct) {
-        const score = group.length - answers.length - 1;
-        setScore(score);
-      }
-    }
+    selectAnswer(id);
   };
 
   return (
@@ -100,4 +112,4 @@ const DataList = (props) => {
   );
 };
 
-export default DataList;
+export default connect(mapStateToProps, mapDispatchToProps)(DataList);

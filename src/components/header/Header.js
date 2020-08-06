@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 import { device } from '../../styles/media';
 
@@ -75,21 +76,33 @@ InfoPanel.displayName = 'InfoPanelStyled';
 PaginationPanel.displayName = 'PaginationPanelStyled';
 StyledLink.displayName = 'StyledLinkStyled';
 
+const mapStateToProps = ({ data, levels, activeLevel, score, maxScore }) => {
+  return {
+    data,
+    levels,
+    activeLevel,
+    score,
+    maxScore,
+  };
+};
+
 const Header = (props) => {
+  const { data, levels, activeLevel, score, maxScore } = props;
+
   return (
     <HeaderContainer>
       <TopPanel>
         <Logo />
         <InfoPanel>
-          <Score score={props.score} />
+          <Score score={score} maxScore={maxScore} />
           <StyledLink to='/'>Exit</StyledLink>
         </InfoPanel>
       </TopPanel>
       <PaginationPanel>
-        <Pagination {...props} />
+        <Pagination data={data} levels={levels} activeLevel={activeLevel} />
       </PaginationPanel>
     </HeaderContainer>
   );
 };
 
-export default Header;
+export default connect(mapStateToProps)(Header);

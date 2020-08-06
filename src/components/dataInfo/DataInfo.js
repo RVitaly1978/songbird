@@ -51,7 +51,9 @@ CardBody.displayName = 'CardBodyStyled';
 InfoContainer.displayName = 'InfoContainerStyled';
 CardDescription.displayName = 'CardDescriptionStyled';
 
-const DataInfo = () => {
+const DataInfo = (props) => {
+  // console.log(props);
+
   return (
     <DataContainer>
       <CardBody>

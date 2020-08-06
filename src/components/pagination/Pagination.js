@@ -23,14 +23,22 @@ const PaginationData = styled.p`
   width: 100%;
   padding: 1rem 1.5rem;
 
-  background-color: ${props => props.active
-    ? props.theme.main.borderColor
-    : props.theme.main.bgColor};
+  background-color: ${(props) => {
+    if (props.passed) {
+      return props.theme.secondary.color;
+    }
+    return (props.active
+      ? props.theme.main.borderColor
+      : props.theme.main.bgColor
+    );
+  }};
 
   border: 0.25px solid ${props => props.theme.main.borderColor};
 
   text-align: center;
   text-transform: capitalize;
+
+  transition: background-color 0.3s linear;
 
   @media ${device.mobileM} {
     padding: 0.75rem 1.0rem;
@@ -44,22 +52,23 @@ PaginationItem.displayName = 'PaginationItemStyled';
 PaginationData.displayName = 'PaginationDataStyled';
 
 const Pagination = (props) => {
-  const { data, activeLevel } = props;
+  const { data, levels, activeLevel } = props;
 
-  const levels = [];
+  const levelsList = [];
   Object.keys(data).forEach((level) => {
     const isActive = (level === activeLevel);
+    const hasPassed = levels.includes(level);
     const element = (
       <PaginationItem key={level}>
-        <PaginationData active={isActive}>{level}</PaginationData>
+        <PaginationData active={isActive} passed={hasPassed}>{level}</PaginationData>
       </PaginationItem>
     );
-    levels.push(element);
+    levelsList.push(element);
   });
 
   return (
     <PaginationContainer>
-      {levels}
+      {levelsList}
     </PaginationContainer>
   );
 };

@@ -16,14 +16,20 @@ const ScoreCount = styled.span`
   font-weight: 700;
 `;
 
+const MaxScoreCount = styled.span`
+  color: ${props => props.theme.main.borderColor};
+  font-weight: 700;
+`;
+
 ScoreContainer.displayName = 'ScoreContainerStyled';
 ScoreCount.displayName = 'ScoreCountStyled';
 
-const Score = ({ score }) => {
+const Score = ({ score, maxScore }) => {
   return (
     <ScoreContainer>
       <span>Score: </span>
       <ScoreCount>{score ? score : 0}</ScoreCount>
+      <MaxScoreCount>{maxScore ? ` / ${maxScore}` : null}</MaxScoreCount>
     </ScoreContainer>
   );
 };
