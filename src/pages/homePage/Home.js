@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
@@ -59,6 +59,10 @@ const ColumnLayout = styled.div`
 
   overflow: hidden;
 
+  & + & {
+    align-self: stretch;
+  }
+
   @media ${device.mobileL} {
     width: 100%;
 
@@ -106,7 +110,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const Home = ({ hasCorrect, activeLevel, score, maxScore, nextLevel, restartGame, newGame }) => {
-  const [redirect, setRedirect] = useState(false);
+  const history = useHistory();
 
   const handleNextLevelClick = () => {
     nextLevel();
@@ -119,15 +123,9 @@ const Home = ({ hasCorrect, activeLevel, score, maxScore, nextLevel, restartGame
       restartGame();
     } else if (id === 'NEW_GAME') {
       newGame();
-      setRedirect(true);
+      history.push('/');
     }
   };
-
-  if (redirect) {
-    return (
-      <Redirect to='/' />
-    );
-  }
 
   if (activeLevel === null) {
     return (

@@ -54,7 +54,7 @@ const ImageError = styled.div`
 ImageContainer.displayName = 'ImageContainerStyled';
 ImageError.displayName = 'ImageErrorStyled';
 
-const ImageComponent = ({ image = '' }) => {
+const ImageComponent = ({ hasCorrect, image }) => {
   const [imageData, setImageData] = useState({
     loading: true,
     src: null,
@@ -100,7 +100,9 @@ const ImageComponent = ({ image = '' }) => {
   if (imageData.loading) {
     element = <Spinner />;
   } else if (imageData.src) {
-    element = <img src={imageData.src} alt='bird' onError={handleImgError} />;
+    element = hasCorrect
+    ? <img src={imageData.src} alt='bird' onError={handleImgError} />
+    : <ImageError>Угадай меня</ImageError>;
   } else {
     element = <ImageError>{imageData.error}</ImageError>;
   }

@@ -60,6 +60,7 @@ const Button = (props) => {
 
   return (
     <ButtonStyled
+      {...props}
       type="button"
       id={id}
       data-title={dataTitle}

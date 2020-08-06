@@ -13,10 +13,10 @@ const AudioContainer = styled.p`
 
 AudioContainer.displayName = 'AudioContainerStyled';
 
-const AudioComponent = () => {
+const AudioComponent = ({ audio, isControls }) => {
   return (
     <AudioContainer>
-      AudioComponent
+      <audio src={audio} controls={isControls} />
     </AudioContainer>
   );
 };

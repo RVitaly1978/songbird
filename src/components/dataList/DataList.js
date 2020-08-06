@@ -85,19 +85,17 @@ const DataList = (props) => {
     data, activeLevel, answers, correctAnswer, activeAnswer, selectAnswer
   } = props;
 
-  const groupItems = [];
   const group = data[activeLevel];
-  group.forEach((groupItem) => {
+  const groupItems = group.map((groupItem) => {
     const isCorrect = (groupItem.id === correctAnswer);
     const isAnswered = answers.includes(groupItem.id);
     const isActive = (groupItem.id === activeAnswer);
-    const element = (
+    return (
       <DataItem key={groupItem.id} id={groupItem.id} active={isActive}>
         <DataIndicator correct={isCorrect} answered={isAnswered}/>
         {groupItem.name}
       </DataItem>
     );
-    groupItems.push(element);
   });
 
   const clickHandler = (evt) => {

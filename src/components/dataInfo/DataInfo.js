@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 import { device } from '../../styles/media';
 
@@ -51,23 +52,42 @@ CardBody.displayName = 'CardBodyStyled';
 InfoContainer.displayName = 'InfoContainerStyled';
 CardDescription.displayName = 'CardDescriptionStyled';
 
-const DataInfo = (props) => {
-  // console.log(props);
+const mapStateToProps = ({ data, activeLevel, activeAnswer }) => {
+  return {
+    data,
+    activeLevel,
+    activeAnswer,
+  };
+};
+
+const DataInfo = ({ data, activeLevel, activeAnswer }) => {
+  if (!activeAnswer) {
+    return (
+      <DataContainer>
+        Послушайте плеер.
+        Выберите птицу из списка
+      </DataContainer>
+    );
+  }
+
+  const activeAnswerData = data[activeLevel][activeAnswer - 1];
+  const { name, species, description, audio, image } = activeAnswerData;
 
   return (
     <DataContainer>
       <CardBody>
-        <ImageComponent />
+        <ImageComponent hasCorrect={true} image={image} />
         <InfoContainer>
-          <TitleComponent />
-          <AudioComponent />
+          <TitleComponent hasCorrect={true} content={name} />
+          <TitleComponent hasCorrect={true} content={species} />
+          <AudioComponent audio={audio} isControls={true} />
         </InfoContainer>
       </CardBody>
       <CardDescription>
-        {'Грачи очень умные и сообразительные птицы. С помощью клюва они создают и используют простейшие орудия. У грачей развит рефлекс на звуки трактора. Услышав «тарахтение», они летят на звук – трактор пашет землю, значит, в этом месте много корма.'}
+        {description}
       </CardDescription>
     </DataContainer>
   );
 };
 
-export default DataInfo;
+export default connect(mapStateToProps)(DataInfo);

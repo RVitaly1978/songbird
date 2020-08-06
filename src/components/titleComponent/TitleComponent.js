@@ -17,10 +17,10 @@ const TitleContainer = styled.p`
 
 TitleContainer.displayName = 'TitleContainerStyled';
 
-const TitleComponent = () => {
+const TitleComponent = ({ hasCorrect, content }) => {
   return (
     <TitleContainer>
-      ******
+      {hasCorrect ? content : '******'}
     </TitleContainer>
   );
 };

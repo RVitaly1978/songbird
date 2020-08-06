@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 import { device } from '../../styles/media';
 
-import ImageComponent from '../imageComponent/index';
-import TitleComponent from '../titleComponent/index';
-import AudioComponent from '../audioComponent/index';
+import ImageComponent from '../imageComponent';
+import TitleComponent from '../titleComponent';
+import AudioComponent from '../audioComponent';
 
 const RandomBirdContainer = styled.div`
   display: flex;
@@ -40,16 +41,28 @@ const QuestionContainer = styled.div`
 RandomBirdContainer.displayName = 'RandomBirdContainerStyled';
 QuestionContainer.displayName = 'QuestionContainerStyled';
 
-const RandomBird = () => {
+const mapStateToProps = ({ data, activeLevel, hasCorrect, correctAnswer }) => {
+  return {
+    data,
+    activeLevel,
+    hasCorrect,
+    correctAnswer,
+  };
+};
+
+const RandomBird = ({ data, activeLevel, hasCorrect, correctAnswer }) => {
+  const correctAnswerData = data[activeLevel][correctAnswer - 1];
+  const { name, audio, image } = correctAnswerData;
+
   return (
     <RandomBirdContainer>
-      <ImageComponent />
+      <ImageComponent hasCorrect={hasCorrect} image={image} />
       <QuestionContainer>
-        <TitleComponent />
-        <AudioComponent />
+        <TitleComponent hasCorrect={hasCorrect} content={name} />
+        <AudioComponent audio={audio} isControls={true}/>
       </QuestionContainer>
     </RandomBirdContainer>
   );
 };
 
-export default RandomBird;
+export default connect(mapStateToProps)(RandomBird);
