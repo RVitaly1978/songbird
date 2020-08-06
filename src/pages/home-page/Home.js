@@ -5,12 +5,12 @@ import { connect } from 'react-redux';
 
 import { device } from '../../styles/media';
 
-import Header from '../../components/header/index';
-import RandomBird from '../../components/randomBird/index';
-import DataList from '../../components/dataList/index';
-import DataInfo from '../../components/dataInfo/index';
-import NextButton from '../../components/nextButton/index';
-import GameOver from '../../components/gameOver/index';
+import Header from '../../components/header';
+import RandomBird from '../../components/random-bird';
+import DataList from '../../components/data-list';
+import DataInfo from '../../components/data-info';
+import NextButton from '../../components/next-button';
+import GameOver from '../../components/game-over';
 
 const HomePage = styled.div`
   display: flex;

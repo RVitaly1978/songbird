@@ -85,18 +85,20 @@ const DataList = (props) => {
     data, activeLevel, answers, correctAnswer, activeAnswer, selectAnswer
   } = props;
 
-  const group = data[activeLevel];
-  const groupItems = group.map((groupItem) => {
-    const isCorrect = (groupItem.id === correctAnswer);
-    const isAnswered = answers.includes(groupItem.id);
-    const isActive = (groupItem.id === activeAnswer);
-    return (
-      <DataItem key={groupItem.id} id={groupItem.id} active={isActive}>
-        <DataIndicator correct={isCorrect} answered={isAnswered}/>
-        {groupItem.name}
-      </DataItem>
-    );
-  });
+  const elementsList = data.
+    filter((dataItem) => dataItem.id === activeLevel)[0].data
+    .map((item) => {
+      const isCorrect = (item.id === correctAnswer);
+      const isAnswered = answers.includes(item.id);
+      const isActive = (item.id === activeAnswer);
+
+      return (
+        <DataItem key={item.id} id={item.id} active={isActive}>
+          <DataIndicator correct={isCorrect} answered={isAnswered}/>
+          {item.name}
+        </DataItem>
+      );
+    });
 
   const clickHandler = (evt) => {
     const id = Number(evt.target.id);
@@ -105,7 +107,7 @@ const DataList = (props) => {
 
   return (
     <DataContainer onClick={clickHandler}>
-      {groupItems}
+      {elementsList}
     </DataContainer>
   );
 };

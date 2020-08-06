@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 
 import { device } from '../../styles/media';
 
-import Logo from '../logo/index';
-import Score from '../score/index';
-import Pagination from '../pagination/index';
+import Logo from '../logo';
+import Score from '../score';
+import Pagination from '../pagination';
 
 const HeaderContainer = styled.div`
   width: 100%;

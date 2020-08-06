@@ -1,12 +1,10 @@
-import birdsDataBasic from '../gameData/birdsDataBasic';
-
 const initialState = {
-  data: birdsDataBasic,
+  data: [],
   levels: [],
-  activeLevel: 'разминка',
+  activeLevel: null,
   answers: [],
   activeAnswer: null,
-  correctAnswer: 4,
+  correctAnswer: null,
   hasCorrect: false,
   score: 0,
   maxScore: 0,

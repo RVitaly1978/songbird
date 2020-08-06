@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import localForage from 'localforage';
 
 import { lightTheme, darkTheme } from '../../styles/theme';
 
@@ -55,12 +58,39 @@ PromoPage.displayName = 'PromoPageStyled';
 PromoContent.displayName = 'PromoContentStyled';
 StyledLink.displayName = 'StyledLinkStyled';
 
-const Promo = ({ setTheme }) => {
+const mapStateToProps = ({ data }) => {
+  return {
+    data,
+  };
+};
+
+const newGameBirdsBasic = () => ({
+  type: 'NEW_GAME_BIRDS_BASIC',
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  newGameBirdsBasic: () => dispatch(newGameBirdsBasic()),
+});
+
+const Promo = ({ setTheme, newGameBirdsBasic, data }) => {
+  const history = useHistory();
+
   const handleThemeChange = (evt) => {
     const { id } = evt.target;
     const theme = (id === 'light') ? lightTheme : darkTheme;
     localStorage.setItem('songBirdTheme', JSON.stringify(id));
     setTheme(theme);
+  };
+
+  const handleGameSelect = (evt) => {
+    const { id } = evt.target;
+
+    if (id === 'NEW_GAME_BIRDS_BASIC') {
+      newGameBirdsBasic();
+      history.push('/home');
+    } else if (id === 'continue') {
+      history.push('/home');
+    }
   };
 
   return (
@@ -69,10 +99,12 @@ const Promo = ({ setTheme }) => {
       <button id={'dark'} onClick={handleThemeChange}>Dark</button>
       <PromoContent>
         <p>Songbird quiz</p>
-        <StyledLink to='/home'>Start songbird basic</StyledLink>
+        <button id={'continue'} onClick={handleGameSelect} disabled={data.length === 0}>Продолжить</button>
+        <button id={'NEW_GAME_BIRDS_BASIC'} onClick={handleGameSelect}>Start songbird basic</button>
+        {/* <StyledLink to='/home'>Start songbird basic</StyledLink> */}
       </PromoContent>
     </PromoPage>
   );
 };
 
-export default Promo;
+export default connect(mapStateToProps, mapDispatchToProps)(Promo);

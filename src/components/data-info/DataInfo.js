@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 
 import { device } from '../../styles/media';
 
-import ImageComponent from '../imageComponent/index';
-import TitleComponent from '../titleComponent/index';
-import AudioComponent from '../audioComponent/index';
+import ImageComponent from '../image-component';
+import TitleComponent from '../title-component';
+import AudioComponent from '../audio-component';
 
 const DataContainer = styled.div`
   display: flex;
@@ -64,13 +64,16 @@ const DataInfo = ({ data, activeLevel, activeAnswer }) => {
   if (!activeAnswer) {
     return (
       <DataContainer>
-        Послушайте плеер.
-        Выберите птицу из списка
+        {'Послушайте плеер.'}
+        <br/>
+        {'Выберите вариант из списка'}
       </DataContainer>
     );
   }
 
-  const activeAnswerData = data[activeLevel][activeAnswer - 1];
+  const activeAnswerData = data
+    .filter((dataItem) => dataItem.id === activeLevel)[0].data
+    .filter((activeItem) => activeItem.id === activeAnswer)[0];
   const { name, species, description, audio, image } = activeAnswerData;
 
   return (

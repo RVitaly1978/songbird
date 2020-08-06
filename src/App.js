@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
-// import localForage from 'localforage';
+import { connect } from 'react-redux';
+import localForage from 'localforage';
 
 import { device } from './styles/media';
 import { lightTheme, darkTheme } from './styles/theme';
 
 import history from './utils/history';
-import Promo from './pages/promoPage/index';
-import Home from './pages/homePage/index';
-import NotFound from './pages/notFoundPage/index';
+import Promo from './pages/promo-page';
+import Home from './pages/home-page';
+import NotFound from './pages/not-found-page';
 
 const GlobalStyle = createGlobalStyle`
   html {
@@ -65,7 +66,22 @@ const Container = styled.div`
 
 Container.displayName = 'AppContainerStyled';
 
-const App = () => {
+const mapStateToProps = ({ data }) => {
+  return {
+    data,
+  };
+};
+
+const updateStateFromStorage = (state) => ({
+  type: 'UPDATE_STATE_FROM_STORAGE',
+  state,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  updateStateFromStorage: (state) => dispatch(updateStateFromStorage(state)),
+});
+
+const App = ({ data, updateStateFromStorage }) => {
   const [theme, setTheme] = useState(lightTheme);
 
   useEffect(() => {
@@ -73,10 +89,19 @@ const App = () => {
       ? localStorage.getItem('songBirdTheme')
       : null;
 
-      if (themeId) {
+    if (themeId) {
       const newTheme = (JSON.parse(themeId) === 'light') ? lightTheme : darkTheme;
       setTheme(newTheme);
     }
+  }, []);
+
+  useEffect(() => {
+    localForage.getItem('songBirdState')
+      .then((state) => {
+        if (state) {
+          updateStateFromStorage(state);
+        }
+      });
   }, []);
 
   return (
@@ -86,8 +111,15 @@ const App = () => {
         <BrowserRouter history={history}>
             <Container>
               <Switch>
-                <Route path='/home' component={Home} />
-                <Route exact path='/' component={(props) => <Promo {...props} setTheme={setTheme}/>} />
+                <Route
+                  path='/home'
+                  component={(props) =>
+                    data.length !== 0
+                    ? <Home {...props} />
+                    : <Redirect to={{ pathname: '/', state: { from: props.location } }} />
+                  }
+                />
+                <Route exact path='/' component={(props) => <Promo {...props} setTheme={setTheme} />} />
                 <Route component={NotFound} />
               </Switch>
             </Container>
@@ -97,4 +129,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 
 import { device } from '../../styles/media';
 
-import ImageComponent from '../imageComponent';
-import TitleComponent from '../titleComponent';
-import AudioComponent from '../audioComponent';
+import ImageComponent from '../image-component';
+import TitleComponent from '../title-component';
+import AudioComponent from '../audio-component';
 
 const RandomBirdContainer = styled.div`
   display: flex;
@@ -51,7 +51,9 @@ const mapStateToProps = ({ data, activeLevel, hasCorrect, correctAnswer }) => {
 };
 
 const RandomBird = ({ data, activeLevel, hasCorrect, correctAnswer }) => {
-  const correctAnswerData = data[activeLevel][correctAnswer - 1];
+  const correctAnswerData = data
+    .filter((dataItem) => dataItem.id === activeLevel)[0].data
+    .filter((activeItem) => activeItem.id === correctAnswer)[0];
   const { name, audio, image } = correctAnswerData;
 
   return (

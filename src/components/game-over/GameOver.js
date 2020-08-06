@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { device } from '../../styles/media';
 
-import Button from '../button/index';
+import Button from '../button';
 
 const GameOverContainer = styled.div`
   display: flex;

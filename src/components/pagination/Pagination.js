@@ -54,12 +54,13 @@ PaginationData.displayName = 'PaginationDataStyled';
 const Pagination = (props) => {
   const { data, levels, activeLevel } = props;
 
-  const levelsList = Object.keys(data).map((level) => {
+  const levelsList = data.map((dataItem) => {
+    const level = dataItem.id;
     const isActive = (level === activeLevel);
     const hasPassed = levels.includes(level);
     return (
       <PaginationItem key={level}>
-        <PaginationData active={isActive} passed={hasPassed}>{level}</PaginationData>
+        <PaginationData active={isActive} passed={hasPassed}>{dataItem.name}</PaginationData>
       </PaginationItem>
     );
   });
