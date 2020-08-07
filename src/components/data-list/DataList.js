@@ -13,7 +13,7 @@ const DataContainer = styled.ul`
 `;
 
 const DataItem = styled.li`
-  padding: 1.25rem 2.0rem;
+  padding: 1.5rem 2.0rem;
 
   background-color: ${props => props.active
     ? props.theme.main.borderColor

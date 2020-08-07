@@ -36,6 +36,10 @@ const QuestionContainer = styled.div`
   @media ${device.mobileL} {
     margin: ${props => props.theme.all.margin} 0 0 0;
   }
+
+  @media ${device.mobileM} {
+    margin: ${props => props.theme.all.marginMobile} 0 0 0;
+  }
 `;
 
 RandomBirdContainer.displayName = 'RandomBirdContainerStyled';

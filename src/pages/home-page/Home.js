@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 
 import { device } from '../../styles/media';
+import { fadeInAnimation } from '../../styles/animation';
 
 import Header from '../../components/header';
 import RandomBird from '../../components/random-bird';
@@ -25,6 +26,8 @@ const HomePage = styled.div`
   padding: ${props => props.theme.all.padding} 0;
 
   user-select: none;
+
+  animation: ${fadeInAnimation} 0.3s linear;
 
   @media ${device.mobileL} {
     padding: ${props => props.theme.all.paddingMobile} 0;
@@ -156,7 +159,7 @@ const Home = ({ hasCorrect, activeLevel, score, maxScore, nextLevel, restartGame
         </RowLayout>
         <NextButton
           id='next'
-          label='Next Level'
+          label='Следующий уровень'
           isDisabled={!hasCorrect}
           onClick={handleNextLevelClick}
         />

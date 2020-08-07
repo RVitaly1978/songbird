@@ -1,14 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { device } from '../../styles/media';
+
 const AudioContainer = styled.p`
-  padding-top: ${props => props.theme.all.padding};
+  margin-top: ${props => props.theme.all.margin};
 
   font-size: inherit;
   line-height: 1;
   font-weight: 700;
 
   user-select: none;
+
+  @media ${device.mobileM} {
+    margin-top: ${props => props.theme.all.marginMobile};
+  }
 `;
 
 const Audio = styled.audio`

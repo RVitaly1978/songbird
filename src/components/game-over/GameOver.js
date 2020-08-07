@@ -19,7 +19,7 @@ const GameOverContainer = styled.div`
   border: 1px solid ${props => props.theme.main.borderColor};
   border-radius: ${props => props.theme.all.borderRadius};
 
-  font-size: ${props => props.theme.all.fontSize.large};
+  font-size: ${props => props.theme.all.fontSize.main};
   line-height: 1;
 
   user-select: none;
@@ -27,8 +27,6 @@ const GameOverContainer = styled.div`
   @media ${device.mobileL} {
     margin: ${props => props.theme.all.marginMobile} auto;
     padding: ${props => props.theme.all.paddingMobile};
-
-    font-size: ${props => props.theme.all.fontSize.main};
   }
 `;
 

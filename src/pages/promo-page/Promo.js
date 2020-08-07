@@ -1,23 +1,36 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
+import { device } from '../../styles/media';
 import { lightTheme, darkTheme } from '../../styles/theme';
+import { fadeInAnimation } from '../../styles/animation';
+
+import Button from '../../components/button';
 
 const PromoPage = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 
   width: 100%;
-  height: 100vh;
+  height: 100%;
+  min-height: 100vh;
+  padding: ${props => props.theme.all.padding} 0;
 
   user-select: none;
+
+  animation: ${fadeInAnimation} 0.3s linear;
+
+  @media ${device.mobileL} {
+    padding: ${props => props.theme.all.paddingMobile} 0;
+  }
 `;
 
 const PromoContent = styled.div`
+  width: 100%;
   max-width: 60rem;
   padding: ${props => props.theme.all.padding};
 
@@ -25,39 +38,67 @@ const PromoContent = styled.div`
   border: 1px solid ${props => props.theme.main.borderColor};
   border-radius: ${props => props.theme.all.borderRadius};
 
-  font-size: ${props => props.theme.all.fontSize.large};
+  font-size: ${props => props.theme.all.fontSize.main};
   line-height: 1.6;
   text-align: center;
 
   pointer-events: ${props => props.disabled ? 'none' : 'unset'};
+
+  @media ${device.mobileL} {
+    width: ${props => props.theme.all.paddingMobile} 0;
+    padding: ${props => props.theme.all.paddingMobile};
+  }
 `;
 
-const StyledLink = styled(Link)`
-  padding: 0.5rem 1rem;
+const PromoTitle = styled.p`
+  width: 100%;
+  padding-bottom: ${props => props.theme.all.padding};
 
-  background-color: ${props => props.theme.secondary.color};
-  border-radius: ${props => props.theme.all.borderRadius};
+  border-bottom: 1px solid ${props => props.theme.main.borderColor};
 
-  color: inherit;
+  font-size: 1.25em;
+  line-height: 1.6;
+  font-weight: 700;
+  text-align: center;
 
-  font: inherit;
-  font-weight: 500;
-  text-decoration: none;
-
-  transition: background-color 0.3s linear;
-
-  cursor: pointer;
-
-  @media (pointer: fine) {
-    :hover {
-      background-color: ${props => props.theme.secondary.hoverColor};
-    }
+  @media ${device.mobileL} {
+    padding-bottom: ${props => props.theme.all.paddingMobile};
   }
+`;
+
+const PromoButton = styled(Button)`
+  margin-top: ${props => props.theme.all.margin};
+
+  @media ${device.mobileL} {
+    margin-top: ${props => props.theme.all.marginMobile};
+  }
+`;
+
+const PromoModal = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  user-select: none;
+
+  background-color: ${props => props.theme.main.bodyColor};
+
+  animation: ${fadeInAnimation} 0.3s linear;
 `;
 
 PromoPage.displayName = 'PromoPageStyled';
 PromoContent.displayName = 'PromoContentStyled';
-StyledLink.displayName = 'StyledLinkStyled';
+PromoTitle.displayName = 'PromoTitleStyled';
+PromoButton.displayName = 'PromoButtonStyled';
+PromoModal.displayName = 'PromoModalStyled';
 
 const mapStateToProps = ({ data }) => {
   return {
@@ -94,7 +135,7 @@ const Promo = ({ setTheme, newGameBirdsBasic, data }) => {
       } else {
         setIsMessage(true);
       }
-    } else if (id === 'continue') {
+    } else if (id === 'CONTINUE') {
       history.push('/');
     }
   };
@@ -105,17 +146,31 @@ const Promo = ({ setTheme, newGameBirdsBasic, data }) => {
     if (id === 'NEW_GAME_BIRDS_BASIC') {
       newGameBirdsBasic();
       history.push('/');
-    } else if (id === 'continue') {
+    } else if (id === 'CONTINUE') {
       history.push('/');
     }
   };
 
   const messageElement = (
-    <div>
-      У вас есть начатая игра. Вы хотите начать новую или продолжить начатую?
-      <button id={'continue'} onClick={handleMessageSelect}>Продолжить</button>
-      <button id={'NEW_GAME_BIRDS_BASIC'} onClick={handleMessageSelect}>Начать новую игру</button>
-    </div>
+    <PromoModal>
+      <PromoContent>
+        <PromoTitle>
+          {'У вас есть начатая игра.'}
+          <br />
+          {'Вы хотите начать новую или продолжить начатую?'}
+        </PromoTitle>
+        <PromoButton
+          id='CONTINUE'
+          label='Продолжить?'
+          onClick={handleMessageSelect}
+        />
+        <PromoButton
+          id='NEW_GAME_BIRDS_BASIC'
+          label='Начать новую игру?'
+          onClick={handleMessageSelect}
+        />
+      </PromoContent>
+    </PromoModal>
   );
 
   return (
@@ -124,10 +179,29 @@ const Promo = ({ setTheme, newGameBirdsBasic, data }) => {
       <button id={'light'} onClick={handleThemeChange}>Light</button>
       <button id={'dark'} onClick={handleThemeChange}>Dark</button>
       <PromoContent disabled={isMessage}>
-        <p>Songbird quiz</p>
-        <button id={'continue'} onClick={handleGameSelect} disabled={!data.length}>Продолжить</button>
-        <button id={'NEW_GAME_BIRDS_BASIC'} onClick={handleGameSelect}>Start songbird basic</button>
-        {/* <StyledLink to='/home'>Start songbird basic</StyledLink> */}
+        <PromoTitle>
+          {'А я милого узнаю а по походке...'}
+          <br />
+          {'А ты меня угадаешь?'}
+        </PromoTitle>
+        <PromoButton
+          id='NEW_GAME_BIRDS_BASIC'
+          label='Начать "Songbird-basic"'
+          onClick={handleGameSelect}
+        />
+        <PromoButton
+          id='NEW_GAME_BIRDS_BASIC'
+          label='Начать "Songbird-advance"'
+          isDisabled={true}
+          onClick={handleGameSelect}
+        />
+        <br />
+        <PromoButton
+          id='CONTINUE'
+          label='Продолжить'
+          onClick={handleGameSelect}
+          isDisabled={!data.length}
+        />
       </PromoContent>
     </PromoPage>
   );

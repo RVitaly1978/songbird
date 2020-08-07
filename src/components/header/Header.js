@@ -95,7 +95,7 @@ const Header = (props) => {
         <Logo />
         <InfoPanel>
           <Score score={score} maxScore={maxScore} />
-          <StyledLink to='/promo'>Exit</StyledLink>
+          <StyledLink to='/promo'>Х</StyledLink>
         </InfoPanel>
       </TopPanel>
       <PaginationPanel>
