@@ -11,12 +11,16 @@ const AudioContainer = styled.p`
   user-select: none;
 `;
 
+const Audio = styled.audio`
+  width: 100%;
+`;
+
 AudioContainer.displayName = 'AudioContainerStyled';
 
 const AudioComponent = ({ audio, isControls }) => {
   return (
     <AudioContainer>
-      <audio src={audio} controls={isControls} />
+      <Audio src={audio} controls={isControls} />
     </AudioContainer>
   );
 };

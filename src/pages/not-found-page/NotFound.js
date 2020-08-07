@@ -66,7 +66,7 @@ const NotFound = () => (
       <p>Sorry, this page does not exist.</p>
       <p>
         <span>Try to go back to the </span>
-        <Link to='/' >
+        <Link to='/promo' >
           <LinkMarked>promo</LinkMarked>
         </Link>
         <span> page</span>

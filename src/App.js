@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
-import { connect } from 'react-redux';
-import localForage from 'localforage';
 
 import { device } from './styles/media';
 import { lightTheme, darkTheme } from './styles/theme';
@@ -66,22 +64,7 @@ const Container = styled.div`
 
 Container.displayName = 'AppContainerStyled';
 
-const mapStateToProps = ({ data }) => {
-  return {
-    data,
-  };
-};
-
-const updateStateFromStorage = (state) => ({
-  type: 'UPDATE_STATE_FROM_STORAGE',
-  state,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  updateStateFromStorage: (state) => dispatch(updateStateFromStorage(state)),
-});
-
-const App = ({ data, updateStateFromStorage }) => {
+const App = () => {
   const [theme, setTheme] = useState(lightTheme);
 
   useEffect(() => {
@@ -95,38 +78,20 @@ const App = ({ data, updateStateFromStorage }) => {
     }
   }, []);
 
-  useEffect(() => {
-    localForage.getItem('songBirdState')
-      .then((state) => {
-        if (state) {
-          updateStateFromStorage(state);
-        }
-      });
-  }, []);
-
   return (
-    <>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <BrowserRouter history={history}>
-            <Container>
-              <Switch>
-                <Route
-                  path='/home'
-                  component={(props) =>
-                    data.length !== 0
-                    ? <Home {...props} />
-                    : <Redirect to={{ pathname: '/', state: { from: props.location } }} />
-                  }
-                />
-                <Route exact path='/' component={(props) => <Promo {...props} setTheme={setTheme} />} />
-                <Route component={NotFound} />
-              </Switch>
-            </Container>
-        </BrowserRouter>
-      </ThemeProvider>
-    </>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <BrowserRouter history={history}>
+          <Container>
+            <Switch>
+              <Route exact path='/' component={Home} />
+              <Route path='/promo' component={(props) => <Promo {...props} setTheme={setTheme} />} />
+              <Route component={NotFound} />
+            </Switch>
+          </Container>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

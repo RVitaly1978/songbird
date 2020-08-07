@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
@@ -82,8 +82,9 @@ HomePage.displayName = 'HomePageStyled';
 RowLayout.displayName = 'RowLayoutStyled';
 ColumnLayout.displayName = 'ColumnLayoutStyled';
 
-const mapStateToProps = ({ hasCorrect, activeLevel, score, maxScore }) => {
+const mapStateToProps = ({ data, hasCorrect, activeLevel, score, maxScore }) => {
   return {
+    data,
     hasCorrect,
     activeLevel,
     score,
@@ -109,7 +110,7 @@ const mapDispatchToProps = (dispatch) => ({
   newGame: () => dispatch(newGame()),
 });
 
-const Home = ({ hasCorrect, activeLevel, score, maxScore, nextLevel, restartGame, newGame }) => {
+const Home = ({ hasCorrect, activeLevel, score, maxScore, nextLevel, restartGame, newGame, data }) => {
   const history = useHistory();
 
   const handleNextLevelClick = () => {
@@ -127,7 +128,7 @@ const Home = ({ hasCorrect, activeLevel, score, maxScore, nextLevel, restartGame
     }
   };
 
-  if (activeLevel === null) {
+  if (data.length && (activeLevel === null)) {
     return (
       <HomePage>
         <Header />
@@ -141,24 +142,26 @@ const Home = ({ hasCorrect, activeLevel, score, maxScore, nextLevel, restartGame
   }
 
   return (
-    <HomePage>
-      <Header />
-      <RandomBird />
-      <RowLayout>
-        <ColumnLayout>
-          <DataList />
-        </ColumnLayout>
-        <ColumnLayout>
-          <DataInfo />
-        </ColumnLayout>
-      </RowLayout>
-      <NextButton
-        id='next'
-        label='Next Level'
-        isDisabled={!hasCorrect}
-        onClick={handleNextLevelClick}
-      />
-    </HomePage>
+    data.length
+    ? <HomePage>
+        <Header />
+        <RandomBird />
+        <RowLayout>
+          <ColumnLayout>
+            <DataList />
+          </ColumnLayout>
+          <ColumnLayout>
+            <DataInfo />
+          </ColumnLayout>
+        </RowLayout>
+        <NextButton
+          id='next'
+          label='Next Level'
+          isDisabled={!hasCorrect}
+          onClick={handleNextLevelClick}
+        />
+      </HomePage>
+    : <Redirect to='/promo' />
   );
 };
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -29,6 +29,8 @@ const PromoContent = styled.div`
   font-size: ${props => props.theme.all.fontSize.large};
   line-height: 1.6;
   text-align: center;
+
+  pointer-events: ${props => props.disabled ? 'none' : 'unset'};
 `;
 
 const StyledLink = styled(Link)`
@@ -74,6 +76,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const Promo = ({ setTheme, newGameBirdsBasic, data }) => {
   const history = useHistory();
+  const [isMessage, setIsMessage] = useState(false);
 
   const handleThemeChange = (evt) => {
     const { id } = evt.target;
@@ -86,18 +89,42 @@ const Promo = ({ setTheme, newGameBirdsBasic, data }) => {
     const { id } = evt.target;
 
     if (id === 'NEW_GAME_BIRDS_BASIC') {
-      newGameBirdsBasic();
-      history.push('/home');
+      if (!data.length) {
+        newGameBirdsBasic();
+        history.push('/');
+      } else {
+        setIsMessage(true);
+      }
     } else if (id === 'continue') {
-      history.push('/home');
+      history.push('/');
     }
   };
 
+  const handleMessageSelect = (evt) => {
+    const { id } = evt.target;
+
+    if (id === 'NEW_GAME_BIRDS_BASIC') {
+      newGameBirdsBasic();
+      history.push('/');
+    } else if (id === 'continue') {
+      history.push('/');
+    }
+  };
+
+  const messageElement = (
+    <div>
+      У вас есть начатая игра. Вы хотите начать новую или продолжить начатую?
+      <button id={'continue'} onClick={handleMessageSelect}>Продолжить</button>
+      <button id={'NEW_GAME_BIRDS_BASIC'} onClick={handleMessageSelect}>Начать новую игру</button>
+    </div>
+  );
+
   return (
     <PromoPage>
+      {isMessage && messageElement}
       <button id={'light'} onClick={handleThemeChange}>Light</button>
       <button id={'dark'} onClick={handleThemeChange}>Dark</button>
-      <PromoContent>
+      <PromoContent disabled={isMessage}>
         <p>Songbird quiz</p>
         <button id={'continue'} onClick={handleGameSelect} disabled={data.length === 0}>Продолжить</button>
         <button id={'NEW_GAME_BIRDS_BASIC'} onClick={handleGameSelect}>Start songbird basic</button>
