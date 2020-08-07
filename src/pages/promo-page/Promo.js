@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import localForage from 'localforage';
 
 import { lightTheme, darkTheme } from '../../styles/theme';
 
@@ -126,7 +125,7 @@ const Promo = ({ setTheme, newGameBirdsBasic, data }) => {
       <button id={'dark'} onClick={handleThemeChange}>Dark</button>
       <PromoContent disabled={isMessage}>
         <p>Songbird quiz</p>
-        <button id={'continue'} onClick={handleGameSelect} disabled={data.length === 0}>Продолжить</button>
+        <button id={'continue'} onClick={handleGameSelect} disabled={!data.length}>Продолжить</button>
         <button id={'NEW_GAME_BIRDS_BASIC'} onClick={handleGameSelect}>Start songbird basic</button>
         {/* <StyledLink to='/home'>Start songbird basic</StyledLink> */}
       </PromoContent>

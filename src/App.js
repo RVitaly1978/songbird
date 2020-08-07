@@ -5,7 +5,6 @@ import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { device } from './styles/media';
 import { lightTheme, darkTheme } from './styles/theme';
 
-import history from './utils/history';
 import Promo from './pages/promo-page';
 import Home from './pages/home-page';
 import NotFound from './pages/not-found-page';
@@ -81,7 +80,7 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      <BrowserRouter history={history}>
+      <BrowserRouter>
           <Container>
             <Switch>
               <Route exact path='/' component={Home} />
