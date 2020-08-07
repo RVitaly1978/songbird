@@ -2,6 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
+import { selectAnswer } from '../../store/action-creators';
+import { fadeInAnimation } from '../../styles/animation';
+import { device } from '../../styles/media';
+
 const DataContainer = styled.ul`
   display: flex;
   flex-direction: column;
@@ -10,10 +14,12 @@ const DataContainer = styled.ul`
   width: 100%;
 
   border-radius: inherit;
+
+  animation: ${fadeInAnimation} 0.3s linear;
 `;
 
 const DataItem = styled.li`
-  padding: 1.5rem 2.0rem;
+  padding: 1.75rem 2.0rem;
 
   background-color: ${props => props.active
     ? props.theme.main.borderColor
@@ -32,6 +38,10 @@ const DataItem = styled.li`
 
   & + & {
     border-top: 1px solid ${props => props.theme.main.borderColor};
+  }
+
+  @media ${device.mobileL} {
+    padding: 1.25rem 2.0rem;
   }
 `;
 
@@ -71,22 +81,19 @@ const mapStateToProps = ({ data, activeLevel, answers, correctAnswer, activeAnsw
   };
 };
 
-const selectAnswer = (id) => ({
-  type: 'SELECT_ANSWER',
-  id,
-});
-
 const mapDispatchToProps = (dispatch) => ({
   selectAnswer: (id) => dispatch(selectAnswer(id))
 });
 
-const DataList = (props) => {
-  const {
-    data, activeLevel, answers, correctAnswer, activeAnswer, selectAnswer
-  } = props;
+const getComponentData = (dataObj, activeId) => {
+  const data = dataObj
+    .filter((dataItem) => dataItem.id === activeId)[0].data;
 
-  const elementsList = data.
-    filter((dataItem) => dataItem.id === activeLevel)[0].data
+  return data;
+};
+
+const DataList = ({ data, activeLevel, answers, correctAnswer, activeAnswer, selectAnswer }) => {
+  const elementsList = getComponentData(data, activeLevel)
     .map((item) => {
       const isCorrect = (item.id === correctAnswer);
       const isAnswered = answers.includes(item.id);

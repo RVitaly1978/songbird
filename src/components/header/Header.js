@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 
 import { device } from '../../styles/media';
+import { fadeInAnimation } from '../../styles/animation';
 
 import Logo from '../logo';
 import Score from '../score';
@@ -11,6 +12,8 @@ import Pagination from '../pagination';
 
 const HeaderContainer = styled.div`
   width: 100%;
+
+  animation: ${fadeInAnimation} 0.3s linear;
 `;
 
 const TopPanel = styled.div`
@@ -86,9 +89,7 @@ const mapStateToProps = ({ data, levels, activeLevel, score, maxScore }) => {
   };
 };
 
-const Header = (props) => {
-  const { data, levels, activeLevel, score, maxScore } = props;
-
+const Header = ({ data, levels, activeLevel, score, maxScore }) => {
   return (
     <HeaderContainer>
       <TopPanel>

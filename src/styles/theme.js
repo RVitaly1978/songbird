@@ -1,4 +1,5 @@
 export const lightTheme = {
+  id: 'lightTheme',
   all: {
     borderRadius: '0.5rem',
     padding: '2rem',
@@ -26,6 +27,7 @@ export const lightTheme = {
 };
 
 export const darkTheme = {
+  id: 'darkTheme',
   all: { ...lightTheme.all },
   main: {
     color: '#eee',
@@ -39,3 +41,19 @@ export const darkTheme = {
     hoverColor: '#00bc8c',
   },
 };
+
+export const getLocalTheme = () => {
+  const themeId = localStorage.getItem('songBirdTheme')
+    ? localStorage.getItem('songBirdTheme')
+    : null;
+
+  let initTheme = darkTheme;
+
+  if (themeId) {
+    initTheme = (JSON.parse(themeId) === 'lightTheme') ? lightTheme : darkTheme;
+  }
+
+  return initTheme;
+};
+
+export const initTheme = getLocalTheme();

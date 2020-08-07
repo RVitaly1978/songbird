@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 
 import { device } from '../../styles/media';
+import { fadeInAnimation } from '../../styles/animation';
 
 import ImageComponent from '../image-component';
 import TitleComponent from '../title-component';
@@ -18,6 +19,8 @@ const RandomBirdContainer = styled.div`
   background-color: ${props => props.theme.main.bgColor};
   border: 1px solid ${props => props.theme.main.borderColor};
   border-radius: ${props => props.theme.all.borderRadius};
+
+  animation: ${fadeInAnimation} 0.3s linear;
 
   @media ${device.mobileL} {
     flex-direction: column;
@@ -54,11 +57,16 @@ const mapStateToProps = ({ data, activeLevel, hasCorrect, correctAnswer }) => {
   };
 };
 
+const getComponentData = (dataObj, activeId, correctId) => {
+  const data = dataObj
+    .filter((dataItem) => dataItem.id === activeId)[0].data
+    .filter((activeItem) => activeItem.id === correctId)[0];
+
+  return data;
+};
+
 const RandomBird = ({ data, activeLevel, hasCorrect, correctAnswer }) => {
-  const correctAnswerData = data
-    .filter((dataItem) => dataItem.id === activeLevel)[0].data
-    .filter((activeItem) => activeItem.id === correctAnswer)[0];
-  const { name, audio, image } = correctAnswerData;
+  const { name, audio, image } = getComponentData(data, activeLevel, correctAnswer);
 
   return (
     <RandomBirdContainer>

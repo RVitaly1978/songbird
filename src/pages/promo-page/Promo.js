@@ -6,14 +6,16 @@ import { connect } from 'react-redux';
 import { device } from '../../styles/media';
 import { lightTheme, darkTheme } from '../../styles/theme';
 import { fadeInAnimation } from '../../styles/animation';
+import { newGameBirdsBasic, newGameAnimalsBasic } from '../../store/action-creators';
 
 import Button from '../../components/button';
+import Logo from '../../components/logo';
 
 const PromoPage = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 
   width: 100%;
   height: 100%;
@@ -42,10 +44,12 @@ const PromoContent = styled.div`
   line-height: 1.6;
   text-align: center;
 
+  transform: translateY(calc(-50vh + 50%));
+
   pointer-events: ${props => props.disabled ? 'none' : 'unset'};
+  opacity: ${props => props.disabled ? '0.1' : 'unset'};
 
   @media ${device.mobileL} {
-    width: ${props => props.theme.all.paddingMobile} 0;
     padding: ${props => props.theme.all.paddingMobile};
   }
 `;
@@ -63,6 +67,8 @@ const PromoTitle = styled.p`
 
   @media ${device.mobileL} {
     padding-bottom: ${props => props.theme.all.paddingMobile};
+
+    font-size: 1em;
   }
 `;
 
@@ -87,11 +93,35 @@ const PromoModal = styled.div`
   align-items: center;
   justify-content: center;
 
+  padding: ${props => props.theme.all.padding};
+
   user-select: none;
 
-  background-color: ${props => props.theme.main.bodyColor};
+  // background-color: ${props => props.theme.main.bodyColor};
 
   animation: ${fadeInAnimation} 0.3s linear;
+
+  @media ${device.mobileL} {
+    padding: ${props => props.theme.all.paddingMobile};
+  }
+`;
+
+const PromoModalContent = styled.div`
+  width: 100%;
+  max-width: 60rem;
+  padding: ${props => props.theme.all.padding};
+
+  background-color: ${props => props.theme.main.bgColor};
+  border: 1px solid ${props => props.theme.main.borderColor};
+  border-radius: ${props => props.theme.all.borderRadius};
+
+  font-size: ${props => props.theme.all.fontSize.main};
+  line-height: 1.6;
+  text-align: center;
+
+  @media ${device.mobileL} {
+    padding: ${props => props.theme.all.paddingMobile};
+  }
 `;
 
 PromoPage.displayName = 'PromoPageStyled';
@@ -99,6 +129,7 @@ PromoContent.displayName = 'PromoContentStyled';
 PromoTitle.displayName = 'PromoTitleStyled';
 PromoButton.displayName = 'PromoButtonStyled';
 PromoModal.displayName = 'PromoModalStyled';
+PromoModalContent.displayName = 'PromoModalContentStyled';
 
 const mapStateToProps = ({ data }) => {
   return {
@@ -106,21 +137,18 @@ const mapStateToProps = ({ data }) => {
   };
 };
 
-const newGameBirdsBasic = () => ({
-  type: 'NEW_GAME_BIRDS_BASIC',
-});
-
 const mapDispatchToProps = (dispatch) => ({
   newGameBirdsBasic: () => dispatch(newGameBirdsBasic()),
+  newGameAnimalsBasic: () => dispatch(newGameAnimalsBasic()),
 });
 
-const Promo = ({ setTheme, newGameBirdsBasic, data }) => {
+const Promo = ({ data, setTheme, newGameBirdsBasic, newGameAnimalsBasic }) => {
   const history = useHistory();
-  const [isMessage, setIsMessage] = useState(false);
+  const [isModal, setIsModal] = useState(false);
 
   const handleThemeChange = (evt) => {
     const { id } = evt.target;
-    const theme = (id === 'light') ? lightTheme : darkTheme;
+    const theme = (id === 'lightTheme') ? lightTheme : darkTheme;
     localStorage.setItem('songBirdTheme', JSON.stringify(id));
     setTheme(theme);
   };
@@ -133,14 +161,14 @@ const Promo = ({ setTheme, newGameBirdsBasic, data }) => {
         newGameBirdsBasic();
         history.push('/');
       } else {
-        setIsMessage(true);
+        setIsModal(true);
       }
     } else if (id === 'CONTINUE') {
       history.push('/');
     }
   };
 
-  const handleMessageSelect = (evt) => {
+  const handleModalSelect = (evt) => {
     const { id } = evt.target;
 
     if (id === 'NEW_GAME_BIRDS_BASIC') {
@@ -151,34 +179,35 @@ const Promo = ({ setTheme, newGameBirdsBasic, data }) => {
     }
   };
 
-  const messageElement = (
+  const modalElement = (
     <PromoModal>
-      <PromoContent>
+      <PromoModalContent>
         <PromoTitle>
-          {'У вас есть начатая игра.'}
+          {'У вас есть незаконченная игра.'}
           <br />
           {'Вы хотите начать новую или продолжить начатую?'}
         </PromoTitle>
         <PromoButton
           id='CONTINUE'
           label='Продолжить?'
-          onClick={handleMessageSelect}
+          onClick={handleModalSelect}
         />
         <PromoButton
           id='NEW_GAME_BIRDS_BASIC'
           label='Начать новую игру?'
-          onClick={handleMessageSelect}
+          onClick={handleModalSelect}
         />
-      </PromoContent>
+      </PromoModalContent>
     </PromoModal>
   );
 
   return (
     <PromoPage>
-      {isMessage && messageElement}
-      <button id={'light'} onClick={handleThemeChange}>Light</button>
-      <button id={'dark'} onClick={handleThemeChange}>Dark</button>
-      <PromoContent disabled={isMessage}>
+      {isModal && modalElement}
+      <Logo />
+      <PromoContent disabled={isModal}>
+        <button id={'lightTheme'} onClick={handleThemeChange}>Light</button>
+        <button id={'darkTheme'} onClick={handleThemeChange}>Dark</button>
         <PromoTitle>
           {'А я милого узнаю а по походке...'}
           <br />
@@ -190,7 +219,7 @@ const Promo = ({ setTheme, newGameBirdsBasic, data }) => {
           onClick={handleGameSelect}
         />
         <PromoButton
-          id='NEW_GAME_BIRDS_BASIC'
+          id='NEW_GAME_ANIMALS_BASIC'
           label='Начать "Songbird-advance"'
           isDisabled={true}
           onClick={handleGameSelect}

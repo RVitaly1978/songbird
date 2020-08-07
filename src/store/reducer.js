@@ -1,6 +1,6 @@
 import initialState from './initialState';
 import { getRandomInRange, getActiveLevelList } from '../helpers';
-import { birdsBasic } from '../game-data';
+import { birdsBasic, animalsBasic } from '../game-data';
 
 function reducer(state = initialState, action = {}) {
   const nextLevelIndex = state.levels.length;
@@ -50,6 +50,13 @@ function reducer(state = initialState, action = {}) {
 
     case 'NEW_GAME_BIRDS_BASIC':
       newState.data = [...birdsBasic];
+      newState.activeLevel = newState.data[0].id;
+      newState.correctAnswer = getRandomInRange(
+        getActiveLevelList(newState.data, newState.activeLevel).data.length);
+      return {...initialState, ...newState};
+
+    case 'NEW_GAME_ANIMALS_BASIC':
+      newState.data = [...animalsBasic];
       newState.activeLevel = newState.data[0].id;
       newState.correctAnswer = getRandomInRange(
         getActiveLevelList(newState.data, newState.activeLevel).data.length);

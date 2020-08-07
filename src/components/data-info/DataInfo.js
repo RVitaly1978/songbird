@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 
 import { device } from '../../styles/media';
+import { fadeInAnimation } from '../../styles/animation';
 
 import ImageComponent from '../image-component';
 import AudioComponent from '../audio-component';
@@ -18,6 +19,8 @@ const DataContainer = styled.div`
   border-radius: inherit;
 
   user-select: none;
+
+  animation: ${fadeInAnimation} 0.3s linear;
 `;
 
 const CardBody = styled.div`
@@ -100,6 +103,14 @@ const mapStateToProps = ({ data, activeLevel, activeAnswer }) => {
   };
 };
 
+const getComponentData = (dataObj, activeId, activeAnswerId) => {
+  const data = dataObj
+    .filter((dataItem) => dataItem.id === activeId)[0].data
+    .filter((activeItem) => activeItem.id === activeAnswerId)[0];
+
+  return data;
+};
+
 const DataInfo = ({ data, activeLevel, activeAnswer }) => {
   if (!activeAnswer) {
     return (
@@ -113,10 +124,9 @@ const DataInfo = ({ data, activeLevel, activeAnswer }) => {
     );
   }
 
-  const activeAnswerData = data
-    .filter((dataItem) => dataItem.id === activeLevel)[0].data
-    .filter((activeItem) => activeItem.id === activeAnswer)[0];
-  const { name, species, description, audio, image } = activeAnswerData;
+  const {
+    name, species, description, audio, image,
+  } = getComponentData(data, activeLevel, activeAnswer);
 
   return (
     <DataContainer>

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { device } from '../../styles/media';
+import { fadeInAnimation } from '../../styles/animation';
 
 import Button from '../button';
 
@@ -23,6 +24,8 @@ const GameOverContainer = styled.div`
   line-height: 1;
 
   user-select: none;
+
+  animation: ${fadeInAnimation} 0.3s linear;
 
   @media ${device.mobileL} {
     margin: ${props => props.theme.all.marginMobile} auto;

@@ -1,7 +1,8 @@
 import { createStore } from 'redux';
-import { saveState, loadState } from './localStorage';
 
+import { saveState, loadState } from './localStorage';
 import reducer from './reducer';
+import { updateStateFromStorage } from './action-creators';
 import initialState from './initialState';
 
 const store = createStore(reducer, initialState);
@@ -10,12 +11,9 @@ store.subscribe(() => {
   saveState(store.getState());
 });
 
-loadState().then((persistedState) => {
-  if (persistedState) {
-    store.dispatch({
-      type: 'UPDATE_STATE_FROM_STORAGE',
-      state: persistedState,
-    });
+loadState().then((state) => {
+  if (state) {
+    store.dispatch(updateStateFromStorage(state));
   }
 });
 

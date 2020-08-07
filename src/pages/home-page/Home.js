@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import { device } from '../../styles/media';
 import { fadeInAnimation } from '../../styles/animation';
+import newGame, { restartGame, nextLevel } from '../../store/action-creators';
 
 import Header from '../../components/header';
 import RandomBird from '../../components/random-bird';
@@ -95,25 +96,16 @@ const mapStateToProps = ({ data, hasCorrect, activeLevel, score, maxScore }) => 
   };
 };
 
-const nextLevel = () => ({
-  type: 'NEXT_LEVEL',
-});
-
-const restartGame = () => ({
-  type: 'RESTART_GAME',
-});
-
-const newGame = () => ({
-  type: 'NEW_GAME',
-});
-
 const mapDispatchToProps = (dispatch) => ({
   nextLevel: () => dispatch(nextLevel()),
   restartGame: () => dispatch(restartGame()),
   newGame: () => dispatch(newGame()),
 });
 
-const Home = ({ hasCorrect, activeLevel, score, maxScore, nextLevel, restartGame, newGame, data }) => {
+const Home = ({
+  data, hasCorrect, activeLevel, score, maxScore,
+  nextLevel, restartGame, newGame,
+}) => {
   const history = useHistory();
 
   const handleNextLevelClick = () => {
@@ -146,25 +138,25 @@ const Home = ({ hasCorrect, activeLevel, score, maxScore, nextLevel, restartGame
 
   return (
     data.length
-    ? <HomePage>
-        <Header />
-        <RandomBird />
-        <RowLayout>
-          <ColumnLayout>
-            <DataList />
-          </ColumnLayout>
-          <ColumnLayout>
-            <DataInfo />
-          </ColumnLayout>
-        </RowLayout>
-        <NextButton
-          id='next'
-          label='Следующий уровень'
-          isDisabled={!hasCorrect}
-          onClick={handleNextLevelClick}
-        />
-      </HomePage>
-    : <Redirect to='/promo' />
+      ? <HomePage>
+          <Header />
+          <RandomBird />
+          <RowLayout>
+            <ColumnLayout>
+              <DataList />
+            </ColumnLayout>
+            <ColumnLayout>
+              <DataInfo />
+            </ColumnLayout>
+          </RowLayout>
+          <NextButton
+            id='next'
+            label='Следующий уровень'
+            isDisabled={!hasCorrect}
+            onClick={handleNextLevelClick}
+          />
+        </HomePage>
+      : <Redirect to='/promo' />
   );
 };
 

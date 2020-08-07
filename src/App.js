@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
 
 import { device } from './styles/media';
-import { lightTheme, darkTheme } from './styles/theme';
+import { fadeInAnimation } from './styles/animation';
+import { initTheme } from './styles/theme';
 
 import Promo from './pages/promo-page';
 import Home from './pages/home-page';
@@ -30,7 +31,7 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 500;
     color: ${props => props.theme.main.color};
 
-    transition: background-color 0.3s linear, color 0.3s linear;
+    transition: background-color 0.1s linear, color 0.1s linear;
   }
 
   *,
@@ -56,6 +57,8 @@ const GlobalStyle = createGlobalStyle`
 const Container = styled.div`
   padding: 0 ${props => props.theme.all.padding};
 
+  animation: ${fadeInAnimation} 0.3s linear;
+
   @media ${device.mobileL} {
     padding: 0 ${props => props.theme.all.paddingMobile};
   }
@@ -64,18 +67,7 @@ const Container = styled.div`
 Container.displayName = 'AppContainerStyled';
 
 const App = () => {
-  const [theme, setTheme] = useState(lightTheme);
-
-  useEffect(() => {
-    const themeId = localStorage.getItem('songBirdTheme')
-      ? localStorage.getItem('songBirdTheme')
-      : null;
-
-    if (themeId) {
-      const newTheme = (JSON.parse(themeId) === 'light') ? lightTheme : darkTheme;
-      setTheme(newTheme);
-    }
-  }, []);
+  const [theme, setTheme] = useState(initTheme);
 
   return (
     <ThemeProvider theme={theme}>

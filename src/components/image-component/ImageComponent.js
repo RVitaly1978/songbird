@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { urlToImage } from '../../constants';
 import { fadeInAnimation } from '../../styles/animation';
 
 import Spinner from '../spinner/Spinner';
@@ -11,8 +10,8 @@ const ImageContainer = styled.div`
 
   flex-shrink: 0;
 
-  width: 20rem;
-  height: 15rem;
+  width: 21.5rem;
+  height: 14.5rem;
 
   line-height: 0;
 
@@ -20,6 +19,8 @@ const ImageContainer = styled.div`
 
   border: 1px solid ${props => props.theme.main.borderColor};
   border-radius: ${props => props.theme.all.borderRadius};
+
+  animation: ${fadeInAnimation} 0.3s linear;
 
   & img {
     width: 100%;
@@ -72,7 +73,7 @@ const ImageComponent = ({ hasCorrect, image }) => {
   useEffect(() => {
     let cancelled = false;
 
-    fetch(urlToImage + image)
+    fetch(image)
       .then((res) => res.blob())
       .then((data) => !cancelled && setImageData({
         loading: false,

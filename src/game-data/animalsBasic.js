@@ -1,6 +1,6 @@
-const birdsBasic = [
+const animalsBasic = [
   {
-    name: 'разминка',
+    name: 'не разминка',
     id: 1,
     data: [
       {
@@ -54,7 +54,7 @@ const birdsBasic = [
     ],
   },
   {
-    name: 'воробьиные',
+    name: 'не воробьиные',
     id: 2,
     data: [
       {
@@ -108,7 +108,7 @@ const birdsBasic = [
     ],
   },
   {
-    name: 'лесные',
+    name: 'не лесные',
     id: 3,
     data: [
       {
@@ -162,7 +162,7 @@ const birdsBasic = [
     ],
   },
   {
-    name: 'певчие',
+    name: 'не певчие',
     id: 4,
     data: [
       {
@@ -216,7 +216,7 @@ const birdsBasic = [
     ],
   },
   {
-    name: 'хищные',
+    name: 'не хищные',
     id: 5,
     data: [
       {
@@ -270,7 +270,7 @@ const birdsBasic = [
     ],
   },
   {
-    name: 'морские',
+    name: 'не морские',
     id: 6,
     data: [
       {
@@ -325,4 +325,4 @@ const birdsBasic = [
   },
 ];
 
-export default birdsBasic;
+export default animalsBasic;

@@ -31,6 +31,7 @@ const ButtonStyled = styled.button`
   &:disabled {
     pointer-events: none;
     background-color: ${props => props.theme.main.borderColor};
+    opacity: 0.25;
   }
 
   @media (pointer: fine) {
