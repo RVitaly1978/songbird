@@ -60,7 +60,7 @@ const PromoContent = styled.div`
   }
 `;
 
-const PromoControlls = styled.div`
+const PromoControls = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -145,7 +145,7 @@ const PromoModalContent = styled.div`
 `;
 
 PromoPage.displayName = 'PromoPageStyled';
-PromoControlls.displayName = 'PromoControllsStyled';
+PromoControls.displayName = 'PromoControlsStyled';
 PromoContent.displayName = 'PromoContentStyled';
 PromoTitle.displayName = 'PromoTitleStyled';
 PromoButton.displayName = 'PromoButtonStyled';
@@ -165,7 +165,15 @@ const mapDispatchToProps = (dispatch) => ({
 
 const Promo = ({ data, theme, setTheme, newGameBirdsBasic, newGameAnimalsBasic }) => {
   const history = useHistory();
-  const [isModal, setIsModal] = useState(false);
+  const [newGameId, setNewGameId] = useState(null);
+
+  const mapButtonIdToActions = (id) => {
+    const map = {
+      NEW_GAME_BIRDS_BASIC: newGameBirdsBasic,
+      NEW_GAME_ANIMALS_BASIC: newGameAnimalsBasic,
+    };
+    return map[id];
+  };
 
   const handleThemeChange = (evt) => {
     const { checked } = evt.target;
@@ -177,27 +185,30 @@ const Promo = ({ data, theme, setTheme, newGameBirdsBasic, newGameAnimalsBasic }
   const handleGameSelect = (evt) => {
     const { id } = evt.target;
 
-    if (id === 'NEW_GAME_BIRDS_BASIC') {
-      if (!data.length) {
-        newGameBirdsBasic();
-        history.push('/');
-      } else {
-        setIsModal(true);
-      }
-    } else if (id === 'CONTINUE') {
+    if (id === 'CONTINUE') {
       history.push('/');
+      return;
+    }
+
+    if (!data.length) {
+      mapButtonIdToActions(id)();
+      history.push('/');
+    } else {
+      setNewGameId(id);
     }
   };
 
   const handleModalSelect = (evt) => {
     const { id } = evt.target;
 
-    if (id === 'NEW_GAME_BIRDS_BASIC') {
-      newGameBirdsBasic();
+    if (id === 'CONTINUE') {
       history.push('/');
-    } else if (id === 'CONTINUE') {
-      history.push('/');
+      return;
     }
+
+    mapButtonIdToActions(newGameId)();
+    setNewGameId(null);
+    history.push('/');
   };
 
   const modalElement = (
@@ -214,7 +225,7 @@ const Promo = ({ data, theme, setTheme, newGameBirdsBasic, newGameAnimalsBasic }
           onClick={handleModalSelect}
         />
         <PromoButton
-          id='NEW_GAME_BIRDS_BASIC'
+          id='NEW_GAME'
           label='Начать новую игру?'
           onClick={handleModalSelect}
         />
@@ -224,16 +235,16 @@ const Promo = ({ data, theme, setTheme, newGameBirdsBasic, newGameAnimalsBasic }
 
   return (
     <PromoPage>
-      {isModal && modalElement}
+      {newGameId && modalElement}
       <Logo />
-      <PromoContent disabled={isModal}>
-        <PromoControlls>
+      <PromoContent disabled={newGameId}>
+        <PromoControls>
           <ToggleSwitcher
             labelOn='Dark'
             labelOff='Light'
             onChange={handleThemeChange}
             isChecked={theme.id === 'darkTheme' ? true : false} />
-        </PromoControlls>
+        </PromoControls>
         <PromoTitle>
           {'А я милого узнаю а по походке...'}
           <br />
@@ -247,7 +258,6 @@ const Promo = ({ data, theme, setTheme, newGameBirdsBasic, newGameAnimalsBasic }
         <PromoButton
           id='NEW_GAME_ANIMALS_BASIC'
           label='Начать "RoarAnimal"'
-          isDisabled={true}
           onClick={handleGameSelect}
         />
         <br />
