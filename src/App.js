@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
 
-import { device } from './styles/media';
 import { fadeInAnimation } from './styles/animation';
 import { initTheme } from './styles/theme';
 
@@ -55,13 +54,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const Container = styled.div`
-  padding: 0 ${props => props.theme.all.padding};
-
   animation: ${fadeInAnimation} 0.3s linear;
-
-  @media ${device.mobileL} {
-    padding: 0 ${props => props.theme.all.paddingMobile};
-  }
 `;
 
 Container.displayName = 'AppContainerStyled';
@@ -76,7 +69,10 @@ const App = () => {
           <Container>
             <Switch>
               <Route exact path='/' component={Home} />
-              <Route path='/promo' component={(props) => <Promo {...props} setTheme={setTheme} />} />
+              <Route
+                path='/promo'
+                component={(props) => <Promo {...props} theme={theme} setTheme={setTheme} />}
+              />
               <Route component={NotFound} />
             </Switch>
           </Container>

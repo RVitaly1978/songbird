@@ -24,14 +24,14 @@ const HomePage = styled.div`
   max-width: 140rem;
   min-height: 100vh;
   margin: 0 auto;
-  padding: ${props => props.theme.all.padding} 0;
+  padding: ${props => props.theme.all.padding};
 
   user-select: none;
 
   animation: ${fadeInAnimation} 0.3s linear;
 
   @media ${device.mobileL} {
-    padding: ${props => props.theme.all.paddingMobile} 0;
+    padding: ${props => props.theme.all.paddingMobile};
   }
 `;
 

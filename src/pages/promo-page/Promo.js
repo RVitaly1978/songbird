@@ -10,6 +10,7 @@ import { newGameBirdsBasic, newGameAnimalsBasic } from '../../store/action-creat
 
 import Button from '../../components/button';
 import Logo from '../../components/logo';
+import ToggleSwitcher from '../../components/toggle-switcher';
 
 const PromoPage = styled.div`
   display: flex;
@@ -20,14 +21,19 @@ const PromoPage = styled.div`
   width: 100%;
   height: 100%;
   min-height: 100vh;
-  padding: ${props => props.theme.all.padding} 0;
+  padding: ${props => props.theme.all.padding};
+
+  background-image: url(../../../public/bg.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 
   user-select: none;
 
   animation: ${fadeInAnimation} 0.3s linear;
 
   @media ${device.mobileL} {
-    padding: ${props => props.theme.all.paddingMobile} 0;
+    padding: ${props => props.theme.all.paddingMobile};
   }
 `;
 
@@ -54,9 +60,27 @@ const PromoContent = styled.div`
   }
 `;
 
-const PromoTitle = styled.p`
+const PromoControlls = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
   width: 100%;
   padding-bottom: ${props => props.theme.all.padding};
+
+  border-bottom: 1px solid ${props => props.theme.main.borderColor};
+
+  line-height: 1;
+
+  @media ${device.mobileL} {
+    padding-bottom: ${props => props.theme.all.paddingMobile};
+  }
+`;
+
+const PromoTitle = styled.p`
+  width: 100%;
+  margin-top: 2.5em;
+  padding-bottom: 2.5em;
 
   border-bottom: 1px solid ${props => props.theme.main.borderColor};
 
@@ -66,8 +90,6 @@ const PromoTitle = styled.p`
   text-align: center;
 
   @media ${device.mobileL} {
-    padding-bottom: ${props => props.theme.all.paddingMobile};
-
     font-size: 1em;
   }
 `;
@@ -97,8 +119,6 @@ const PromoModal = styled.div`
 
   user-select: none;
 
-  // background-color: ${props => props.theme.main.bodyColor};
-
   animation: ${fadeInAnimation} 0.3s linear;
 
   @media ${device.mobileL} {
@@ -125,6 +145,7 @@ const PromoModalContent = styled.div`
 `;
 
 PromoPage.displayName = 'PromoPageStyled';
+PromoControlls.displayName = 'PromoControllsStyled';
 PromoContent.displayName = 'PromoContentStyled';
 PromoTitle.displayName = 'PromoTitleStyled';
 PromoButton.displayName = 'PromoButtonStyled';
@@ -142,14 +163,14 @@ const mapDispatchToProps = (dispatch) => ({
   newGameAnimalsBasic: () => dispatch(newGameAnimalsBasic()),
 });
 
-const Promo = ({ data, setTheme, newGameBirdsBasic, newGameAnimalsBasic }) => {
+const Promo = ({ data, theme, setTheme, newGameBirdsBasic, newGameAnimalsBasic }) => {
   const history = useHistory();
   const [isModal, setIsModal] = useState(false);
 
   const handleThemeChange = (evt) => {
-    const { id } = evt.target;
-    const theme = (id === 'lightTheme') ? lightTheme : darkTheme;
-    localStorage.setItem('songBirdTheme', JSON.stringify(id));
+    const { checked } = evt.target;
+    const theme = checked ? darkTheme : lightTheme;
+    localStorage.setItem('songBirdTheme', JSON.stringify(theme.id));
     setTheme(theme);
   };
 
@@ -206,8 +227,13 @@ const Promo = ({ data, setTheme, newGameBirdsBasic, newGameAnimalsBasic }) => {
       {isModal && modalElement}
       <Logo />
       <PromoContent disabled={isModal}>
-        <button id={'lightTheme'} onClick={handleThemeChange}>Light</button>
-        <button id={'darkTheme'} onClick={handleThemeChange}>Dark</button>
+        <PromoControlls>
+          <ToggleSwitcher
+            labelOn='Dark'
+            labelOff='Light'
+            onChange={handleThemeChange}
+            isChecked={theme.id === 'darkTheme' ? true : false} />
+        </PromoControlls>
         <PromoTitle>
           {'А я милого узнаю а по походке...'}
           <br />
@@ -215,12 +241,12 @@ const Promo = ({ data, setTheme, newGameBirdsBasic, newGameAnimalsBasic }) => {
         </PromoTitle>
         <PromoButton
           id='NEW_GAME_BIRDS_BASIC'
-          label='Начать "Songbird-basic"'
+          label='Начать "Songbird"'
           onClick={handleGameSelect}
         />
         <PromoButton
           id='NEW_GAME_ANIMALS_BASIC'
-          label='Начать "Songbird-advance"'
+          label='Начать "RoarAnimal"'
           isDisabled={true}
           onClick={handleGameSelect}
         />
