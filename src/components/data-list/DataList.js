@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 
 import { selectAnswer } from '../../store/action-creators';
+import { getActiveLevelList } from '../../helpers';
 import { fadeInAnimation } from '../../styles/animation';
 import { device } from '../../styles/media';
 
@@ -71,18 +72,24 @@ DataContainer.displayName = 'DataContainerStyled';
 DataItem.displayName = 'DataItemStyled';
 DataIndicator.displayName = 'DataIndicatorStyled';
 
-const mapStateToProps = ({ data, activeLevel, answers, correctAnswer, activeAnswer }) => {
+const mapStateToProps = ({
+  data, levels, activeLevel, answers, correctAnswer, activeAnswer, hasCorrect, score, maxScore,
+}) => {
   return {
     data,
+    levels,
     activeLevel,
     answers,
     correctAnswer,
     activeAnswer,
+    hasCorrect,
+    score,
+    maxScore,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  selectAnswer: (id) => dispatch(selectAnswer(id))
+  selectAnswer: (state) => dispatch(selectAnswer(state))
 });
 
 const getComponentData = (dataObj, activeId) => {
@@ -92,7 +99,10 @@ const getComponentData = (dataObj, activeId) => {
   return data;
 };
 
-const DataList = ({ data, activeLevel, answers, correctAnswer, activeAnswer, selectAnswer }) => {
+const DataList = ({
+  data, levels, activeLevel, answers, correctAnswer, activeAnswer, hasCorrect, score, maxScore,
+  selectAnswer,
+}) => {
   const elementsList = getComponentData(data, activeLevel)
     .map((item) => {
       const isCorrect = (item.id === correctAnswer);
@@ -109,7 +119,26 @@ const DataList = ({ data, activeLevel, answers, correctAnswer, activeAnswer, sel
 
   const clickHandler = (evt) => {
     const id = Number(evt.target.id);
-    selectAnswer(id);
+
+    const newState = {
+      activeAnswer: id,
+    };
+
+    if (!hasCorrect) {
+      newState.answers = [...answers, id];
+
+      if (id === correctAnswer) {
+        newState.hasCorrect = true;
+        newState.levels = [...levels, activeLevel];
+
+        const activeLevelList = getActiveLevelList(data, activeLevel);
+        const newScore = activeLevelList.data.length - answers.length - 1;
+        newState.maxScore = (levels.length + 1) * 5;
+        newState.score = score + newScore;
+      }
+    }
+
+    selectAnswer(newState);
   };
 
   return (

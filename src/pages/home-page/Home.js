@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { device } from '../../styles/media';
 import { fadeInAnimation } from '../../styles/animation';
 import newGame, { restartGame, nextLevel } from '../../store/action-creators';
+import { getRandomInRange, getActiveLevelList } from '../../helpers';
 
 import Header from '../../components/header';
 import RandomBird from '../../components/random-bird';
@@ -86,9 +87,10 @@ HomePage.displayName = 'HomePageStyled';
 RowLayout.displayName = 'RowLayoutStyled';
 ColumnLayout.displayName = 'ColumnLayoutStyled';
 
-const mapStateToProps = ({ data, hasCorrect, activeLevel, score, maxScore }) => {
+const mapStateToProps = ({ data, levels, hasCorrect, activeLevel, score, maxScore }) => {
   return {
     data,
+    levels,
     hasCorrect,
     activeLevel,
     score,
@@ -97,19 +99,35 @@ const mapStateToProps = ({ data, hasCorrect, activeLevel, score, maxScore }) => 
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  nextLevel: () => dispatch(nextLevel()),
+  nextLevel: (state) => dispatch(nextLevel(state)),
   restartGame: () => dispatch(restartGame()),
   newGame: () => dispatch(newGame()),
 });
 
 const Home = ({
-  data, hasCorrect, activeLevel, score, maxScore,
+  data, levels, hasCorrect, activeLevel, score, maxScore,
   nextLevel, restartGame, newGame,
 }) => {
   const history = useHistory();
 
   const handleNextLevelClick = () => {
-    nextLevel();
+    const newState = {
+      hasCorrect: false,
+      answers: [],
+      activeAnswer: null,
+    };
+
+    const nextLevelIndex = levels.length;
+    const maxLevelIndex = data.length - 1;
+    if (nextLevelIndex <= maxLevelIndex) {
+      newState.activeLevel = data[nextLevelIndex].id;
+      newState.correctAnswer = getRandomInRange(
+        getActiveLevelList(data, newState.activeLevel).data.length);
+    } else {
+      newState.activeLevel = null;
+    }
+
+    nextLevel(newState);
   };
 
   const handleGameOverClick = (evt) => {
