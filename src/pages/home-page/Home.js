@@ -14,6 +14,7 @@ import DataList from '../../components/data-list';
 import DataInfo from '../../components/data-info';
 import NextButton from '../../components/next-button';
 import GameOver from '../../components/game-over';
+import NotificationList from '../../components/notification-list';
 
 const HomePage = styled.div`
   display: flex;
@@ -87,7 +88,7 @@ HomePage.displayName = 'HomePageStyled';
 RowLayout.displayName = 'RowLayoutStyled';
 ColumnLayout.displayName = 'ColumnLayoutStyled';
 
-const mapStateToProps = ({ data, levels, hasCorrect, activeLevel, score, maxScore }) => {
+const mapStateToProps = ({ data, levels, hasCorrect, activeLevel, score, maxScore, notifications }) => {
   return {
     data,
     levels,
@@ -95,6 +96,7 @@ const mapStateToProps = ({ data, levels, hasCorrect, activeLevel, score, maxScor
     activeLevel,
     score,
     maxScore,
+    notifications,
   };
 };
 
@@ -105,20 +107,16 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const Home = ({
-  data, levels, hasCorrect, activeLevel, score, maxScore,
+  data, levels, hasCorrect, activeLevel, score, maxScore, notifications,
   nextLevel, restartGame, newGame,
 }) => {
   const history = useHistory();
 
   const handleNextLevelClick = () => {
-    const newState = {
-      hasCorrect: false,
-      answers: [],
-      activeAnswer: null,
-    };
-
+    const newState = {};
     const nextLevelIndex = levels.length;
     const maxLevelIndex = data.length - 1;
+
     if (nextLevelIndex <= maxLevelIndex) {
       newState.activeLevel = data[nextLevelIndex].id;
       newState.correctAnswer = getRandomInRange(
@@ -154,26 +152,29 @@ const Home = ({
     );
   }
 
+  const HomePageElement = (
+    <HomePage>
+      <Header />
+      <RandomBird />
+      <RowLayout>
+        <ColumnLayout>
+          <DataList />
+        </ColumnLayout>
+        <ColumnLayout>
+          <DataInfo />
+        </ColumnLayout>
+      </RowLayout>
+      <NextButton
+        isDisabled={!hasCorrect}
+        onClick={handleNextLevelClick}
+      />
+      {notifications.length && <NotificationList notifications={notifications} />}
+    </HomePage>
+  );
+
   return (
     data.length
-      ? <HomePage>
-          <Header />
-          <RandomBird />
-          <RowLayout>
-            <ColumnLayout>
-              <DataList />
-            </ColumnLayout>
-            <ColumnLayout>
-              <DataInfo />
-            </ColumnLayout>
-          </RowLayout>
-          <NextButton
-            id='next'
-            label='Следующий уровень'
-            isDisabled={!hasCorrect}
-            onClick={handleNextLevelClick}
-          />
-        </HomePage>
+      ? HomePageElement
       : <Redirect to='/promo' />
   );
 };

@@ -17,7 +17,11 @@ NextButtonStyled.displayName = 'NextButtonStyled';
 
 const NextButton = (props) => {
   return (
-    <NextButtonStyled {...props} />
+    <NextButtonStyled
+      {...props}
+      id='next'
+      label='Следующий уровень'
+    />
   );
 };
 

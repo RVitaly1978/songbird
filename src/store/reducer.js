@@ -10,7 +10,11 @@ function reducer(state = initialState, action = {}) {
       return {...state, ...action.state};
 
     case 'NEXT_LEVEL':
-      return {...state, ...action.state};
+      newState.hasCorrect = false;
+      newState.answers = [];
+      newState.activeAnswer = null;
+
+      return {...state, ...newState, ...action.state};
 
     case 'RESTART_GAME':
       newState.data = [...state.data];

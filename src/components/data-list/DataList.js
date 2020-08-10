@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
@@ -6,6 +6,9 @@ import { selectAnswer } from '../../store/action-creators';
 import { getActiveLevelList } from '../../helpers';
 import { fadeInAnimation } from '../../styles/animation';
 import { device } from '../../styles/media';
+
+// import winSound from '../../../public/winSound.mp3';
+// import errorSound from '../../../public/errorSound.mp3';
 
 const DataContainer = styled.ul`
   display: flex;
@@ -103,6 +106,9 @@ const DataList = ({
   data, levels, activeLevel, answers, correctAnswer, activeAnswer, hasCorrect, score, maxScore,
   selectAnswer,
 }) => {
+  // const audioWinRef = useRef();
+  // const audioErrorRef = useRef();
+
   const elementsList = getComponentData(data, activeLevel)
     .map((item) => {
       const isCorrect = (item.id === correctAnswer);
@@ -142,9 +148,21 @@ const DataList = ({
   };
 
   return (
-    <DataContainer onClick={clickHandler}>
-      {elementsList}
-    </DataContainer>
+    <>
+      <DataContainer onClick={clickHandler}>
+        {elementsList}
+      </DataContainer>
+      {/* <audio
+        id='winSound'
+        ref={audioWinRef}
+        src={winSound}
+      ><track kind='captions' /></audio>
+      <audio
+        id='errorSound'
+        ref={audioErrorRef}
+        src={errorSound}
+      ><track kind='captions' /></audio> */}
+    </>
   );
 };
 
