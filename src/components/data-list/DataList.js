@@ -7,8 +7,8 @@ import { getActiveLevelList } from '../../helpers';
 import { fadeInAnimation } from '../../styles/animation';
 import { device } from '../../styles/media';
 
-// import winSound from '../../../public/winSound.mp3';
-// import errorSound from '../../../public/errorSound.mp3';
+import winSound from '../../../public/winSound.mp3';
+import errorSound from '../../../public/errorSound.mp3';
 
 const DataContainer = styled.ul`
   display: flex;
@@ -108,8 +108,8 @@ const DataList = ({
 }) => {
   console.log(`правильный ответ ${activeLevel} уровня ---`, correctAnswer);
 
-  // const audioWinRef = useRef();
-  // const audioErrorRef = useRef();
+  const audioWinRef = useRef();
+  const audioErrorRef = useRef();
 
   const elementsList = getComponentData(data, activeLevel)
     .map((item) => {
@@ -132,6 +132,9 @@ const DataList = ({
       activeAnswer: id,
     };
 
+    audioWinRef.current.pause();
+    audioErrorRef.current.pause();
+
     if (!hasCorrect) {
       newState.answers = [...answers, id];
 
@@ -143,6 +146,10 @@ const DataList = ({
         const newScore = activeLevelList.data.length - answers.length - 1;
         newState.maxScore = (levels.length + 1) * 5;
         newState.score = score + newScore;
+
+        audioWinRef.current.play();
+      } else {
+        audioErrorRef.current.play();
       }
     }
 
@@ -154,7 +161,7 @@ const DataList = ({
       <DataContainer onClick={clickHandler}>
         {elementsList}
       </DataContainer>
-      {/* <audio
+      <audio
         id='winSound'
         ref={audioWinRef}
         src={winSound}
@@ -163,7 +170,7 @@ const DataList = ({
         id='errorSound'
         ref={audioErrorRef}
         src={errorSound}
-      ><track kind='captions' /></audio> */}
+      ><track kind='captions' /></audio>
     </>
   );
 };
