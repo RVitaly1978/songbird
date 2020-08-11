@@ -30,7 +30,7 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 500;
     color: ${props => props.theme.main.color};
 
-    transition: background-color 0.1s linear, color 0.1s linear;
+    transition: background-color 1s linear, color 0.1s linear;
   }
 
   *,

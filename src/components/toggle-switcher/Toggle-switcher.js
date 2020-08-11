@@ -18,7 +18,7 @@ const SwitcherStyled = styled.span`
 
   opacity: 0.75;
 
-  transition: opacity 0.3s linear;
+  transition: opacity 0.2s linear;
 
   cursor: pointer;
 
@@ -59,7 +59,7 @@ const InputStyled = styled.input`
     font-weight: 700;
     text-transform: uppercase;
 
-    transition: color 0.5s ease-out;
+    transition: color 0.2s ease-out;
   }
 
   &:before {
@@ -80,7 +80,7 @@ const InputStyled = styled.input`
 
   &:checked + label {
     left: 0;
-    animation: ${turnOn} 0.5s ease-out;
+    animation: ${turnOn} 0.2s ease-out;
   }
 
   &:not(:checked) {
@@ -91,7 +91,7 @@ const InputStyled = styled.input`
 
   &:not(:checked) + label {
     left: 100%;
-    animation: ${turnOff} 0.5s ease-out;
+    animation: ${turnOff} 0.2s ease-out;
   }
 `;
 

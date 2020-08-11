@@ -106,6 +106,8 @@ const DataList = ({
   data, levels, activeLevel, answers, correctAnswer, activeAnswer, hasCorrect, score, maxScore,
   selectAnswer,
 }) => {
+  console.log(`правильный ответ ${activeLevel} уровня ---`, correctAnswer);
+
   // const audioWinRef = useRef();
   // const audioErrorRef = useRef();
 

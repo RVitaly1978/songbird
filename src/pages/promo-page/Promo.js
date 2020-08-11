@@ -23,14 +23,12 @@ const PromoPage = styled.div`
   min-height: 100vh;
   padding: ${props => props.theme.all.padding};
 
-  background-image: url(../../../public/bg.png);
+  background: url(../../../public/bg.png);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 
   user-select: none;
-
-  animation: ${fadeInAnimation} 0.3s linear;
 
   @media ${device.mobileL} {
     padding: ${props => props.theme.all.paddingMobile};
@@ -39,7 +37,7 @@ const PromoPage = styled.div`
 
 const PromoContent = styled.div`
   width: 100%;
-  max-width: 60rem;
+  max-width: 74.8rem;
   padding: ${props => props.theme.all.padding};
 
   background-color: ${props => props.theme.main.bgColor};
@@ -53,7 +51,9 @@ const PromoContent = styled.div`
   transform: translateY(calc(-50vh + 50%));
 
   pointer-events: ${props => props.disabled ? 'none' : 'unset'};
-  opacity: ${props => props.disabled ? '0.1' : 'unset'};
+  opacity: ${props => props.disabled ? '0' : 'unset'};
+
+  animation: ${fadeInAnimation} 0.3s linear;
 
   @media ${device.mobileL} {
     padding: ${props => props.theme.all.paddingMobile};
@@ -128,7 +128,7 @@ const PromoModal = styled.div`
 
 const PromoModalContent = styled.div`
   width: 100%;
-  max-width: 60rem;
+  max-width: 74.8rem;
   padding: ${props => props.theme.all.padding};
 
   background-color: ${props => props.theme.main.bgColor};
@@ -221,12 +221,12 @@ const Promo = ({ data, theme, setTheme, newGameBirdsBasic, newGameAnimalsBasic }
         </PromoTitle>
         <PromoButton
           id='CONTINUE'
-          label='Продолжить?'
+          label='Продолжить'
           onClick={handleModalSelect}
         />
         <PromoButton
           id='NEW_GAME'
-          label='Начать новую игру?'
+          label='Начать новую игру'
           onClick={handleModalSelect}
         />
       </PromoModalContent>

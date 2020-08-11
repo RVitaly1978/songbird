@@ -13,6 +13,7 @@ const GameOverContainer = styled.div`
   justify-content: flex-start;
 
   width: 100%;
+  max-width: 74.8rem;
   margin: ${props => props.theme.all.margin} auto;
   padding: ${props => props.theme.all.padding};
 
@@ -76,8 +77,8 @@ ContentMarked.displayName = 'ContentMarkedStyled';
 GameOverButton.displayName = 'GameOverButtonStyled';
 
 const GameOver = ({ score, maxScore, onClick }) => {
-  return (
-    <GameOverContainer>
+  const endedGame = (
+    <>
       <Title>Поздравляем!!!</Title>
       <Content>
         <span>Вы прошли викторину и набрали </span>
@@ -86,11 +87,31 @@ const GameOver = ({ score, maxScore, onClick }) => {
         <ContentMarked>{maxScore}</ContentMarked>
         <span> возможных баллов</span>
       </Content>
-      <GameOverButton
-        id='RESTART_GAME'
-        label='Повторить еще раз'
-        onClick={onClick}
-      />
+    </>
+  );
+
+  const winGame = (
+    <>
+      <Title>Ура!!! Поздравляем!!!</Title>
+      <Content>
+        <span>Вы прошли викторину и набрали максимальное количество баллов </span>
+        <ContentMarked>{maxScore}</ContentMarked>
+        <span>!<br />Вы мой герой!</span>
+      </Content>
+    </>
+  );
+
+  return (
+    <GameOverContainer>
+      {(score === maxScore)
+        ? winGame
+        : endedGame}
+      {(score !== maxScore)
+        && <GameOverButton
+              id='RESTART_GAME'
+              label='Повторить еще раз'
+              onClick={onClick}
+            />}
       <GameOverButton
         id='NEW_GAME'
         label='Новая игра'
