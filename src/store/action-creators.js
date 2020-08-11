@@ -16,6 +16,16 @@ export const selectAnswer = (state) => ({
   state,
 });
 
+export const deleteNotification = (id) => ({
+  type: 'DELETE_NOTIFICATION',
+  id,
+});
+
+export const addNotification = (notification) => ({
+  type: 'ADD_NOTIFICATION',
+  notification,
+});
+
 export const updateStateFromStorage = (state) => ({
   type: 'UPDATE_STATE_FROM_STORAGE',
   state,

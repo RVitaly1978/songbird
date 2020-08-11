@@ -13,8 +13,17 @@ function reducer(state = initialState, action = {}) {
       newState.hasCorrect = false;
       newState.answers = [];
       newState.activeAnswer = null;
-
+      newState.notifications = [];
       return {...state, ...newState, ...action.state};
+
+    case 'DELETE_NOTIFICATION':
+      newState.notifications = state.notifications
+        .filter((notification) => notification.id !== action.id);
+      return {...state, ...newState};
+
+    case 'ADD_NOTIFICATION':
+      newState.notifications = [...state.notifications, action.notification];
+      return {...state, ...newState};
 
     case 'RESTART_GAME':
       newState.data = [...state.data];
@@ -41,7 +50,8 @@ function reducer(state = initialState, action = {}) {
       return {...initialState};
 
     case 'UPDATE_STATE_FROM_STORAGE':
-      return {...action.state};
+      newState.notifications = [];
+      return {...action.state, ...newState};
 
     default:
       return state;

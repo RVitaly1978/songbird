@@ -12,6 +12,7 @@ export const lightTheme = {
       large: '2.4rem',
     },
     errorColor: '#d62c1a',
+    successColor: '#00bbbb',
   },
   main: {
     color: '#222',

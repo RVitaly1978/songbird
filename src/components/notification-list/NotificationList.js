@@ -7,11 +7,12 @@ import { fadeInAnimation } from '../../styles/animation';
 import Notification from '../notification';
 
 const NotificationsContainer = styled.div`
-  position: absolute;
-  top: 0;
+  position: fixed;
+  bottom: 0;
+  right: 0;
 
   width: 100%;
-  max-width: 60rem;
+  max-width: 40rem;
   margin: ${props => props.theme.all.margin} auto;
   padding: 0 ${props => props.theme.all.padding};
 
@@ -28,21 +29,20 @@ const NotificationsContainer = styled.div`
 `;
 
 const NotificationsList = styled.ul`
+  display: flex;
+  flex-direction: column-reverse;
+
   width: 100%;
 
   li + li {
-    margin-top: ${props => props.theme.all.margin};
-
-    @media ${device.mobileL} {
-      margin-top: ${props => props.theme.all.marginMobile};
-    }
+    margin-bottom: ${props => props.theme.all.marginMobile};
   }
 `;
 
 const NotificationsItem = styled.li`
   width: 100%;
 
-  animation: ${fadeInAnimation} 0.3s linear;
+  animation: ${fadeInAnimation} 1s linear;
 `;
 
 NotificationsContainer.displayName = 'NotificationsContainerContainerStyled';

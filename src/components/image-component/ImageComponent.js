@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
+import { addNotification } from '../../store/action-creators';
 import { fadeInAnimation } from '../../styles/animation';
 
 import Spinner from '../spinner/Spinner';
@@ -55,7 +57,11 @@ const ImageError = styled.div`
 ImageContainer.displayName = 'ImageContainerStyled';
 ImageError.displayName = 'ImageErrorStyled';
 
-const ImageComponent = ({ hasCorrect, image }) => {
+const mapDispatchToProps = (dispatch) => ({
+  addNotification: (notification) => dispatch(addNotification(notification))
+});
+
+const ImageComponent = ({ hasCorrect, image, addNotification }) => {
   const [imageData, setImageData] = useState({
     loading: true,
     src: null,
@@ -67,6 +73,11 @@ const ImageComponent = ({ hasCorrect, image }) => {
       loading: false,
       src: null,
       error: 'Sorry, we couldn\'t upload the image',
+    });
+    addNotification({
+      id: `${image}-${new Date()}`,
+      type: 'error',
+      notification: 'Sorry, we couldn\'t upload the image',
     });
   };
 
@@ -80,11 +91,20 @@ const ImageComponent = ({ hasCorrect, image }) => {
         src: URL.createObjectURL(data),
         error: null,
       }))
-      .catch(() => !cancelled && setImageData({
-        loading: false,
-        src: null,
-        error: 'Sorry, we couldn\'t upload the image',
-      }));
+      .catch(() => {
+        if (!cancelled) {
+          setImageData({
+            loading: false,
+            src: null,
+            error: 'Sorry, we couldn\'t upload the image',
+          });
+          addNotification({
+            id: `${image}-${new Date()}`,
+            type: 'error',
+            notification: 'Sorry, we couldn\'t upload the image',
+          });
+        }
+      });
 
     return () => {
       cancelled = true;
@@ -95,7 +115,7 @@ const ImageComponent = ({ hasCorrect, image }) => {
         error: null,
       });
     };
-  }, [image]);
+  }, [image, addNotification]);
 
   let element;
   if (imageData.loading) {
@@ -115,4 +135,4 @@ const ImageComponent = ({ hasCorrect, image }) => {
   );
 };
 
-export default ImageComponent;
+export default connect(null, mapDispatchToProps)(ImageComponent);

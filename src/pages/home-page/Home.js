@@ -139,7 +139,7 @@ const Home = ({
     }
   };
 
-  if (data.length && (activeLevel === null)) {
+  if ((data.length > 0) && (activeLevel === null)) {
     return (
       <HomePage>
         <Header />
@@ -168,12 +168,12 @@ const Home = ({
         isDisabled={!hasCorrect}
         onClick={handleNextLevelClick}
       />
-      {notifications.length && <NotificationList notifications={notifications} />}
+      {(notifications.length > 0) && <NotificationList notifications={notifications} />}
     </HomePage>
   );
 
   return (
-    data.length
+    (data.length > 0)
       ? HomePageElement
       : <Redirect to='/promo' />
   );
