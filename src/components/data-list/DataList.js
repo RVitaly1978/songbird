@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
@@ -6,9 +6,7 @@ import { selectAnswer } from '../../store/action-creators';
 import { getActiveLevelList } from '../../helpers';
 import { fadeInAnimation } from '../../styles/animation';
 import { device } from '../../styles/media';
-
-import winSound from '../../../public/winSound.mp3';
-import errorSound from '../../../public/errorSound.mp3';
+import { stopAudio } from '../../helpers';
 
 const DataContainer = styled.ul`
   display: flex;
@@ -76,7 +74,7 @@ DataItem.displayName = 'DataItemStyled';
 DataIndicator.displayName = 'DataIndicatorStyled';
 
 const mapStateToProps = ({
-  data, levels, activeLevel, answers, correctAnswer, activeAnswer, hasCorrect, score, maxScore,
+  data, levels, activeLevel, answers, correctAnswer, activeAnswer, hasCorrect, score,
 }) => {
   return {
     data,
@@ -87,7 +85,6 @@ const mapStateToProps = ({
     activeAnswer,
     hasCorrect,
     score,
-    maxScore,
   };
 };
 
@@ -103,13 +100,11 @@ const getComponentData = (dataObj, activeId) => {
 };
 
 const DataList = ({
-  data, levels, activeLevel, answers, correctAnswer, activeAnswer, hasCorrect, score, maxScore,
+  data, levels, activeLevel, answers, correctAnswer, activeAnswer, hasCorrect, score,
+  audioErrorRef, audioCorrectRef,
   selectAnswer,
 }) => {
   console.log(`правильный ответ ${activeLevel} уровня ---`, correctAnswer);
-
-  const audioWinRef = useRef();
-  const audioErrorRef = useRef();
 
   const elementsList = getComponentData(data, activeLevel)
     .map((item) => {
@@ -126,14 +121,13 @@ const DataList = ({
     });
 
   const clickHandler = (evt) => {
+    stopAudio(audioCorrectRef.current, audioErrorRef.current);
+
     const id = Number(evt.target.id);
 
     const newState = {
       activeAnswer: id,
     };
-
-    audioWinRef.current.pause();
-    audioErrorRef.current.pause();
 
     if (!hasCorrect) {
       newState.answers = [...answers, id];
@@ -147,7 +141,7 @@ const DataList = ({
         newState.maxScore = (levels.length + 1) * 5;
         newState.score = score + newScore;
 
-        audioWinRef.current.play();
+        audioCorrectRef.current.play();
       } else {
         audioErrorRef.current.play();
       }
@@ -157,21 +151,9 @@ const DataList = ({
   };
 
   return (
-    <>
-      <DataContainer onClick={clickHandler}>
-        {elementsList}
-      </DataContainer>
-      <audio
-        id='winSound'
-        ref={audioWinRef}
-        src={winSound}
-      ><track kind='captions' /></audio>
-      <audio
-        id='errorSound'
-        ref={audioErrorRef}
-        src={errorSound}
-      ><track kind='captions' /></audio>
-    </>
+    <DataContainer onClick={clickHandler}>
+      {elementsList}
+    </DataContainer>
   );
 };
 

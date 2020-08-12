@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useHistory, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
 import { device } from '../../styles/media';
 import { fadeInAnimation } from '../../styles/animation';
-import newGame, { restartGame, nextLevel } from '../../store/action-creators';
-import { getRandomInRange, getActiveLevelList } from '../../helpers';
+import newGame, { restartGame, nextLevel, addNotification } from '../../store/action-creators';
+import { getRandomInRange, getActiveLevelList, stopAudio, setAudioVolume } from '../../helpers';
+
+import winSound from '../../../public/winSound.mp3';
+import correctSound from '../../../public/correctSound.mp3';
+import errorSound from '../../../public/errorSound.mp3';
 
 import Header from '../../components/header';
 import RandomBird from '../../components/random-bird';
@@ -104,15 +108,23 @@ const mapDispatchToProps = (dispatch) => ({
   nextLevel: (state) => dispatch(nextLevel(state)),
   restartGame: () => dispatch(restartGame()),
   newGame: () => dispatch(newGame()),
+  addNotification: (notification) => dispatch(addNotification(notification)),
 });
 
 const Home = ({
   data, levels, hasCorrect, activeLevel, score, maxScore, notifications,
-  nextLevel, restartGame, newGame,
+  nextLevel, restartGame, newGame, addNotification,
+  volumeSound = 0.5, mutedSound = false,
 }) => {
   const history = useHistory();
 
+  const audioWinRef = useRef();
+  const audioErrorRef = useRef();
+  const audioCorrectRef = useRef();
+
   const handleNextLevelClick = () => {
+    stopAudio(audioCorrectRef.current, audioErrorRef.current);
+
     const newState = {};
     const nextLevelIndex = levels.length;
     const maxLevelIndex = data.length - 1;
@@ -129,6 +141,8 @@ const Home = ({
   };
 
   const handleGameOverClick = (evt) => {
+    stopAudio(audioWinRef.current);
+
     const { id } = evt.target;
 
     if (id === 'RESTART_GAME') {
@@ -139,6 +153,20 @@ const Home = ({
     }
   };
 
+  const handleSoundError = (evt) => {
+    const { id } = evt.target;
+
+    addNotification({
+      id: `${id}-${new Date()}`,
+      type: 'error',
+      notification: `Sorry, we couldn't upload the ${id} effect`,
+    });
+  };
+
+  useEffect(() => {
+    setAudioVolume(volumeSound, audioWinRef.current, audioErrorRef.current, audioCorrectRef.current);
+  }, [volumeSound]);
+
   if ((data.length > 0) && (activeLevel === null)) {
     return (
       <HomePage>
@@ -148,6 +176,16 @@ const Home = ({
           maxScore={maxScore}
           onClick={handleGameOverClick}
         />
+        <audio
+          id='winSound'
+          ref={audioWinRef}
+          src={winSound}
+          muted={mutedSound}
+          autoPlay={true}
+          loop={true}
+          onError={handleSoundError}
+        ><track kind='captions' /></audio>
+        {(notifications.length > 0) && <NotificationList notifications={notifications} />}
       </HomePage>
     );
   }
@@ -158,7 +196,7 @@ const Home = ({
       <RandomBird />
       <RowLayout>
         <ColumnLayout>
-          <DataList />
+          <DataList audioErrorRef={audioErrorRef} audioCorrectRef={audioCorrectRef} />
         </ColumnLayout>
         <ColumnLayout>
           <DataInfo />
@@ -168,6 +206,20 @@ const Home = ({
         isDisabled={!hasCorrect}
         onClick={handleNextLevelClick}
       />
+      <audio
+        id='correctSound'
+        ref={audioCorrectRef}
+        src={correctSound}
+        muted={mutedSound}
+        onError={handleSoundError}
+      ><track kind='captions' /></audio>
+      <audio
+        id='errorSound'
+        ref={audioErrorRef}
+        src={errorSound}
+        muted={mutedSound}
+        onError={handleSoundError}
+      ><track kind='captions' /></audio>
       {(notifications.length > 0) && <NotificationList notifications={notifications} />}
     </HomePage>
   );

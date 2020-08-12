@@ -1,7 +1,7 @@
 export const lightTheme = {
   id: 'lightTheme',
   all: {
-    borderRadius: '0.5rem',
+    borderRadius: '1.0rem',
     padding: '2rem',
     margin: '2rem',
     paddingMobile: '1rem',
