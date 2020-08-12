@@ -111,7 +111,7 @@ const getComponentData = (dataObj, activeId, activeAnswerId) => {
   return data;
 };
 
-const DataInfo = ({ data, activeLevel, activeAnswer }) => {
+const DataInfo = ({ data, activeLevel, activeAnswer, audioRef, onAudioError }) => {
   if (!activeAnswer) {
     return (
       <DataContainer>
@@ -135,7 +135,13 @@ const DataInfo = ({ data, activeLevel, activeAnswer }) => {
         <InfoContainer>
           <Title>{name}</Title>
           <Species>{species}</Species>
-          <AudioComponent audio={audio} isControls={true} />
+          <AudioComponent
+            id='dataInfoSound'
+            src={audio}
+            layout='stacked-reverse'
+            audioRef={audioRef}
+            onAudioError={onAudioError}
+          />
         </InfoContainer>
       </CardBody>
       <CardDescription>

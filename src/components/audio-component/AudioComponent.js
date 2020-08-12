@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import AudioPlayer from 'react-h5-audio-player';
+import 'react-h5-audio-player/lib/styles.css';
 
 import { device } from '../../styles/media';
 
-const AudioContainer = styled.p`
+const AudioContainer = styled.div`
   margin-top: ${props => props.theme.all.margin};
 
   font-size: inherit;
@@ -17,16 +19,23 @@ const AudioContainer = styled.p`
   }
 `;
 
-const Audio = styled.audio`
-  width: 100%;
-`;
-
 AudioContainer.displayName = 'AudioContainerStyled';
 
-const AudioComponent = ({ audio, isControls }) => {
+const AudioComponent = ({ src, audioRef, id, onAudioError, layout }) => {
   return (
     <AudioContainer>
-      <Audio src={audio} controls={isControls} />
+      <AudioPlayer
+        src={src}
+        ref={audioRef}
+        layout={layout}
+        autoPlayAfterSrcChange={false}
+        showJumpControls={false}
+        customAdditionalControls={[]}
+        onError={(evt) => {
+          evt.target.id = id;
+          return onAudioError(evt);
+        }}
+      />
     </AudioContainer>
   );
 };

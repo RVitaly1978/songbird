@@ -65,7 +65,7 @@ const getComponentData = (dataObj, activeId, correctId) => {
   return data;
 };
 
-const RandomBird = ({ data, activeLevel, hasCorrect, correctAnswer }) => {
+const RandomBird = ({ data, activeLevel, hasCorrect, correctAnswer, audioRef, onAudioError }) => {
   const { name, audio, image } = getComponentData(data, activeLevel, correctAnswer);
 
   return (
@@ -73,7 +73,13 @@ const RandomBird = ({ data, activeLevel, hasCorrect, correctAnswer }) => {
       <ImageComponent hasCorrect={hasCorrect} image={image} />
       <QuestionContainer>
         <TitleComponent hasCorrect={hasCorrect} content={name} />
-        <AudioComponent audio={audio} isControls={true}/>
+        <AudioComponent
+          id='randomBirdSound'
+          src={audio}
+          layout='horizontal-reverse'
+          audioRef={audioRef}
+          onAudioError={onAudioError}
+        />
       </QuestionContainer>
     </RandomBirdContainer>
   );

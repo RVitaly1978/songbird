@@ -121,6 +121,8 @@ const Home = ({
   const audioWinRef = useRef();
   const audioErrorRef = useRef();
   const audioCorrectRef = useRef();
+  const audioRandomBirdRef = useRef();
+  const audioDataInfoRef = useRef();
 
   const handleNextLevelClick = () => {
     stopAudio(audioCorrectRef.current, audioErrorRef.current);
@@ -153,8 +155,9 @@ const Home = ({
     }
   };
 
-  const handleSoundError = (evt) => {
+  const handleAudioError = (evt) => {
     const { id } = evt.target;
+    console.dir(evt.target);
 
     addNotification({
       id: `${id}-${new Date()}`,
@@ -183,7 +186,7 @@ const Home = ({
           muted={mutedSound}
           autoPlay={true}
           loop={true}
-          onError={handleSoundError}
+          onError={handleAudioError}
         ><track kind='captions' /></audio>
         {(notifications.length > 0) && <NotificationList notifications={notifications} />}
       </HomePage>
@@ -193,13 +196,13 @@ const Home = ({
   const HomePageElement = (
     <HomePage>
       <Header />
-      <RandomBird />
+      <RandomBird audioRef={audioRandomBirdRef} onAudioError={handleAudioError} />
       <RowLayout>
         <ColumnLayout>
           <DataList audioErrorRef={audioErrorRef} audioCorrectRef={audioCorrectRef} />
         </ColumnLayout>
         <ColumnLayout>
-          <DataInfo />
+          <DataInfo audioRef={audioDataInfoRef} onAudioError={handleAudioError} />
         </ColumnLayout>
       </RowLayout>
       <NextButton
@@ -211,14 +214,14 @@ const Home = ({
         ref={audioCorrectRef}
         src={correctSound}
         muted={mutedSound}
-        onError={handleSoundError}
+        onError={handleAudioError}
       ><track kind='captions' /></audio>
       <audio
         id='errorSound'
         ref={audioErrorRef}
         src={errorSound}
         muted={mutedSound}
-        onError={handleSoundError}
+        onError={handleAudioError}
       ><track kind='captions' /></audio>
       {(notifications.length > 0) && <NotificationList notifications={notifications} />}
     </HomePage>
