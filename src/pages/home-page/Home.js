@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 
 import { device } from '../../styles/media';
 import { fadeInAnimation } from '../../styles/animation';
-import newGame, { restartGame, nextLevel, addNotification } from '../../store/action-creators';
+import newGame, {
+  selectAnswer, restartGame, nextLevel, addNotification,
+} from '../../store/action-creators';
 import { getRandomInRange, getActiveLevelList, stopAudio, setAudioVolume } from '../../helpers';
 
 import winSound from '../../../public/winSound.mp3';
@@ -92,12 +94,17 @@ HomePage.displayName = 'HomePageStyled';
 RowLayout.displayName = 'RowLayoutStyled';
 ColumnLayout.displayName = 'ColumnLayoutStyled';
 
-const mapStateToProps = ({ data, levels, hasCorrect, activeLevel, score, maxScore, notifications }) => {
+const mapStateToProps = ({
+  data, levels, activeLevel, answers, correctAnswer, activeAnswer, hasCorrect, score, maxScore, notifications,
+}) => {
   return {
     data,
     levels,
-    hasCorrect,
     activeLevel,
+    answers,
+    correctAnswer,
+    activeAnswer,
+    hasCorrect,
     score,
     maxScore,
     notifications,
@@ -105,6 +112,7 @@ const mapStateToProps = ({ data, levels, hasCorrect, activeLevel, score, maxScor
 };
 
 const mapDispatchToProps = (dispatch) => ({
+  selectAnswer: (state) => dispatch(selectAnswer(state)),
   nextLevel: (state) => dispatch(nextLevel(state)),
   restartGame: () => dispatch(restartGame()),
   newGame: () => dispatch(newGame()),
@@ -112,8 +120,8 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const Home = ({
-  data, levels, hasCorrect, activeLevel, score, maxScore, notifications,
-  nextLevel, restartGame, newGame, addNotification,
+  data, levels, activeLevel, answers, correctAnswer, activeAnswer, hasCorrect, score, maxScore, notifications,
+  selectAnswer, nextLevel, restartGame, newGame, addNotification,
   volumeSound = 0.5, mutedSound = false,
 }) => {
   const history = useHistory();
@@ -124,8 +132,47 @@ const Home = ({
   const audioRandomBirdRef = useRef();
   const audioDataInfoRef = useRef();
 
+  console.log(`правильный ответ ${activeLevel} уровня ---`, correctAnswer);
+
+  const handleSelectAnswerClick = (id) => {
+    stopAudio(
+      audioCorrectRef.current,
+      audioErrorRef.current,
+    );
+
+    const newState = {
+      activeAnswer: id,
+    };
+
+    if (!hasCorrect) {
+      newState.answers = [...answers, id];
+
+      if (id === correctAnswer) {
+        newState.hasCorrect = true;
+        newState.levels = [...levels, activeLevel];
+
+        const activeLevelList = getActiveLevelList(data, activeLevel);
+        const newScore = activeLevelList.data.length - answers.length - 1;
+        newState.maxScore = (levels.length + 1) * 5;
+        newState.score = score + newScore;
+
+        stopAudio(audioRandomBirdRef.current.audio.current);
+        audioCorrectRef.current.play();
+      } else {
+        audioErrorRef.current.play();
+      }
+    }
+
+    selectAnswer(newState);
+  };
+
   const handleNextLevelClick = () => {
-    stopAudio(audioCorrectRef.current, audioErrorRef.current);
+    stopAudio(
+      audioCorrectRef.current,
+      audioErrorRef.current,
+      audioRandomBirdRef.current.audio.current,
+      audioDataInfoRef.current.audio.current,
+    );
 
     const newState = {};
     const nextLevelIndex = levels.length;
@@ -157,7 +204,6 @@ const Home = ({
 
   const handleAudioError = (evt) => {
     const { id } = evt.target;
-    console.dir(evt.target);
 
     addNotification({
       id: `${id}-${new Date()}`,
@@ -199,7 +245,14 @@ const Home = ({
       <RandomBird audioRef={audioRandomBirdRef} onAudioError={handleAudioError} />
       <RowLayout>
         <ColumnLayout>
-          <DataList audioErrorRef={audioErrorRef} audioCorrectRef={audioCorrectRef} />
+          <DataList
+            data={data}
+            activeLevel={activeLevel}
+            answers={answers}
+            correctAnswer={correctAnswer}
+            activeAnswer={activeAnswer}
+            onClick={handleSelectAnswerClick}
+          />
         </ColumnLayout>
         <ColumnLayout>
           <DataInfo audioRef={audioDataInfoRef} onAudioError={handleAudioError} />

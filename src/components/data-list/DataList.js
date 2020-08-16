@@ -1,12 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { connect } from 'react-redux';
 
-import { selectAnswer } from '../../store/action-creators';
-import { getActiveLevelList } from '../../helpers';
 import { fadeInAnimation } from '../../styles/animation';
 import { device } from '../../styles/media';
-import { stopAudio } from '../../helpers';
 
 const DataContainer = styled.ul`
   display: flex;
@@ -73,25 +69,6 @@ DataContainer.displayName = 'DataContainerStyled';
 DataItem.displayName = 'DataItemStyled';
 DataIndicator.displayName = 'DataIndicatorStyled';
 
-const mapStateToProps = ({
-  data, levels, activeLevel, answers, correctAnswer, activeAnswer, hasCorrect, score,
-}) => {
-  return {
-    data,
-    levels,
-    activeLevel,
-    answers,
-    correctAnswer,
-    activeAnswer,
-    hasCorrect,
-    score,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  selectAnswer: (state) => dispatch(selectAnswer(state))
-});
-
 const getComponentData = (dataObj, activeId) => {
   const data = dataObj
     .filter((dataItem) => dataItem.id === activeId)[0].data;
@@ -100,12 +77,8 @@ const getComponentData = (dataObj, activeId) => {
 };
 
 const DataList = ({
-  data, levels, activeLevel, answers, correctAnswer, activeAnswer, hasCorrect, score,
-  audioErrorRef, audioCorrectRef,
-  selectAnswer,
+  data, activeLevel, answers, correctAnswer, activeAnswer, onClick,
 }) => {
-  console.log(`правильный ответ ${activeLevel} уровня ---`, correctAnswer);
-
   const elementsList = getComponentData(data, activeLevel)
     .map((item) => {
       const isCorrect = (item.id === correctAnswer);
@@ -121,33 +94,8 @@ const DataList = ({
     });
 
   const clickHandler = (evt) => {
-    stopAudio(audioCorrectRef.current, audioErrorRef.current);
-
     const id = Number(evt.target.id);
-
-    const newState = {
-      activeAnswer: id,
-    };
-
-    if (!hasCorrect) {
-      newState.answers = [...answers, id];
-
-      if (id === correctAnswer) {
-        newState.hasCorrect = true;
-        newState.levels = [...levels, activeLevel];
-
-        const activeLevelList = getActiveLevelList(data, activeLevel);
-        const newScore = activeLevelList.data.length - answers.length - 1;
-        newState.maxScore = (levels.length + 1) * 5;
-        newState.score = score + newScore;
-
-        audioCorrectRef.current.play();
-      } else {
-        audioErrorRef.current.play();
-      }
-    }
-
-    selectAnswer(newState);
+    onClick(id);
   };
 
   return (
@@ -157,4 +105,4 @@ const DataList = ({
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DataList);
+export default DataList;
