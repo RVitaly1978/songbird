@@ -8,7 +8,9 @@ import { fadeInAnimation } from '../../styles/animation';
 import newGame, {
   selectAnswer, restartGame, nextLevel, addNotification,
 } from '../../store/action-creators';
-import { getRandomInRange, getActiveLevelList, stopAudio, setAudioVolume } from '../../helpers';
+import {
+  getRandomInRange, getActiveLevelList, stopAudio, playAudio, pauseAudioFiltered, setAudioVolume,
+} from '../../helpers';
 
 import winSound from '../../../public/winSound.mp3';
 import correctSound from '../../../public/correctSound.mp3';
@@ -63,13 +65,27 @@ const RowLayout = styled.div`
 `;
 
 const ColumnLayout = styled.div`
-  width: calc((100% - ${props => props.theme.all.margin}) * 0.5);
-
   background-color: ${props => props.theme.main.bgColor};
   border: 1px solid ${props => props.theme.main.borderColor};
   border-radius: ${props => props.theme.all.borderRadius};
 
   overflow: hidden;
+
+  &:first-child {
+    width: calc((100% - ${props => props.theme.all.margin}) * 0.4);
+
+    @media ${device.mobileL} {
+      width: 100%;
+    }
+  }
+
+  &:last-child {
+    width: calc((100% - ${props => props.theme.all.margin}) * 0.6);
+
+    @media ${device.mobileL} {
+      width: 100%;
+    }
+  }
 
   & + & {
     align-self: stretch;
@@ -132,8 +148,6 @@ const Home = ({
   const audioRandomBirdRef = useRef();
   const audioDataInfoRef = useRef();
 
-  console.log(`правильный ответ ${activeLevel} уровня ---`, correctAnswer);
-
   const handleSelectAnswerClick = (id) => {
     stopAudio(
       audioCorrectRef.current,
@@ -157,9 +171,9 @@ const Home = ({
         newState.score = score + newScore;
 
         stopAudio(audioRandomBirdRef.current.audio.current);
-        audioCorrectRef.current.play();
+        playAudio(audioCorrectRef.current);
       } else {
-        audioErrorRef.current.play();
+        playAudio(audioErrorRef.current);
       }
     }
 
@@ -206,10 +220,19 @@ const Home = ({
     const { id } = evt.target;
 
     addNotification({
-      id: `${id}-${new Date()}`,
+      id: `${id}-${getRandomInRange(1000)}-${new Date()}`,
       type: 'error',
       notification: `Sorry, we couldn't upload the ${id} effect`,
     });
+  };
+
+  const handleAudioPlay = (evt) => {
+    const { id } = evt.target;
+    pauseAudioFiltered(
+      id,
+      audioRandomBirdRef.current.audio.current,
+      audioDataInfoRef.current.audio.current,
+    );
   };
 
   useEffect(() => {
@@ -225,16 +248,20 @@ const Home = ({
           maxScore={maxScore}
           onClick={handleGameOverClick}
         />
-        <audio
-          id='winSound'
-          ref={audioWinRef}
-          src={winSound}
-          muted={mutedSound}
-          autoPlay={true}
-          loop={true}
-          onError={handleAudioError}
-        ><track kind='captions' /></audio>
-        {(notifications.length > 0) && <NotificationList notifications={notifications} />}
+        {(score === maxScore)
+          && <audio
+            id='winSound'
+            ref={audioWinRef}
+            src={winSound}
+            muted={mutedSound}
+            autoPlay={true}
+            loop={true}
+            onError={handleAudioError}
+          ><track kind='captions' /></audio>
+        }
+        {(notifications.length > 0)
+          && <NotificationList notifications={notifications} />
+        }
       </HomePage>
     );
   }
@@ -242,7 +269,11 @@ const Home = ({
   const HomePageElement = (
     <HomePage>
       <Header />
-      <RandomBird audioRef={audioRandomBirdRef} onAudioError={handleAudioError} />
+      <RandomBird
+        audioRef={audioRandomBirdRef}
+        onAudioError={handleAudioError}
+        onAudioPlay={handleAudioPlay}
+      />
       <RowLayout>
         <ColumnLayout>
           <DataList
@@ -255,7 +286,11 @@ const Home = ({
           />
         </ColumnLayout>
         <ColumnLayout>
-          <DataInfo audioRef={audioDataInfoRef} onAudioError={handleAudioError} />
+          <DataInfo
+            audioRef={audioDataInfoRef}
+            onAudioError={handleAudioError}
+            onAudioPlay={handleAudioPlay}
+          />
         </ColumnLayout>
       </RowLayout>
       <NextButton
@@ -276,9 +311,15 @@ const Home = ({
         muted={mutedSound}
         onError={handleAudioError}
       ><track kind='captions' /></audio>
-      {(notifications.length > 0) && <NotificationList notifications={notifications} />}
+      {(notifications.length > 0)
+        && <NotificationList notifications={notifications} />
+      }
     </HomePage>
   );
+
+  if (data.length > 0) {
+    console.log(`правильный ответ ${activeLevel} уровня ---`, correctAnswer);
+  }
 
   return (
     (data.length > 0)

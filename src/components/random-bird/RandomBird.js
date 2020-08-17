@@ -65,7 +65,9 @@ const getComponentData = (dataObj, activeId, correctId) => {
   return data;
 };
 
-const RandomBird = ({ data, activeLevel, hasCorrect, correctAnswer, audioRef, onAudioError }) => {
+const RandomBird = ({
+  data, activeLevel, hasCorrect, correctAnswer, audioRef, onAudioError, onAudioPlay,
+}) => {
   const { name, audio, image } = getComponentData(data, activeLevel, correctAnswer);
 
   return (
@@ -79,6 +81,7 @@ const RandomBird = ({ data, activeLevel, hasCorrect, correctAnswer, audioRef, on
           layout='horizontal-reverse'
           audioRef={audioRef}
           onAudioError={onAudioError}
+          onAudioPlay={onAudioPlay}
         />
       </QuestionContainer>
     </RandomBirdContainer>

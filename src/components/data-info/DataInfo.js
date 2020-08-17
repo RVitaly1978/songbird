@@ -36,14 +36,14 @@ const CardBody = styled.div`
 
 const InfoContainer = styled.div`
   width: 100%;
-  margin-left: ${props => props.theme.all.margin};
+  margin-left: ${props => props.theme.all.marginMobile};
 
   @media ${device.tablet} {
-    margin: ${props => props.theme.all.margin} 0 0 0
+    margin: ${props => props.theme.all.margin} 0 0 0;
   }
 
   @media ${device.mobileL} {
-    margin: ${props => props.theme.all.marginMobile} 0 0 0
+    margin: ${props => props.theme.all.marginMobile} 0 0 0;
   }
 `;
 
@@ -111,7 +111,7 @@ const getComponentData = (dataObj, activeId, activeAnswerId) => {
   return data;
 };
 
-const DataInfo = ({ data, activeLevel, activeAnswer, audioRef, onAudioError }) => {
+const DataInfo = ({ data, activeLevel, activeAnswer, audioRef, onAudioError, onAudioPlay }) => {
   if (!activeAnswer) {
     return (
       <DataContainer>
@@ -138,9 +138,10 @@ const DataInfo = ({ data, activeLevel, activeAnswer, audioRef, onAudioError }) =
           <AudioComponent
             id='dataInfoSound'
             src={audio}
-            layout='stacked-reverse'
+            layout='horizontal-reverse'
             audioRef={audioRef}
             onAudioError={onAudioError}
+            onAudioPlay={onAudioPlay}
           />
         </InfoContainer>
       </CardBody>

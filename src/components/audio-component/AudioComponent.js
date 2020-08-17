@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import AudioPlayer from 'react-h5-audio-player';
-import './styles.css';
+import './styles.scss';
 
 import { device } from '../../styles/media';
 
@@ -21,7 +21,7 @@ const AudioContainer = styled.div`
 
 AudioContainer.displayName = 'AudioContainerStyled';
 
-const AudioComponent = ({ src, audioRef, id, onAudioError, layout }) => {
+const AudioComponent = ({ src, audioRef, id, onAudioError, onAudioPlay, layout }) => {
   return (
     <AudioContainer>
       <AudioPlayer
@@ -34,6 +34,10 @@ const AudioComponent = ({ src, audioRef, id, onAudioError, layout }) => {
         onError={(evt) => {
           evt.target.id = id;
           return onAudioError(evt);
+        }}
+        onPlay={(evt) => {
+          evt.target.id = id;
+          return onAudioPlay(evt);
         }}
       />
     </AudioContainer>
