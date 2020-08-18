@@ -9,6 +9,7 @@ import { fadeInAnimation } from '../../styles/animation';
 import Logo from '../logo';
 import Score from '../score';
 import Pagination from '../pagination';
+import { CloseButtonIcon } from '../icons';
 
 const HeaderContainer = styled.div`
   width: 100%;
@@ -52,23 +53,31 @@ const PaginationPanel = styled.div`
 `;
 
 const StyledLink = styled(Link)`
-  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  background-color: ${props => props.theme.secondary.color};
+  padding: 0;
+
+  background-color: ${props => props.theme.secondary.hoverColor};
   border-radius: ${props => props.theme.all.borderRadius};
 
+  font-size: 3.0rem;
+  line-height: 0;
   color: inherit;
-
-  font-weight: bold;
-  text-decoration: none;
-
-  transition: background-color 0.3s linear;
 
   cursor: pointer;
 
+  transition: opacity 0.3s linear;
+
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.2;
+  }
+
   @media (pointer: fine) {
     :hover {
-      background-color: ${props => props.theme.secondary.hoverColor};
+      opacity: 0.75;
     }
   }
 `;
@@ -96,7 +105,9 @@ const Header = ({ data, levels, activeLevel, score, maxScore }) => {
         <Logo />
         <InfoPanel>
           <Score score={score} maxScore={maxScore} />
-          <StyledLink to='/promo'>Х</StyledLink>
+          <StyledLink to='/promo'>
+            <CloseButtonIcon />
+          </StyledLink>
         </InfoPanel>
       </TopPanel>
       <PaginationPanel>

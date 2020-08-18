@@ -22,7 +22,7 @@ const ButtonStyled = styled.button`
 
   outline: none;
 
-  transition: color 0.3s linear, background-color 0.3s linear;
+  transition: opacity 0.3s linear;
 
   cursor: pointer;
 
@@ -36,7 +36,7 @@ const ButtonStyled = styled.button`
 
   @media (pointer: fine) {
     :hover {
-      background-color: ${props => props.theme.secondary.hoverColor};
+      opacity: 0.75;
     }
   }
 `;
@@ -51,13 +51,21 @@ LabelStyled.displayName = 'LabelStyled';
 const Button = (props) => {
   const {
     id,
-    label = '',
+    label = null,
     onClick = () => {},
-    icon = null,
+    Icon = null,
     dataTitle = null,
     dataPlacement = null,
     isDisabled = false,
   } = props;
+
+  const IconComponent = Icon
+    ? <Icon />
+    : null;
+
+  const LabelComponent = label
+    ? <LabelStyled>{label}</LabelStyled>
+    : null;
 
   return (
     <ButtonStyled
@@ -69,9 +77,9 @@ const Button = (props) => {
       disabled={isDisabled}
       onClick={(evt) => onClick(evt)}
     >
-      {icon}
-      {(label && icon) && ' '}
-      <LabelStyled>{label}</LabelStyled>
+      {IconComponent}
+      {(label && Icon) && ' '}
+      {LabelComponent}
     </ButtonStyled>
   );
 };

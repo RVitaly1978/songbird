@@ -11,6 +11,7 @@ import { newGameBirdsBasic, newGameAnimalsBasic } from '../../store/action-creat
 import Button from '../../components/button';
 import Logo from '../../components/logo';
 import ToggleSwitcher from '../../components/toggle-switcher';
+import VolumeControls from '../../components/volume-controls';
 
 const PromoPage = styled.div`
   display: flex;
@@ -243,7 +244,9 @@ const Promo = ({ data, theme, setTheme, newGameBirdsBasic, newGameAnimalsBasic }
             labelOn='Dark'
             labelOff='Light'
             onChange={handleThemeChange}
-            isChecked={theme.id === 'darkTheme' ? true : false} />
+            isChecked={theme.id === 'darkTheme' ? true : false}
+          />
+          <VolumeControls />
         </PromoControls>
         <PromoTitle>
           {'А я милого узнаю а по походке...'}

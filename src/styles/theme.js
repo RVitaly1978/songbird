@@ -11,7 +11,7 @@ export const lightTheme = {
       main: '1.6rem',
       large: '2.4rem',
     },
-    errorColor: '#d62c1a',
+    errorColor: '#f74f3e',
     successColor: '#00bbbb',
   },
   main: {

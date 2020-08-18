@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { deleteNotification } from '../../store/action-creators';
 
 import Button from '../button';
+import { CloseButtonIcon } from '../icons';
 
 const NotificationContainer = styled.div`
   display: flex;
@@ -23,6 +24,15 @@ const NotificationContainer = styled.div`
     }
     return props.theme.main.bgColor;
   }};
+
+  box-shadow: 0 0 0.2rem 0.3rem ${(props) => {
+                            if (props.type === 'error') {
+                              return props.theme.all.errorColor;
+                            } else if (props.type === 'success') {
+                              return props.theme.all.successColor;
+                            }
+                            return props.theme.main.bgColor;
+                          }};
 
   border-radius: ${props => props.theme.all.borderRadius};
 
@@ -58,8 +68,13 @@ const Content = styled.p`
 `;
 
 const CloseButton = styled(Button)`
-  width: 2.5rem;
-  height: 2.5rem;
+  width: auto;
+  padding: 0;
+
+  font-size: 2.5rem;
+  line-height: 0;
+
+  background-color: transparent;
 
   border-radius: 50%;
 `;
@@ -101,7 +116,7 @@ const Notification = ({
         <Title>{type}</Title>
         <CloseButton
           id='close'
-          label='X'
+          Icon={CloseButtonIcon}
           onClick={handleClick}
         />
       </NotificationHeader>
