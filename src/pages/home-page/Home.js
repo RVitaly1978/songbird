@@ -111,7 +111,8 @@ RowLayout.displayName = 'RowLayoutStyled';
 ColumnLayout.displayName = 'ColumnLayoutStyled';
 
 const mapStateToProps = ({
-  data, levels, activeLevel, answers, correctAnswer, activeAnswer, hasCorrect, score, maxScore, notifications,
+  data, levels, activeLevel, answers, correctAnswer, activeAnswer,
+  hasCorrect, score, maxScore, notifications, soundVolumeSettings,
 }) => {
   return {
     data,
@@ -124,6 +125,7 @@ const mapStateToProps = ({
     score,
     maxScore,
     notifications,
+    soundVolumeSettings,
   };
 };
 
@@ -137,7 +139,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const Home = ({
   data, levels, activeLevel, answers, correctAnswer, activeAnswer, hasCorrect, score, maxScore, notifications,
-  selectAnswer, nextLevel, restartGame, newGame, addNotification,
+  selectAnswer, nextLevel, restartGame, newGame, addNotification, soundVolumeSettings,
   volumeSound = 0.5, mutedSound = false,
 }) => {
   const history = useHistory();
@@ -235,9 +237,11 @@ const Home = ({
     );
   };
 
+  const { mute, volume } = soundVolumeSettings;
+
   useEffect(() => {
-    setAudioVolume(volumeSound, audioWinRef.current, audioErrorRef.current, audioCorrectRef.current);
-  }, [volumeSound]);
+    setAudioVolume(volume, audioWinRef.current, audioErrorRef.current, audioCorrectRef.current);
+  }, [volume]);
 
   if ((data.length > 0) && (activeLevel === null)) {
     return (
@@ -253,7 +257,7 @@ const Home = ({
             id='winSound'
             ref={audioWinRef}
             src={winSound}
-            muted={mutedSound}
+            muted={mute}
             autoPlay={true}
             loop={true}
             onError={handleAudioError}
@@ -301,14 +305,14 @@ const Home = ({
         id='correctSound'
         ref={audioCorrectRef}
         src={correctSound}
-        muted={mutedSound}
+        muted={mute}
         onError={handleAudioError}
       ><track kind='captions' /></audio>
       <audio
         id='errorSound'
         ref={audioErrorRef}
         src={errorSound}
-        muted={mutedSound}
+        muted={mute}
         onError={handleAudioError}
       ><track kind='captions' /></audio>
       {(notifications.length > 0)

@@ -154,9 +154,7 @@ PromoModal.displayName = 'PromoModalStyled';
 PromoModalContent.displayName = 'PromoModalContentStyled';
 
 const mapStateToProps = ({ data }) => {
-  return {
-    data,
-  };
+  return { data };
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -221,13 +219,13 @@ const Promo = ({ data, theme, setTheme, newGameBirdsBasic, newGameAnimalsBasic }
           {'Вы хотите начать новую или продолжить начатую?'}
         </PromoTitle>
         <PromoButton
-          id='CONTINUE'
-          label='Продолжить'
+          id='NEW_GAME'
+          label='Начать новую игру'
           onClick={handleModalSelect}
         />
         <PromoButton
-          id='NEW_GAME'
-          label='Начать новую игру'
+          id='CONTINUE'
+          label='Продолжить'
           onClick={handleModalSelect}
         />
       </PromoModalContent>
@@ -255,18 +253,18 @@ const Promo = ({ data, theme, setTheme, newGameBirdsBasic, newGameAnimalsBasic }
         </PromoTitle>
         <PromoButton
           id='NEW_GAME_BIRDS_BASIC'
-          label='Начать "Songbird"'
+          label='Начать "Song bird"'
           onClick={handleGameSelect}
         />
         <PromoButton
           id='NEW_GAME_ANIMALS_BASIC'
-          label='Начать "RoarAnimal"'
+          label='Начать "Roar animal"'
           onClick={handleGameSelect}
         />
         <br />
         <PromoButton
           id='CONTINUE'
-          label='Продолжить'
+          label='Продолжить начатую игру'
           onClick={handleGameSelect}
           isDisabled={!data.length}
         />

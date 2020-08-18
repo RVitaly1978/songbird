@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
 
-import soundVolumeConfig from '../../config/soundVolumeConfig';
+import { updateSoundVolumeSettings } from '../../store/action-creators';
 
 import VolumeOnIcon from './VolumeOnIcon';
 import VolumeOffIcon from './VolumeOffIcon';
@@ -13,7 +16,7 @@ const VolumeControlsContainer = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  width: 10rem;
+  width: 15rem;
   height: 3rem;
 
   line-height: 1;
@@ -24,20 +27,35 @@ VolumeControlsContainer.displayName = 'VolumeControlsContainerStyled';
 const VOLUME_ON = 'volumeOn';
 const VOLUME_OFF = 'volumeOff';
 
-const VolumeControls = () => {
-  const [volumeConfig, setVolumeConfig] = useState(soundVolumeConfig);
-  const { mute, volume } = volumeConfig;
+const mapStateToProps = ({ soundVolumeSettings }) => {
+  return { soundVolumeSettings };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  updateSoundVolumeSettings: (settings) => dispatch(updateSoundVolumeSettings(settings)),
+});
+
+const VolumeControls = ({ soundVolumeSettings, updateSoundVolumeSettings }) => {
+  const { mute, volume } = soundVolumeSettings;
 
   const handleVolumeButtonClick = (evt) => {
     const { id } = evt.target;
 
-    const config = {
-      mute: (id === 'volumeOn') ? true : false,
+    const settings = {
+      mute: (id === VOLUME_ON) ? true : false,
       volume,
     };
 
-    localStorage.setItem('songBirdSoundVolumeConfig', JSON.stringify(config));
-    setVolumeConfig(() => config);
+    updateSoundVolumeSettings(settings);
+  };
+
+  const onSliderChange = (value) => {
+    const settings = {
+      mute,
+      volume: value,
+    };
+
+    updateSoundVolumeSettings(settings);
   };
 
   return (
@@ -54,8 +72,15 @@ const VolumeControls = () => {
             onClick={handleVolumeButtonClick}
           />
       }
+      <Slider
+        min={0}
+        max={1}
+        value={mute ? 0 : volume}
+        step={0.05}
+        onChange={onSliderChange}
+      />
     </VolumeControlsContainer>
   );
 };
 
-export default VolumeControls;
+export default connect(mapStateToProps, mapDispatchToProps)(VolumeControls);

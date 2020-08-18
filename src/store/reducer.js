@@ -25,6 +25,10 @@ function reducer(state = initialState, action = {}) {
       newState.notifications = [...state.notifications, action.notification];
       return {...state, ...newState};
 
+    case 'UPDATE_SOUND_VOLUME_SETTINGS':
+      newState.soundVolumeSettings = {...action.settings};
+      return {...state, ...newState};
+
     case 'RESTART_GAME':
       newState.data = [...state.data];
       newState.activeLevel = newState.data[0].id;

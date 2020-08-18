@@ -26,6 +26,11 @@ export const addNotification = (notification) => ({
   notification,
 });
 
+export const updateSoundVolumeSettings = (settings) => ({
+  type: 'UPDATE_SOUND_VOLUME_SETTINGS',
+  settings,
+});
+
 export const updateStateFromStorage = (state) => ({
   type: 'UPDATE_STATE_FROM_STORAGE',
   state,

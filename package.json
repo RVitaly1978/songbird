@@ -19,6 +19,7 @@
     "bufferutil": "^4.0.1",
     "history": "^5.0.0",
     "localforage": "^1.9.0",
+    "rc-slider": "^9.3.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-h5-audio-player": "^3.3.0",
