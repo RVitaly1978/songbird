@@ -22,7 +22,37 @@ const VolumeControlsContainer = styled.div`
   line-height: 1;
 `;
 
+const VolumeOffIconStyled = styled(VolumeOffIcon)`
+  margin-right: 1.5rem;
+  flex-shrink: 0;
+`;
+
+const VolumeOnIconStyled = styled(VolumeOnIcon)`
+  margin-right: 1.5rem;
+  flex-shrink: 0;
+`;
+
+const handleStyle = {
+  border: 'none',
+  backgroundColor: '#008966',
+  '&:active': {
+    boxShadow: '0 0 3px #d3d3d3',
+  },
+};
+
+const trackStyle = {
+  backgroundColor: '#008966',
+  borderRadius: '2px',
+};
+
+const railStyle = {
+  backgroundColor: '#d3d3d3',
+  borderRadius: '2px',
+};
+
 VolumeControlsContainer.displayName = 'VolumeControlsContainerStyled';
+VolumeOffIconStyled.displayName = 'VolumeOffIconStyledStyled';
+VolumeOnIconStyled.displayName = 'VolumeOnIconStyledStyled';
 
 const VOLUME_ON = 'volumeOn';
 const VOLUME_OFF = 'volumeOff';
@@ -46,12 +76,16 @@ const VolumeControls = ({ soundVolumeSettings, updateSoundVolumeSettings }) => {
       volume,
     };
 
+    if (settings.volume === 0 && settings.mute === false) {
+      settings.volume = 1;
+    }
+
     updateSoundVolumeSettings(settings);
   };
 
   const onSliderChange = (value) => {
     const settings = {
-      mute,
+      mute: (value === 0) ? true : false,
       volume: value,
     };
 
@@ -61,12 +95,12 @@ const VolumeControls = ({ soundVolumeSettings, updateSoundVolumeSettings }) => {
   return (
     <VolumeControlsContainer>
       {mute
-        ? <VolumeOffIcon
+        ? <VolumeOffIconStyled
             id={VOLUME_OFF}
             iconTitle='Volume-off button'
             onClick={handleVolumeButtonClick}
           />
-        : <VolumeOnIcon
+        : <VolumeOnIconStyled
             id={VOLUME_ON}
             iconTitle='Volume-on button'
             onClick={handleVolumeButtonClick}
@@ -78,6 +112,9 @@ const VolumeControls = ({ soundVolumeSettings, updateSoundVolumeSettings }) => {
         value={mute ? 0 : volume}
         step={0.05}
         onChange={onSliderChange}
+        handleStyle={handleStyle}
+        trackStyle={trackStyle}
+        railStyle={railStyle}
       />
     </VolumeControlsContainer>
   );

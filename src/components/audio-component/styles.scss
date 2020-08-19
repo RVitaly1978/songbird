@@ -57,7 +57,7 @@ $rhap_font-family: inherit !default;
   flex-direction: row-reverse;
 
   .rhap_controls-section {
-    margin-right: 1rem;
+    margin-right: 1.5rem;
   }
 }
 
@@ -191,7 +191,7 @@ $rhap_font-family: inherit !default;
 
 .rhap_main-controls-button {
   // margin: 0 3px;
-  margin: 0;
+  margin: 0 0.5rem 0 0;
   color: $rhap_theme-color;
   font-size: 35px;
   width: 35px;
@@ -210,7 +210,7 @@ $rhap_font-family: inherit !default;
   justify-content: flex-end;
   align-items: center;
 
-  width: 8.5rem;
+  width: 10rem;
 }
 
 .rhap_volume-button {
@@ -219,13 +219,13 @@ $rhap_font-family: inherit !default;
   width: 26px;
   height: 26px;
   color: $rhap_theme-color;
-  margin-right: 6px;
+  margin-right: 1.0rem;
 }
 
 .rhap_volume-container {
   display: flex;
   align-items: center;
-  flex: 0 1 8.5rem;
+  flex: 0 1 10rem;
   -webkit-user-select: none;
 }
 
