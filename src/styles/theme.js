@@ -16,7 +16,7 @@ export const lightTheme = {
   },
   main: {
     color: '#111',
-    bodyColor: '#c8c8c8',
+    bodyColor: '#444',
     bgColor: '#b0b0b0',
     borderColor: '#888',
     logoColor: '#00bc8c',

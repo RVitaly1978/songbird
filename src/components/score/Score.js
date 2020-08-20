@@ -9,13 +9,15 @@ const ScoreContainer = styled.div`
   font-size: 1.2em;
   font-weight: 700;
 
+  color: ${props => props.theme.main.logoColor};
+
   @media ${device.mobileM} {
     margin-right: 0;
   }
 `;
 
 const ScoreCount = styled.span`
-  color: ${props => props.theme.secondary.color};
+  color: ${props => props.theme.main.logoColor};
 `;
 
 const MaxScoreCount = styled.span`

@@ -9,9 +9,6 @@ import Promo from './pages/promo-page';
 import Home from './pages/home-page';
 import NotFound from './pages/not-found-page';
 
-import bgLight from '../public/bg-light.png';
-import bgDark from '../public/bg-dark.png';
-
 const GlobalStyle = createGlobalStyle`
   html {
     font-size: 62.5%;
@@ -25,10 +22,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
 
-    background: url(${props => props.theme.id === 'lightTheme' ? bgLight : bgDark});
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background-color: ${props => props.theme.main.bodyColor};
 
     font-family: Arial, Helvetica, sans-serif;
     font-size: ${props => props.theme.all.fontSize.main};
