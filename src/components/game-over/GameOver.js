@@ -5,6 +5,7 @@ import { device } from '../../styles/media';
 import { fadeInAnimation } from '../../styles/animation';
 
 import Button from '../button';
+import Spinner from '../spinner';
 
 const GameOverContainer = styled.div`
   display: flex;
@@ -41,7 +42,7 @@ const Title = styled.h3`
   text-align: center;
 `;
 
-const Content = styled.p`
+const Content = styled.div`
   width: 100%;
   margin-top: ${props => props.theme.all.margin};
   padding-bottom: ${props => props.theme.all.padding};
@@ -62,6 +63,28 @@ const ContentMarked = styled.span`
   color: ${props => props.theme.secondary.color};
 `;
 
+const PrizeContent = styled.div`
+  display: flex;
+  justify-content: center;
+
+  width: 100%;
+  margin-top: ${props => props.theme.all.margin};
+
+  line-height: 1.6;
+  font-weight: 700;
+  text-align: center;
+`;
+
+const PrizeLoader = styled.div`
+  position: relative;
+
+  min-width: 3rem;
+  min-height: 3rem;
+  margin-right: 0.5rem;
+
+  line-height: 1;
+`;
+
 const GameOverButton = styled(Button)`
   margin-top: ${props => props.theme.all.margin};
 
@@ -74,9 +97,20 @@ GameOverContainer.displayName = 'GameOverContainerContainerStyled';
 Title.displayName = 'TitleStyled';
 Content.displayName = 'ContentStyled';
 ContentMarked.displayName = 'ContentMarkedStyled';
+PrizeContent.displayName = 'PrizeContentStyled';
+PrizeLoader.displayName = 'PrizeLoaderStyled';
 GameOverButton.displayName = 'GameOverButtonStyled';
 
-const GameOver = ({ score, maxScore, onClick }) => {
+const GameOver = ({ score, maxScore, onClick, isLoading }) => {
+  const Prise = isLoading
+      ? <PrizeContent>
+          <PrizeLoader><Spinner width='3rem' height='3rem'/></PrizeLoader>
+          Подождите и будет сюрприз...
+        </PrizeContent>
+      : <PrizeContent>
+          Наслаждайтесь победой!!!
+        </PrizeContent>;
+
   const endedGame = (
     <>
       <Title>Поздравляем!!!</Title>
@@ -97,6 +131,7 @@ const GameOver = ({ score, maxScore, onClick }) => {
         <span>Вы прошли викторину и набрали максимальное количество баллов </span>
         <ContentMarked>{maxScore}</ContentMarked>
         <span>!<br />Вы мой герой!</span>
+        {Prise}
       </Content>
     </>
   );

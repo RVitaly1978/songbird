@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useHistory, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
@@ -140,7 +140,6 @@ const mapDispatchToProps = (dispatch) => ({
 const Home = ({
   data, levels, activeLevel, answers, correctAnswer, activeAnswer, hasCorrect, score, maxScore, notifications,
   selectAnswer, nextLevel, restartGame, newGame, addNotification, soundVolumeSettings,
-  volumeSound = 0.5, mutedSound = false,
 }) => {
   const history = useHistory();
 
@@ -149,6 +148,8 @@ const Home = ({
   const audioCorrectRef = useRef();
   const audioRandomBirdRef = useRef();
   const audioDataInfoRef = useRef();
+
+  const [isLoadingWinSound, setIsLoadingWinSound] = useState(true);
 
   const handleSelectAnswerClick = (id) => {
     stopAudio(
@@ -237,6 +238,10 @@ const Home = ({
     );
   };
 
+  const handleCanPlayWinSound = () => {
+    setIsLoadingWinSound(false);
+  };
+
   const { mute, volume } = soundVolumeSettings;
 
   useEffect(() => {
@@ -250,6 +255,7 @@ const Home = ({
         <GameOver
           score={score}
           maxScore={maxScore}
+          isLoading={isLoadingWinSound}
           onClick={handleGameOverClick}
         />
         {(score === maxScore)
@@ -261,6 +267,7 @@ const Home = ({
             autoPlay={true}
             loop={true}
             onError={handleAudioError}
+            onCanPlay={handleCanPlayWinSound}
           ><track kind='captions' /></audio>
         }
         {(notifications.length > 0)

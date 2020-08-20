@@ -22,11 +22,11 @@ const SpinnerContainer = styled.div`
 `;
 
 const DonutSpinner = styled.div`
-  width: 4rem;
-  height: 4rem;
+  width: ${props => props.width};
+  height: ${props => props.height};
 
   border: 0.5rem solid ${props => props.theme.main.borderColor};
-  border-top-color: ${props => props.theme.secondary.hoverColor};
+  border-top-color: ${props => props.theme.secondary.color};
   border-radius: 50%;
 
   animation: ${spinAnimation} 1.5s infinite linear;
@@ -35,10 +35,15 @@ const DonutSpinner = styled.div`
 SpinnerContainer.displayName = 'SpinnerContainerStyled';
 DonutSpinner.displayName = 'DonutSpinnerStyled';
 
-function Spinner() {
+function Spinner(props) {
+  const {
+    width = '4rem',
+    height = '4rem',
+  } = props;
+
   return (
     <SpinnerContainer>
-      <DonutSpinner />
+      <DonutSpinner width={width} height={height} />
     </SpinnerContainer>
   );
 }

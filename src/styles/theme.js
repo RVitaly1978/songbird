@@ -24,7 +24,6 @@ export const lightTheme = {
   secondary: {
     color: '#008966',
   },
-  background: 'url(../public/bg.png)',
 };
 
 export const darkTheme = {
@@ -40,7 +39,6 @@ export const darkTheme = {
   secondary: {
     color: '#008966',
   },
-  background: 'url(../public/bg.png)',
 };
 
 export const getLocalTheme = () => {
