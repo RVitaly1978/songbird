@@ -1,0 +1,11 @@
+.rc-slider-handle {
+  cursor: pointer;
+}
+.rc-slider-handle:active {
+  border: none;
+  box-shadow: 0 0 6px #aaa;
+  cursor: pointer;
+}
+.rc-slider {
+  cursor: pointer;
+}

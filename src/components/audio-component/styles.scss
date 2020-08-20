@@ -97,10 +97,10 @@ $rhap_font-family: inherit !default;
 
 .rhap_time {
   position: absolute;
-  bottom: 0;
+  bottom: -0.5rem;
 
-  color: rgba($rhap_bar-color, 0.5);
-  font-size: 11px;
+  color: rgba($rhap_bar-color, 0.9);
+  font-size: 12px;
   user-select: none;
   -webkit-user-select: none;
 }
@@ -154,7 +154,7 @@ $rhap_font-family: inherit !default;
   margin-left: -10px;
   background: $rhap_bar-color;
   border-radius: 50%;
-  box-shadow: rgba($rhap_bar-color, .5) 0 0 5px;
+  box-shadow: rgba($rhap_theme-color, .5) 0 0 5px;
 
   &:hover {
     opacity: .75;
@@ -262,7 +262,7 @@ $rhap_font-family: inherit !default;
   background: $rhap_bar-color;
   opacity: 0.9;
   border-radius: 50px;
-  box-shadow: rgba($rhap_bar-color, .5) 0 0 3px;
+  box-shadow: rgba($rhap_theme-color, .5) 0 0 4px;
   cursor: pointer;
 
   &:hover {

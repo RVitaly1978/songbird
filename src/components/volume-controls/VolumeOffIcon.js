@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const VolumeIcon = styled.svg`
   fill: ${props => props.theme.secondary.color};
 
-  transition: fill 0.3s linear;
+  transition: opacity 0.3s linear;
 
   cursor: pointer;
 
@@ -16,13 +16,12 @@ const VolumeIcon = styled.svg`
 
   &:disabled {
     pointer-events: none;
-    fill: ${props => props.theme.main.borderColor};
-    opacity: 0.25;
+    opacity: 0.20;
   }
 
   @media (pointer: fine) {
     :hover {
-      fill: ${props => props.theme.secondary.hoverColor};
+      opacity: 0.75;
     }
   }
 `;

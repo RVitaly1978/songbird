@@ -33,8 +33,9 @@ const PaginationData = styled.p`
     );
   }};
 
-  border: 0.25px solid ${props => props.theme.main.borderColor};
+  box-shadow: inset 0 0 0 0.5px ${props => props.theme.main.borderColor};
 
+  font-weight: 700;
   text-align: center;
   text-transform: capitalize;
 

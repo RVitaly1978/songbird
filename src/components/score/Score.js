@@ -6,6 +6,9 @@ import { device } from '../../styles/media';
 const ScoreContainer = styled.div`
   margin-right: 3rem;
 
+  font-size: 1.2em;
+  font-weight: 700;
+
   @media ${device.mobileM} {
     margin-right: 0;
   }
@@ -13,12 +16,10 @@ const ScoreContainer = styled.div`
 
 const ScoreCount = styled.span`
   color: ${props => props.theme.secondary.color};
-  font-weight: 700;
 `;
 
 const MaxScoreCount = styled.span`
   color: ${props => props.theme.main.borderColor};
-  font-weight: 700;
 `;
 
 ScoreContainer.displayName = 'ScoreContainerStyled';

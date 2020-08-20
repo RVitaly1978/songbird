@@ -160,7 +160,7 @@ const Home = ({
       activeAnswer: id,
     };
 
-    if (!hasCorrect) {
+    if (!hasCorrect && !answers.includes(id)) {
       newState.answers = [...answers, id];
 
       if (id === correctAnswer) {
@@ -232,8 +232,8 @@ const Home = ({
     const { id } = evt.target;
     pauseAudioFiltered(
       id,
-      audioRandomBirdRef.current.audio.current,
-      audioDataInfoRef.current.audio.current,
+      audioRandomBirdRef.current,
+      audioDataInfoRef.current,
     );
   };
 

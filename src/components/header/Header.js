@@ -59,7 +59,7 @@ const StyledLink = styled(Link)`
 
   padding: 0;
 
-  background-color: ${props => props.theme.secondary.hoverColor};
+  background-color: ${props => props.theme.secondary.color};
   border-radius: ${props => props.theme.all.borderRadius};
 
   font-size: 3.0rem;

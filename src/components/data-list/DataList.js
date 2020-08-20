@@ -23,7 +23,9 @@ const DataItem = styled.li`
     ? props.theme.main.borderColor
     : 'inherit'};
 
-  transition: background-color 0.3s linear, box-shadow 0.1s linear;
+    font-weight: 700;
+
+    transition: background-color 0.3s linear, box-shadow 0.1s linear;
 
   cursor: pointer;
 

@@ -12,19 +12,19 @@ export const lightTheme = {
       large: '2.4rem',
     },
     errorColor: '#f74f3e',
-    successColor: '#00bbbb',
+    successColor: '#00ccaa',
   },
   main: {
-    color: '#222',
-    bodyColor: '#eee',
-    bgColor: '#f4f4f4',
-    borderColor: '#d3d3d3',
-    logoColor: '#008966',
+    color: '#111',
+    bodyColor: '#c8c8c8',
+    bgColor: '#b0b0b0',
+    borderColor: '#888',
+    logoColor: '#00bc8c',
   },
   secondary: {
     color: '#008966',
-    hoverColor: '#00bc8c',
   },
+  background: 'url(../public/bg.png)',
 };
 
 export const darkTheme = {
@@ -39,8 +39,8 @@ export const darkTheme = {
   },
   secondary: {
     color: '#008966',
-    hoverColor: '#00bc8c',
   },
+  background: 'url(../public/bg.png)',
 };
 
 export const getLocalTheme = () => {

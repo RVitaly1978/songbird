@@ -5,7 +5,7 @@ const LogoContainer = styled.p`
   font-size: 3rem;
   line-height: 1;
   font-weight: 700;
-  letter-spacing: 0.25rem;
+  letter-spacing: 0.1rem;
 
   color: ${props => props.theme.main.logoColor};
 

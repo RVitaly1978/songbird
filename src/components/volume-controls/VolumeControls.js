@@ -9,6 +9,8 @@ import { updateSoundVolumeSettings } from '../../store/action-creators';
 import VolumeOnIcon from './VolumeOnIcon';
 import VolumeOffIcon from './VolumeOffIcon';
 
+import './index.css';
+
 const VolumeControlsContainer = styled.div`
   position: relative;
 
@@ -35,9 +37,6 @@ const VolumeOnIconStyled = styled(VolumeOnIcon)`
 const handleStyle = {
   border: 'none',
   backgroundColor: '#008966',
-  '&:active': {
-    boxShadow: '0 0 3px #d3d3d3',
-  },
 };
 
 const trackStyle = {

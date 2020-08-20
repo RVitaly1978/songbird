@@ -55,18 +55,21 @@ const ContentMarked = styled.span`
   color: ${props => props.theme.secondary.color};
 `;
 
-const LinkMarked = styled.span`
-  font-weight: 500;
-  color: ${props => props.theme.secondary.color};
-  text-decoration: underline;
+const LinkMarked = styled(Link)`
+  padding: 0;
+  margin: 0;
 
-  transition: color 0.3s linear;
+  font-weight: 700;
+  color: ${props => props.theme.secondary.color};
+  text-decoration: none;
+
+  transition: opacity 0.3s linear;
 
   cursor: pointer;
 
   @media (pointer: fine) {
     :hover {
-      color: ${props => props.theme.secondary.hoverColor};
+      opacity: 0.75;
     }
   }
 `;
@@ -88,11 +91,9 @@ const NotFound = () => (
       <br />
       <p>Sorry, this page does not exist.</p>
       <p>
-        <span>Try to go back to the </span>
-        <Link to='/promo' >
-          <LinkMarked>promo</LinkMarked>
-        </Link>
-        <span> page</span>
+        Try to go back to the
+        <LinkMarked to='/promo' > promo </LinkMarked>
+        page
       </p>
     </NotFoundContent>
   </NotFoundPage>

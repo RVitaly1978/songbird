@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
 
 import { fadeInAnimation } from './styles/animation';
@@ -22,7 +22,10 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
 
-    background-color: ${props => props.theme.main.bodyColor};
+    background: ${props => props.theme.background};
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 
     font-family: Arial, Helvetica, sans-serif;
     font-size: ${props => props.theme.all.fontSize.main};
@@ -30,7 +33,7 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 500;
     color: ${props => props.theme.main.color};
 
-    transition: background-color 1s linear, color 0.1s linear;
+    transition: background 0.5s linear, color 0.1s linear;
   }
 
   *,
@@ -65,7 +68,7 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      <BrowserRouter>
+      <Router>
           <Container>
             <Switch>
               <Route exact path='/' component={Home} />
@@ -76,7 +79,7 @@ const App = () => {
               <Route component={NotFound} />
             </Switch>
           </Container>
-      </BrowserRouter>
+      </Router>
     </ThemeProvider>
   );
 };

@@ -24,11 +24,6 @@ const PromoPage = styled.div`
   min-height: 100vh;
   padding: ${props => props.theme.all.padding};
 
-  background: url(../../../public/bg.png);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
   user-select: none;
 
   @media ${device.mobileL} {

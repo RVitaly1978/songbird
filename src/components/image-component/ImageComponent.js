@@ -13,7 +13,7 @@ const ImageContainer = styled.div`
   flex-shrink: 0;
 
   width: 21.5rem;
-  height: 14.5rem;
+  height: 14rem;
 
   line-height: 0;
 
