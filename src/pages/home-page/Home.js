@@ -110,6 +110,12 @@ HomePage.displayName = 'HomePageStyled';
 RowLayout.displayName = 'RowLayoutStyled';
 ColumnLayout.displayName = 'ColumnLayoutStyled';
 
+const WIN_SOUND = 'winSound';
+const ERROR_SOUND = 'errorSound';
+const CORRECT_SOUND = 'correctSound';
+const RESTART_GAME = 'RESTART_GAME';
+const NEW_GAME = 'NEW_GAME';
+
 const mapStateToProps = ({
   data, levels, activeLevel, answers, correctAnswer, activeAnswer,
   hasCorrect, score, maxScore, notifications, soundVolumeSettings,
@@ -149,7 +155,10 @@ const Home = ({
   const audioRandomBirdRef = useRef();
   const audioDataInfoRef = useRef();
 
-  const [isLoadingWinSound, setIsLoadingWinSound] = useState(true);
+  const [loadingWinSound, setLoadingWinSound] = useState({
+    isError: false,
+    isLoading: true,
+  });
 
   const handleSelectAnswerClick = (id) => {
     stopAudio(
@@ -211,9 +220,9 @@ const Home = ({
 
     const { id } = evt.target;
 
-    if (id === 'RESTART_GAME') {
+    if (id === RESTART_GAME) {
       restartGame();
-    } else if (id === 'NEW_GAME') {
+    } else if (id === NEW_GAME) {
       newGame();
       history.push('/');
     }
@@ -227,6 +236,13 @@ const Home = ({
       type: 'error',
       notification: `Sorry, we couldn't upload the ${id} effect`,
     });
+
+    if (id === WIN_SOUND) {
+      setLoadingWinSound({
+        isError: true,
+        isLoading: false,
+      });
+    }
   };
 
   const handleAudioPlay = (evt) => {
@@ -239,7 +255,10 @@ const Home = ({
   };
 
   const handleCanPlayWinSound = () => {
-    setIsLoadingWinSound(false);
+    setLoadingWinSound({
+      isError: false,
+      isLoading: false,
+    });
   };
 
   const { mute, volume } = soundVolumeSettings;
@@ -255,12 +274,14 @@ const Home = ({
         <GameOver
           score={score}
           maxScore={maxScore}
-          isLoading={isLoadingWinSound}
+          loading={loadingWinSound}
           onClick={handleGameOverClick}
+          restartGameButtonId={RESTART_GAME}
+          newGameButtonId={NEW_GAME}
         />
         {(score === maxScore)
           && <audio
-            id='winSound'
+            id={WIN_SOUND}
             ref={audioWinRef}
             src={winSound}
             muted={mute}
@@ -309,14 +330,14 @@ const Home = ({
         onClick={handleNextLevelClick}
       />
       <audio
-        id='correctSound'
+        id={CORRECT_SOUND}
         ref={audioCorrectRef}
         src={correctSound}
         muted={mute}
         onError={handleAudioError}
       ><track kind='captions' /></audio>
       <audio
-        id='errorSound'
+        id={ERROR_SOUND}
         ref={audioErrorRef}
         src={errorSound}
         muted={mute}

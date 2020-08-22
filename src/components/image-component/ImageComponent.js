@@ -14,8 +14,12 @@ const ImageContainer = styled.div`
 
   flex-shrink: 0;
 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   width: 21.5rem;
-  height: 14rem;
+  height: 15rem;
 
   line-height: 0;
 
@@ -24,9 +28,20 @@ const ImageContainer = styled.div`
   border: 1px solid ${props => props.theme.main.borderColor};
   border-radius: ${props => props.theme.all.borderRadius};
 
+  background: ${props => {
+    return props.hasCorrect
+      ? ''
+      : `url(${birdsQuestion})`;
+  }};
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
   animation: ${fadeInAnimation} 0.3s linear;
 
   & img {
+    z-index: 1;
+
     width: 100%;
     height: auto;
 
@@ -40,6 +55,8 @@ const ImageContainer = styled.div`
 `;
 
 const ImageError = styled.div`
+  z-index: 1;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -57,6 +74,8 @@ const ImageError = styled.div`
 `;
 
 const ImageText = styled.div`
+  z-index: 1;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -70,11 +89,6 @@ const ImageText = styled.div`
   font-size: 10rem;
   line-height: 1;
   text-align: center;
-
-  background-image: url(${birdsQuestion});
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
 
   border-radius: inherit;
 
@@ -157,7 +171,7 @@ const ImageComponent = ({ hasCorrect, image, addNotification }) => {
   }
 
   return (
-    <ImageContainer>
+    <ImageContainer hasCorrect={hasCorrect}>
       {element}
     </ImageContainer>
   );

@@ -103,15 +103,31 @@ PrizeContent.displayName = 'PrizeContentStyled';
 PrizeLoader.displayName = 'PrizeLoaderStyled';
 GameOverButton.displayName = 'GameOverButtonStyled';
 
-const GameOver = ({ score, maxScore, onClick, isLoading }) => {
-  const Prise = isLoading
-      ? <PrizeContent>
-          <PrizeLoader><Spinner width='3rem' height='3rem'/></PrizeLoader>
-          Подождите и будет сюрприз...
-        </PrizeContent>
-      : <PrizeContent>
-          Наслаждайтесь победой!!!
-        </PrizeContent>;
+const GameOver = ({ score, maxScore, onClick, loading, restartGameButtonId, newGameButtonId }) => {
+  const { isError, isLoading } = loading;
+
+  let Prise = (
+    <PrizeContent>
+      Наслаждайтесь победой!!!
+    </PrizeContent>
+  );
+
+  if (isLoading) {
+    Prise = (
+      <PrizeContent>
+        <PrizeLoader><Spinner width='3rem' height='3rem'/></PrizeLoader>
+        Подождите и будет сюрприз...
+      </PrizeContent>
+    );
+  }
+
+  if (isError) {
+    Prise = (
+      <PrizeContent>
+        {'Случилась ошибка загрузки... приза не будет :('}
+      </PrizeContent>
+    );
+  }
 
   const endedGame = (
     <>
@@ -145,12 +161,12 @@ const GameOver = ({ score, maxScore, onClick, isLoading }) => {
         : endedGame}
       {(score !== maxScore)
         && <GameOverButton
-              id='RESTART_GAME'
+              id={restartGameButtonId}
               label='Повторить еще раз'
               onClick={onClick}
             />}
       <GameOverButton
-        id='NEW_GAME'
+        id={newGameButtonId}
         label='Новая игра'
         onClick={onClick}
       />

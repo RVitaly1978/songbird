@@ -116,8 +116,7 @@ const DataInfo = ({ data, activeLevel, activeAnswer, audioRef, onAudioError, onA
     return (
       <DataContainer>
         <CardDescription>
-          {'Послушайте плеер.'}
-          <br/>
+          {'Послушайте плеер.'}<br/>
           {'Выберите вариант из списка'}
         </CardDescription>
       </DataContainer>
