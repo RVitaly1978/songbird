@@ -15,8 +15,8 @@ export const lightTheme = {
     successColor: '#00ccaa',
   },
   main: {
-    color: '#111',
-    bodyColor: '#444',
+    color: '#1a1a1a',
+    bodyColor: '#ccc',
     bgColor: '#b0b0b0',
     borderColor: '#888',
     logoColor: '#00bc8c',

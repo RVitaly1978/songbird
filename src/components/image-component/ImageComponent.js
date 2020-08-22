@@ -7,6 +7,8 @@ import { fadeInAnimation } from '../../styles/animation';
 
 import Spinner from '../spinner/Spinner';
 
+import birdsQuestion from '../../../public/birds-question.svg';
+
 const ImageContainer = styled.div`
   position: relative;
 
@@ -54,8 +56,34 @@ const ImageError = styled.div`
   animation: ${fadeInAnimation} 0.3s linear;
 `;
 
+const ImageText = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+
+  color: ${props => props.theme.secondary.color};
+  text-shadow: 0 0 10px ${props => props.theme.secondary.color};
+
+  font-size: 10rem;
+  line-height: 1;
+  text-align: center;
+
+  background-image: url(${birdsQuestion});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  border-radius: inherit;
+
+  animation: ${fadeInAnimation} 0.3s linear;
+`;
+
 ImageContainer.displayName = 'ImageContainerStyled';
 ImageError.displayName = 'ImageErrorStyled';
+ImageText.displayName = 'ImageTextStyled';
 
 const mapDispatchToProps = (dispatch) => ({
   addNotification: (notification) => dispatch(addNotification(notification))
@@ -123,7 +151,7 @@ const ImageComponent = ({ hasCorrect, image, addNotification }) => {
   } else if (imageData.src) {
     element = hasCorrect
     ? <img src={imageData.src} alt='bird' onError={handleImgError} />
-    : <ImageError>Угадай меня</ImageError>;
+    : <ImageText>?</ImageText>;
   } else {
     element = <ImageError>{imageData.error}</ImageError>;
   }

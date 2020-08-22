@@ -31,6 +31,19 @@ const PromoPage = styled.div`
   }
 `;
 
+const PromoContainer = styled.div`
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  flex-grow: 1;
+
+  width: 100%;
+`;
+
 const PromoContent = styled.div`
   width: 100%;
   max-width: 74.8rem;
@@ -43,8 +56,6 @@ const PromoContent = styled.div`
   font-size: ${props => props.theme.all.fontSize.main};
   line-height: 1.6;
   text-align: center;
-
-  transform: translateY(calc(-50vh + 50%));
 
   pointer-events: ${props => props.disabled ? 'none' : 'unset'};
   opacity: ${props => props.disabled ? '0' : 'unset'};
@@ -142,6 +153,7 @@ const PromoModalContent = styled.div`
 
 PromoPage.displayName = 'PromoPageStyled';
 PromoControls.displayName = 'PromoControlsStyled';
+PromoContainer.displayName = 'PromoContainerStyled';
 PromoContent.displayName = 'PromoContentStyled';
 PromoTitle.displayName = 'PromoTitleStyled';
 PromoButton.displayName = 'PromoButtonStyled';
@@ -229,41 +241,43 @@ const Promo = ({ data, theme, setTheme, newGameBirdsBasic, newGameAnimalsBasic }
 
   return (
     <PromoPage>
-      {newGameId && modalElement}
       <Logo />
-      <PromoContent disabled={newGameId}>
-        <PromoControls>
-          <ToggleSwitcher
-            labelOn='Dark'
-            labelOff='Light'
-            onChange={handleThemeChange}
-            isChecked={theme.id === 'darkTheme' ? true : false}
+      <PromoContainer>
+        {newGameId && modalElement}
+        <PromoContent disabled={newGameId}>
+          <PromoControls>
+            <ToggleSwitcher
+              labelOn='Dark'
+              labelOff='Light'
+              onChange={handleThemeChange}
+              isChecked={theme.id === 'darkTheme' ? true : false}
+            />
+            <VolumeControls />
+          </PromoControls>
+          <PromoTitle>
+            {'А я милого узнаю а по походке...'}
+            <br />
+            {'А ты меня угадаешь?'}
+          </PromoTitle>
+          <PromoButton
+            id='NEW_GAME_BIRDS_BASIC'
+            label='Начать "Song bird"'
+            onClick={handleGameSelect}
           />
-          <VolumeControls />
-        </PromoControls>
-        <PromoTitle>
-          {'А я милого узнаю а по походке...'}
+          <PromoButton
+            id='NEW_GAME_ANIMALS_BASIC'
+            label='Начать "Roar animal"'
+            onClick={handleGameSelect}
+          />
           <br />
-          {'А ты меня угадаешь?'}
-        </PromoTitle>
-        <PromoButton
-          id='NEW_GAME_BIRDS_BASIC'
-          label='Начать "Song bird"'
-          onClick={handleGameSelect}
-        />
-        <PromoButton
-          id='NEW_GAME_ANIMALS_BASIC'
-          label='Начать "Roar animal"'
-          onClick={handleGameSelect}
-        />
-        <br />
-        <PromoButton
-          id='CONTINUE'
-          label='Продолжить начатую игру'
-          onClick={handleGameSelect}
-          isDisabled={!data.length}
-        />
-      </PromoContent>
+          <PromoButton
+            id='CONTINUE'
+            label='Продолжить начатую игру'
+            onClick={handleGameSelect}
+            isDisabled={!data.length}
+          />
+        </PromoContent>
+      </PromoContainer>
     </PromoPage>
   );
 };

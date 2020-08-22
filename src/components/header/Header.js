@@ -19,7 +19,7 @@ const HeaderContainer = styled.div`
 
 const TopPanel = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
 
   width: 100%;
@@ -27,6 +27,7 @@ const TopPanel = styled.div`
   @media ${device.mobileM} {
     flex-direction: column;
     justify-content: flex-start;
+    align-items: center;
   }
 `;
 

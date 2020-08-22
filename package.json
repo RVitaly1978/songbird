@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "homepage": "https://rvitaly1978-songbird.netlify.app/",
   "scripts": {
     "dev": "webpack-dev-server --config ./webpack/webpack.config.js --open --env=dev",
     "build": "webpack --config ./webpack/webpack.config.js --env=prod",
@@ -40,6 +41,7 @@
     "@types/react-dom": "^16.9.8",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
+    "copy-webpack-plugin": "^6.0.3",
     "css-loader": "^3.6.0",
     "cssnano": "^4.1.10",
     "eslint": "^7.7.0",

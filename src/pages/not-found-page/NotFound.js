@@ -26,6 +26,17 @@ const NotFoundPage = styled.div`
   }
 `;
 
+const NotFoundContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  flex-grow: 1;
+
+  width: 100%;
+`;
+
 const NotFoundContent = styled.div`
   width: 100%;
   max-width: 60rem;
@@ -38,8 +49,6 @@ const NotFoundContent = styled.div`
   font-size: ${props => props.theme.all.fontSize.large};
   line-height: 1.6;
   text-align: center;
-
-  transform: translateY(calc(-50vh + 50%));
 
   @media ${device.mobileL} {
     font-size: ${props => props.theme.all.fontSize.main};
@@ -75,6 +84,7 @@ const LinkMarked = styled(Link)`
 `;
 
 NotFoundPage.displayName = 'NotFoundPageStyled';
+NotFoundContainer.displayName = 'NotFoundContainerStyled';
 NotFoundContent.displayName = 'NotFoundContentStyled';
 ContentMarked.displayName = 'ContentMarkedStyled';
 LinkMarked.displayName = 'LinkMarkedStyled';
@@ -82,20 +92,22 @@ LinkMarked.displayName = 'LinkMarkedStyled';
 const NotFound = () => (
   <NotFoundPage>
     <Logo />
-    <NotFoundContent>
-      <p>
-        <ContentMarked>404</ContentMarked>
+    <NotFoundContainer>
+      <NotFoundContent>
+        <p>
+          <ContentMarked>404</ContentMarked>
+          <br />
+          <span> page not found.</span>
+        </p>
         <br />
-        <span> page not found.</span>
-      </p>
-      <br />
-      <p>Sorry, this page does not exist.</p>
-      <p>
-        Try to go back to the
-        <LinkMarked to='/promo' > promo </LinkMarked>
-        page
-      </p>
-    </NotFoundContent>
+        <p>Sorry, this page does not exist.</p>
+        <p>
+          Try to go back to the
+          <LinkMarked to='/promo' > promo </LinkMarked>
+          page
+        </p>
+      </NotFoundContent>
+    </NotFoundContainer>
   </NotFoundPage>
 );
 

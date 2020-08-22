@@ -30,7 +30,7 @@ const ButtonStyled = styled.button`
 
   &:disabled {
     pointer-events: none;
-    opacity: 0.20;
+    opacity: 0.3;
   }
 
   @media (pointer: fine) {

@@ -66,8 +66,10 @@ const ContentMarked = styled.span`
 const PrizeContent = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
 
   width: 100%;
+  min-height: 3rem;
   margin-top: ${props => props.theme.all.margin};
 
   line-height: 1.6;
@@ -80,7 +82,7 @@ const PrizeLoader = styled.div`
 
   min-width: 3rem;
   min-height: 3rem;
-  margin-right: 0.5rem;
+  margin-right: 0.75rem;
 
   line-height: 1;
 `;
