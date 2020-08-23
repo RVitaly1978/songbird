@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 
 import { addNotification } from '../../store/action-creators';
 import { fadeInAnimation } from '../../styles/animation';
+import { getRandomInRange } from '../../helpers';
 
 import Spinner from '../spinner/Spinner';
 
-import birdsQuestion from '../../../public/birds-question.svg';
+import birdsCardBg from '../../../public/birds-card-bg.svg';
 
 const ImageContainer = styled.div`
   position: relative;
@@ -31,7 +32,7 @@ const ImageContainer = styled.div`
   background: ${props => {
     return props.hasCorrect
       ? ''
-      : `url(${birdsQuestion})`;
+      : `url(${birdsCardBg})`;
   }};
   background-size: cover;
   background-position: center;
@@ -40,6 +41,11 @@ const ImageContainer = styled.div`
   animation: ${fadeInAnimation} 0.3s linear;
 
   & img {
+    display: ${props => {
+      return (props.isError)
+        ? 'none'
+        : 'block';
+    }};
     z-index: 1;
 
     width: 100%;
@@ -50,7 +56,13 @@ const ImageContainer = styled.div`
 
     border-radius: inherit;
 
-    animation: ${fadeInAnimation} 0.3s linear;
+    opacity: ${props => {
+      return (props.isVisible && props.hasCorrect)
+        ? '1'
+        : '0';
+    }};
+
+    transition: opacity 0.3s linear;
   }
 `;
 
@@ -63,7 +75,7 @@ const ImageError = styled.div`
 
   width: 100%;
   height: 100%;
-  padding: 0 ${props => props.theme.all.padding};
+  padding: ${props => props.theme.all.padding};
 
   line-height: 1.6;
   text-align: center;
@@ -105,74 +117,65 @@ const mapDispatchToProps = (dispatch) => ({
 
 const ImageComponent = ({ hasCorrect, image, addNotification }) => {
   const [imageData, setImageData] = useState({
-    loading: true,
-    src: null,
+    loading: false,
     error: null,
   });
 
   const handleImgError = () => {
     setImageData({
       loading: false,
-      src: null,
       error: 'Sorry, we couldn\'t upload the image',
     });
+
     addNotification({
-      id: `${image}-${new Date()}`,
+      id: `${image}-${getRandomInRange(1000)}-${new Date()}`,
       type: 'error',
       notification: 'Sorry, we couldn\'t upload the image',
     });
   };
 
+  const handleImgLoad = () => {
+    setImageData({
+      loading: false,
+      error: null,
+    });
+  };
+
   useEffect(() => {
-    let cancelled = false;
+    let canceled = false;
 
-    fetch(image)
-      .then((res) => res.blob())
-      .then((data) => !cancelled && setImageData({
-        loading: false,
-        src: URL.createObjectURL(data),
-        error: null,
-      }))
-      .catch(() => {
-        if (!cancelled) {
-          setImageData({
-            loading: false,
-            src: null,
-            error: 'Sorry, we couldn\'t upload the image',
-          });
-          addNotification({
-            id: `${image}-${new Date()}`,
-            type: 'error',
-            notification: 'Sorry, we couldn\'t upload the image',
-          });
-        }
-      });
-
-    return () => {
-      cancelled = true;
-
+    if (hasCorrect && image && !canceled) {
       setImageData({
         loading: true,
-        src: null,
+        error: null,
+      });
+    }
+
+    return () => {
+      canceled = true;
+
+      setImageData({
+        loading: false,
         error: null,
       });
     };
-  }, [image, addNotification]);
-
-  let element;
-  if (imageData.loading) {
-    element = <Spinner />;
-  } else if (imageData.src) {
-    element = hasCorrect
-    ? <img src={imageData.src} alt='bird' onError={handleImgError} />
-    : <ImageText>?</ImageText>;
-  } else {
-    element = <ImageError>{imageData.error}</ImageError>;
-  }
+  }, [hasCorrect, image]);
 
   return (
-    <ImageContainer hasCorrect={hasCorrect}>
-      {element}
+    <ImageContainer
+      hasCorrect={hasCorrect}
+      isVisible={!imageData.loading && !imageData.error}
+      isError={imageData.error}
+    >
+      {!hasCorrect && <ImageText>?</ImageText>}
+      {hasCorrect && <img
+        src={image}
+        onError={handleImgError}
+        onLoad={handleImgLoad}
+        alt='bird'
+      />}
+      {imageData.loading && <Spinner />}
+      {imageData.error && <ImageError>{imageData.error}</ImageError>}
     </ImageContainer>
   );
 };

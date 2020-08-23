@@ -12,9 +12,9 @@ import {
   getRandomInRange, getActiveLevelList, stopAudio, playAudio, pauseAudioFiltered, setAudioVolume,
 } from '../../helpers';
 
-import winSound from '../../../public/winSound.mp3';
-import correctSound from '../../../public/correctSound.mp3';
-import errorSound from '../../../public/errorSound.mp3';
+import winSound from '../../../public/win-sound.mp3';
+import correctSound from '../../../public/correct-sound.mp3';
+import errorSound from '../../../public/error-sound.mp3';
 
 import Header from '../../components/header';
 import RandomBird from '../../components/random-bird';
