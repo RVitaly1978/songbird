@@ -197,7 +197,7 @@ const Home = ({
       audioCorrectRef.current,
       audioErrorRef.current,
       audioRandomBirdRef.current.audio.current,
-      audioDataInfoRef.current.audio.current,
+      activeAnswer && audioDataInfoRef.current.audio.current,
     );
 
     const newState = {};

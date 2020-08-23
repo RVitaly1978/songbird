@@ -267,6 +267,7 @@ const Promo = ({ data, theme, setTheme, newGameBirdsBasic, newGameAnimalsBasic }
           <PromoButton
             id='NEW_GAME_ANIMALS_BASIC'
             label='Начать "Roar animal"'
+            isDisabled={true}
             onClick={handleGameSelect}
           />
           <br />

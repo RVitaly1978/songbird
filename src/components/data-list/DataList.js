@@ -101,7 +101,7 @@ const DataList = ({
   };
 
   return (
-    <DataContainer onClick={clickHandler}>
+    <DataContainer onMouseDown={clickHandler}>
       {elementsList}
     </DataContainer>
   );
